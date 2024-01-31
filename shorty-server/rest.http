@@ -1,0 +1,218 @@
+
+// Обращения
+
+DELETE http://localhost:2000/appeals/da2bd17e-782d-4adf-8647-8f2f11e31e22
+Content-Type: application/json
+Authorization: Bearer {{$auth.token("access-token")}}
+
+
+###
+POST http://localhost:2000/appeals
+Content-Type: application/json
+Authorization: Bearer {{$auth.token("access-token")}}
+
+{
+  "body": "hello world"
+}
+
+###
+GET http://5.145.160.142:2000/appeals
+
+###
+
+// Категории
+
+
+POST http://localhost:2000/categories
+Content-Type: application/json
+Authorization: Bearer {{$auth.token("access-token")}}
+
+{
+  "title": "Title category",
+  "description": "description category",
+  "photoId": "40f84e97-1a2f-4c32-801c-2d4cbc5c13ec"
+}
+
+
+###
+
+GET http://localhost:2000/categories
+
+###
+
+PUT http://localhost:2000/categories
+Content-Type: application/json
+Authorization: Bearer {{$auth.token("access-token")}}
+
+{
+  "id": "6ca5c388-db0d-4e57-b462-a2225a832838",
+  "title": "Title updated category",
+  "description": "description updated category",
+  "photoId": "40f84e97-1a2f-4c32-801c-2d4cbc5c13ec"
+}
+
+
+###
+
+DELETE http://localhost:2000/categories/6ca5c388-db0d-4e57-b462-a2225a832838
+Authorization: Bearer {{$auth.token("access-token")}}
+
+// Меню
+
+
+###
+
+POST http://localhost:2000/menu
+Content-Type: application/json
+Authorization: Bearer {{$auth.token("access-token")}}
+
+{
+  "title": "Title menu",
+  "description": "description menu",
+  "photoId": "40f84e97-1a2f-4c32-801c-2d4cbc5c13ec"
+}
+
+
+###
+
+GET http://localhost:2000/menu
+
+###
+
+PUT http://localhost:2000/menu
+Content-Type: application/json
+Authorization: Bearer {{$auth.token("access-token")}}
+
+{
+  "id": "ce820b11-9a13-4c64-946d-86c72363b049",
+  "title": "Title updated menu",
+  "description": "description updated menu",
+  "photoId": "40f84e97-1a2f-4c32-801c-2d4cbc5c13ec"
+}
+
+
+###
+
+DELETE http://localhost:2000/menu/ce820b11-9a13-4c64-946d-86c72363b049
+Authorization: Bearer {{$auth.token("access-token")}}
+
+// Категории
+###
+GET http://localhost:2000/categories/menu/09d39a6a-fc64-4bcc-9092-aca8adb4fa87
+
+###
+POST http://localhost:2000/categories
+Authorization: Bearer {{$auth.token("access-token")}}
+Content-Type: application/json
+
+{
+  "menuId": "09d39a6a-fc64-4bcc-9092-aca8adb4fa87",
+  "title": "Title of category",
+  "description": "Descriprion"
+}
+
+###
+PUT http://localhost:2000/categories
+Content-Type: application/json
+Authorization: Bearer {{$auth.token("access-token")}}
+
+{
+  "id": "8090299e-8fb1-48d2-9945-432e2246da31",
+  "title": "Updated title",
+  "description": "Updated desc",
+  "photoId": "8090299e-8fb1-48d2-9945-432e2246da31"
+}
+
+###
+DELETE http://localhost:2000/categories/8090299e-8fb1-48d2-9945-432e2246da31
+
+
+###
+POST http://localhost:2000/dishes
+Content-Type: application/json
+Authorization: Bearer {{$auth.token("access-token")}}
+
+{
+  "title": "Title dish",
+  "categoryId": "cac32fce-6b22-4396-94c6-1772cd3daa2a",
+  "description": "desc dish",
+  "cookingTime": 4,
+  "price": 200,
+  "photoId": "5d2f8d3f-6aa6-4ae9-af2f-ad208aaf596f",
+  "calories": 0,
+  "proteins": 0,
+  "fats": 0,
+  "carbohydrates": 0
+}
+
+
+###
+PUT http://localhost:2000/dishes
+Content-Type: application/json
+Authorization: Bearer {{$auth.token("access-token")}}
+
+{
+  "id": "406b53e8-a621-403b-afd4-3926798a2b1e",
+  "title": "Title updated dish",
+  "description": "desc updated dish",
+  "cookingTime": 4,
+  "price": 200,
+  "photoId": "5d2f8d3f-6aa6-4ae9-af2f-ad208aaf596f",
+  "calories": 0,
+  "proteins": 0,
+  "fats": 0,
+  "carbohydrates": 0
+}
+
+
+###
+GET http://localhost:2000/dishes/category/cac32fce-6b22-4396-94c6-1772cd3daa2a
+
+###
+DELETE http://localhost:2000/dishes/406b53e8-a621-403b-afd4-3926798a2b1e
+
+
+// Заказы
+
+
+
+###
+POST http://localhost:2002/orders
+Content-Type: application/json
+Authorization: Bearer {{$auth.token("access-token")}}
+
+{
+  "dishIds": [],
+  "placeOfDelivery": "Кабинет",
+  "countOfPersons": 3,
+  "wishes": "пожелания",
+  "submissionTime": "1970-01-01T02:30:00.000+00:00",
+  "status": "Готовим"
+}
+
+
+###
+PUT http://localhost:2000/orders
+Content-Type: application/json
+Authorization: Bearer {{$auth.token("access-token")}}
+
+{
+  "id": "5d2f8d3f-6aa6-4ae9-af2f-ad208aaf596f",
+  "dishIds": ["5d2f8d3f-6aa6-4ae9-af2f-ad208aaf596f", "5d2f8d3f-6aa6-4ae9-af2f-ad208aaf596f", "5d2f8d3f-6aa6-4ae9-af2f-ad208aaf596f"],
+  "placeOfDelivery": "Кабинет",
+  "countOfPersons": 3,
+  "wishes": "пожелания",
+  "submissionTime": "time format",
+  "status": "Готовим"
+}
+
+
+###
+GET http://localhost:2000/orders/user
+Authorization: Bearer {{$auth.token("access-token")}}
+
+
+###
+GET http://localhost:2000/orders
+
+

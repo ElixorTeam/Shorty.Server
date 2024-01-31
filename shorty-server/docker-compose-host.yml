@@ -36,6 +36,8 @@ services:
       - backend-network
     restart: always
 
+
+
   auth:
     image: quay.io/keycloak/keycloak:22.0.1
     ports:

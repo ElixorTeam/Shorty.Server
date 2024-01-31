@@ -1,4 +1,4 @@
-package org.elixor.shortyserver
+package org.elixor.shortyserver.configuration
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

@@ -1,12 +1,14 @@
 package ru.elixor.api.features.link.services
 
 import org.springframework.security.oauth2.jwt.Jwt
+import org.springframework.stereotype.Service
 import ru.elixor.api.features.link.LinkService
 import ru.elixor.api.features.link.dto.LinkCreateDto
 import ru.elixor.api.features.link.dto.LinkOutputDto
 import ru.elixor.api.features.link.dto.LinkUpdateDto
 import java.util.*
 
+@Service
 class LinkServiceImpl : LinkService {
 
     // region Queries

@@ -17,6 +17,9 @@ class LinkController(private val linkService: LinkService) {
     @GetMapping
     fun getAll(@AuthenticationPrincipal jwt: Jwt): List<LinkOutputDto> = linkService.getAll(jwt)
 
+    @GetMapping("/test")
+    fun getReady(@AuthenticationPrincipal jwt: Jwt): String = jwt.subject
+
     // endregion
 
     // region Commands

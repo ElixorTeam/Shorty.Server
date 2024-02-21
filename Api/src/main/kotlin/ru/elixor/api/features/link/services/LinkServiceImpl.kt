@@ -6,6 +6,7 @@ import ru.elixor.api.features.link.LinkService
 import ru.elixor.api.features.link.dto.LinkCreateDto
 import ru.elixor.api.features.link.dto.LinkOutputDto
 import ru.elixor.api.features.link.dto.LinkUpdateDto
+import java.time.LocalDateTime
 import java.util.*
 
 @Service
@@ -13,11 +14,16 @@ class LinkServiceImpl : LinkService {
 
     // region Queries
     override fun getAll(jwt: Jwt): List<LinkOutputDto> {
-        TODO("Not yet implemented")
+        return listOf(
+            LinkOutputDto(UUID.randomUUID(), "CreatedLink", "shorty", "admin", LocalDateTime.now(), LocalDateTime.now()),
+            LinkOutputDto(UUID.randomUUID(), "CreatedLink", "shorty", "vk", LocalDateTime.now(), LocalDateTime.now()),
+            LinkOutputDto(UUID.randomUUID(), "CreatedLink", "shorty", "youtube", LocalDateTime.now(), LocalDateTime.now()),
+            LinkOutputDto(UUID.randomUUID(), "CreatedLink", "shorty", "telegram", LocalDateTime.now(), LocalDateTime.now())
+        )
     }
 
     override fun getLinkById(id: UUID, jwt: Jwt): LinkOutputDto {
-        TODO("Not yet implemented")
+       return LinkOutputDto(id, "CreatedLink", "shorty", "telegram", LocalDateTime.now(), LocalDateTime.now())
     }
 
     // endregion
@@ -25,15 +31,14 @@ class LinkServiceImpl : LinkService {
     // region Commands
 
     override fun create(linkCreateDto: LinkCreateDto, jwt: Jwt): LinkOutputDto {
-        TODO("Not yet implemented")
+        return LinkOutputDto(UUID.randomUUID(), "CreatedLink", "shorty", "admin", LocalDateTime.now(), LocalDateTime.now())
     }
 
     override fun update(linkId: UUID, linkUpdateDto: LinkUpdateDto, jwt: Jwt): LinkOutputDto {
-        TODO("Not yet implemented")
+        return LinkOutputDto(linkId, "UpdatedLink", "shorty", "telegram", LocalDateTime.now(), LocalDateTime.now())
     }
 
     override fun delete(linkId: UUID, jwt: Jwt) {
-        TODO("Not yet implemented")
     }
 
     // endregion

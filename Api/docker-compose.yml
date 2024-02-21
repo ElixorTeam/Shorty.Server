@@ -1,0 +1,11 @@
+name: "shorty"
+version: "3.8"
+
+services:
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "2000:2000"

@@ -17,9 +17,6 @@ class LinkController(private val linkService: LinkService) {
     @GetMapping
     fun getAll(@AuthenticationPrincipal jwt: Jwt): List<LinkOutputDto> = linkService.getAll(jwt)
 
-    @GetMapping("/test")
-    fun getReady(@AuthenticationPrincipal jwt: Jwt): String = jwt.subject
-
     // endregion
 
     // region Commands
@@ -34,6 +31,9 @@ class LinkController(private val linkService: LinkService) {
 
     @DeleteMapping("/{id}")
     fun delete(@PathVariable id: UUID, @AuthenticationPrincipal jwt: Jwt) = linkService.delete(id, jwt)
+
+    @GetMapping("/{id}")
+    fun get(@PathVariable id: UUID, @AuthenticationPrincipal jwt: Jwt) = linkService.getLinkById(id, jwt)
 
     // endregion
 }

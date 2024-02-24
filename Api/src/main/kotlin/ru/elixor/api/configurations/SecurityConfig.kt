@@ -1,4 +1,4 @@
-package ru.elixor.api.configurations.features
+package ru.elixor.api.configurations
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

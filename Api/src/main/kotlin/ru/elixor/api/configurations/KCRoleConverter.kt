@@ -1,4 +1,4 @@
-package ru.elixor.api.configurations.features
+package ru.elixor.api.configurations
 
 import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.security.core.GrantedAuthority

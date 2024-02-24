@@ -4,7 +4,6 @@ import org.springframework.security.oauth2.jwt.Jwt
 import ru.elixor.api.features.category.dto.CategoryCreateDto
 import ru.elixor.api.features.category.dto.CategoryOutputDto
 import ru.elixor.api.features.category.dto.CategoryUpdateDto
-import ru.elixor.api.features.link.dto.LinkCreateDto
 import ru.elixor.api.features.link.dto.LinkOutputDto
 import java.util.*
 

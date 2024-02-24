@@ -6,8 +6,8 @@ import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import ru.elixor.api.features.domain.dto.DomainCreateDto
-import ru.elixor.api.features.domain.services.DomainService
 import ru.elixor.api.features.domain.dto.DomainOutputDto
+import ru.elixor.api.features.domain.services.DomainService
 
 @RestController
 @RequestMapping("/api/v1/domains")

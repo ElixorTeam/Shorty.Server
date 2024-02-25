@@ -8,5 +8,15 @@ Authorization: Bearer {{$auth.token("access-token")}}
 
 ###
 
+POST http://localhost:2000/api/v1/domains
+Authorization: Bearer {{$auth.token("access-token")}}
+Content-Type: application/json
+
+{
+    "title": "sh0.su"
+}
+
+###
+
 GET http://localhost:2000/api/v1/domains
 Authorization: Bearer {{$auth.token("access-token")}}

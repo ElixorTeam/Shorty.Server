@@ -1,4 +1,4 @@
-package ru.elixor.api.configurations
+package ru.elixor.api.configurations.security
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.convert.converter.Converter

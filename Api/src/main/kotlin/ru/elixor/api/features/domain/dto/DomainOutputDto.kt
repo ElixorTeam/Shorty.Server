@@ -1,8 +1,14 @@
 package ru.elixor.api.features.domain.dto
 
+import ru.elixor.api.entities.domain.DomainEntity
 import java.util.UUID
 
 class DomainOutputDto (
-    val id: UUID,
-    val title: String,
+    val uid: UUID,
+    val value: String,
+)
+
+fun DomainEntity.toDto() = DomainOutputDto(
+    uid = uid!!,
+    value = value!!,
 )

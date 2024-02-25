@@ -1,4 +1,4 @@
-package ru.elixor.infrastructure.entities.category
+package ru.elixor.api.entities.category
 
 import org.springframework.data.jpa.repository.JpaRepository
 import java.util.*

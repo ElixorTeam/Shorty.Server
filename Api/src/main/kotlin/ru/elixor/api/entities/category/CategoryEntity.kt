@@ -1,19 +1,25 @@
-package ru.elixor.infrastructure.entities.domain
+package ru.elixor.api.entities.category
 
 import jakarta.persistence.*
 import org.hibernate.annotations.CreationTimestamp
 import java.util.*
 
 @Entity
-@Table(name = "DOMAINS")
-class DomainEntity {
+@Table(
+    name = "CATEGORIES",
+    uniqueConstraints = [UniqueConstraint(name = "UQ_CATEGORIES_USER_NAME", columnNames = ["USER_UID", "NAME"])]
+)
+class CategoryEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "UID", unique = true)
     val uid: UUID? = null
 
-    @Column(name = "NAME", nullable = false, unique = true, length = 16)
+    @Column(name = "USER_UID", unique = false)
+    val userUid: UUID? = null
+
+    @Column(name = "NAME", nullable = false, length = 16)
     var name: String? = null
 
     @CreationTimestamp

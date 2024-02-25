@@ -1,7 +1,7 @@
 package ru.elixor.api.features.domain.dto
 
 import ru.elixor.api.entities.domain.DomainEntity
-import java.util.UUID
+import java.util.*
 
 class DomainOutputDto (
     val uid: UUID,

@@ -1,6 +1,6 @@
 package ru.elixor.api.features.folder.dto
 
-import java.util.UUID
+import java.util.*
 
 class FolderOutputDto (
     val id: UUID,

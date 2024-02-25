@@ -2,27 +2,27 @@ package ru.elixor.api.features.link.services
 
 import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
+import ru.elixor.api.entities.link.LinkEntity
+import ru.elixor.api.entities.link.LinkRepository
 import ru.elixor.api.features.link.dto.LinkCreateDto
 import ru.elixor.api.features.link.dto.LinkOutputDto
 import ru.elixor.api.features.link.dto.LinkUpdateDto
+import ru.elixor.api.features.link.dto.toDto
 import java.time.LocalDateTime
 import java.util.*
 
 @Service
-class LinkServiceImpl : LinkService {
+class LinkServiceImpl(private val linkRepository: LinkRepository) : LinkService {
     // region Queries
 
     override fun getAll(jwt: Jwt): List<LinkOutputDto> {
-        return listOf(
-            LinkOutputDto(UUID.randomUUID(), "CreatedLink", "shorty", "admin", LocalDateTime.now(), LocalDateTime.now()),
-            LinkOutputDto(UUID.randomUUID(), "CreatedLink", "shorty", "vk", LocalDateTime.now(), LocalDateTime.now()),
-            LinkOutputDto(UUID.randomUUID(), "CreatedLink", "shorty", "youtube", LocalDateTime.now(), LocalDateTime.now()),
-            LinkOutputDto(UUID.randomUUID(), "CreatedLink", "shorty", "telegram", LocalDateTime.now(), LocalDateTime.now())
-        )
+        return linkRepository.findAllByUserUid(UUID.fromString(jwt.subject)).map { it.toDto() }
     }
 
-    override fun getLinkById(id: UUID, jwt: Jwt): LinkOutputDto {
-       return LinkOutputDto(id, "CreatedLink", "shorty", "telegram", LocalDateTime.now(), LocalDateTime.now())
+    override fun getLinkById(linkId: UUID, jwt: Jwt): LinkOutputDto {
+        val link: LinkEntity = getLinkByUser(linkId, jwt)
+        return link.toDto()
     }
 
     // endregion
@@ -34,10 +34,24 @@ class LinkServiceImpl : LinkService {
     }
 
     override fun update(linkId: UUID, linkUpdateDto: LinkUpdateDto, jwt: Jwt): LinkOutputDto {
-        return LinkOutputDto(linkId, "UpdatedLink", "shorty", "telegram", LocalDateTime.now(), LocalDateTime.now())
+        val link: LinkEntity = getLinkByUser(linkId, jwt)
+        linkRepository.save(link)
+        return link.toDto()
     }
 
+    @Transactional
     override fun delete(linkId: UUID, jwt: Jwt) {
+        val link: LinkEntity = getLinkByUser(linkId, jwt)
+        linkRepository.delete(link)
+    }
+
+    // endregion
+
+    // region Private
+    private fun getLinkByUser(linkId: UUID, jwt: Jwt): LinkEntity {
+        val link = linkRepository.findFirstByUidAndUserUid(linkId, UUID.fromString(jwt.subject))
+            ?: throw NoSuchElementException("Link not found")
+        return link;
     }
 
     // endregion

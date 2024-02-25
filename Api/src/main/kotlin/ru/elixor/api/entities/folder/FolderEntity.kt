@@ -1,7 +1,6 @@
 package ru.elixor.api.entities.folder
 
 import jakarta.persistence.*
-import org.hibernate.annotations.CreationTimestamp
 import java.util.*
 
 @Entity

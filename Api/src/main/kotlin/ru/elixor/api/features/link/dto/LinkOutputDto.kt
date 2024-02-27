@@ -7,6 +7,7 @@ import java.util.*
 class LinkOutputDto (
     val uid: UUID,
     val title: String,
+    val url: String,
     var subdomain: String,
     var domainUid: UUID,
     var password: String,
@@ -18,6 +19,7 @@ class LinkOutputDto (
 fun LinkEntity.toDto() = LinkOutputDto(
     uid = uid!!,
     title = title,
+    url = url.toString(),
     subdomain = subdomain,
     domainUid = domain!!.uid!!,
     createDt = createDt!!,

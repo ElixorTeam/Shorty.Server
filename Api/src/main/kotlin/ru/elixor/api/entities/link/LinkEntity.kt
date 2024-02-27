@@ -23,17 +23,17 @@ class LinkEntity {
     val uid: UUID? = null
 
     @Column(name = "USER_UID", nullable = false)
-    val userUid: UUID? = null
+    var userUid: UUID? = null
 
     @Column(name = "TITLE", nullable = false, length = 64)
-    val title: String = ""
+    var title: String = ""
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "DOMAIN_UID", nullable = false)
-    val domain: DomainEntity? = null
+    var domain: DomainEntity? = null
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "FOLDER_UID", nullable = true)
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "FOLDER_UID")
     val folder: FolderEntity? = null
 
     @Column(name = "SUBDOMAIN", unique = true, nullable = false, length = 12)
@@ -44,7 +44,7 @@ class LinkEntity {
     var url: URL? = null
 
     @Column(name = "PASSWORD", nullable = true, length = 24)
-    val password: String? = null
+    var password: String? = null
 
     @CreationTimestamp
     @Column(name = "CREATE_DT", nullable = false)

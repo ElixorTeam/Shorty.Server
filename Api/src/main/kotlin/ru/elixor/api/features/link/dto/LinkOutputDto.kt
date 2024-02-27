@@ -4,32 +4,23 @@ import ru.elixor.api.entities.link.LinkEntity
 import java.time.LocalDateTime
 import java.util.*
 
-//class LinkOutputDto (
-//    val uid: UUID,
-//    val title: String,
-//    var subdomain: String,
-//    var domain: String,
-//    var url: String,
-//    var createDt: Date,
-//    var updateDt: Date
-//
-
-
 class LinkOutputDto (
-    val id: UUID,
+    val uid: UUID,
     val title: String,
-    var shortSubDomain: String,
-    var prefix: String,
-    var createDt: LocalDateTime,
-    var changeDt: LocalDateTime
+    var subdomain: String,
+    var domainUid: UUID,
+    var password: String,
+    var updateDt: Date,
+    var createDt: Date
 )
 
 
 fun LinkEntity.toDto() = LinkOutputDto(
-    id = uid!!,
+    uid = uid!!,
     title = title,
-    shortSubDomain = "",
-    prefix = "",
-    createDt = LocalDateTime.now(),
-    changeDt = LocalDateTime.now()
+    subdomain = subdomain,
+    domainUid = domain!!.uid!!,
+    createDt = createDt!!,
+    updateDt = updateDt!!,
+    password = password!!,
 )

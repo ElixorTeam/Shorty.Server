@@ -1,0 +1,2 @@
+GET http://localhost:2000/api/v1/domains
+Authorization: Bearer {{$auth.token("access-token")}}

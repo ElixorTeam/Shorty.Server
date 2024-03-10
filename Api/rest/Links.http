@@ -7,16 +7,14 @@ GET http://localhost:2000/api/v1/links/ede725c6-aa14-44c5-823b-828fd881c79f
 Authorization: Bearer {{$auth.token("access-token")}}
 
 ###
-
-POST http://localhost:2000/api/v1/domains
+POST http://localhost:2000/api/v1/links
 Authorization: Bearer {{$auth.token("access-token")}}
 Content-Type: application/json
 
 {
-    "title": "sh0.su"
+  "title": "1231231",
+  "subdomain": "goods",
+  "domainUid": "178015e5-05c8-4d22-b122-030aacfc8d69",
+  "url": "https://ftp//wg.dobroe22.keenetic.pro/",
+  "password": "123123"
 }
-
-###
-
-GET http://localhost:2000/api/v1/domains
-Authorization: Bearer {{$auth.token("access-token")}}

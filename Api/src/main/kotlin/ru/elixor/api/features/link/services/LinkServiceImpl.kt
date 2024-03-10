@@ -69,7 +69,7 @@ class LinkServiceImpl(private val linkRepository: LinkRepository,
     // region Private
     private fun getLinkByIdAndUser(linkId: UUID, jwt: Jwt): LinkEntity {
         val link = linkRepository.findFirstByUidAndUserUid(linkId, UUID.fromString(jwt.subject))
-            ?: throw NoSuchElementException("Link not found")
+            ?: throw NotFoundByUidException(linkId)
         return link;
     }
 

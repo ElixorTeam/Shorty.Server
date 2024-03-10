@@ -12,9 +12,9 @@ Authorization: Bearer {{$auth.token("access-token")}}
 Content-Type: application/json
 
 {
-  "title": "1231231",
-  "subdomain": "goods",
+  "title": "123123wda1",
+  "subdomain": "gooddfawds12",
   "domainUid": "178015e5-05c8-4d22-b122-030aacfc8d69",
-  "url": "https://ftp//wg.dobroe22.keenetic.pro/",
+  "url": "wg.dobroe22.keenetic.pro",
   "password": "123123"
 }

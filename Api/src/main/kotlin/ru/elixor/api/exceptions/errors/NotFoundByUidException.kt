@@ -1,5 +1,5 @@
 package ru.elixor.api.exceptions.errors
 
-import java.util.UUID
+import java.util.*
 
-class NotFoundByUidException(id: UUID) : RuntimeException(id.toString())
+class NotFoundByUidException(val id: UUID, val name: String) : RuntimeException()

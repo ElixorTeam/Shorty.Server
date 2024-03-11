@@ -12,8 +12,8 @@ class GlobalExceptionHandler {
     @ExceptionHandler(NotFoundByUidException::class)
     fun handleNotFoundByUidException(ex: NotFoundByUidException): ResponseEntity<Map<String, String>> {
         val errorAttributes = mapOf(
-            "id" to (ex.message ?: "No message"),
-            "error" to "not found"
+            "id" to "${ex.id}",
+            "error" to "${ex.name.lowercase()} not found"
         )
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorAttributes)
     }

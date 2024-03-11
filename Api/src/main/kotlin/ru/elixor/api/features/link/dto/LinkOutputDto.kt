@@ -9,7 +9,7 @@ data class LinkOutputDto(
     val url: String,
     var subdomain: String,
     var domainUid: UUID,
-    var password: String,
+    var password: String?,
     var updateDt: Date,
     var createDt: Date
 )
@@ -23,5 +23,5 @@ fun LinkEntity.toDto() = LinkOutputDto(
     domainUid = domain!!.uid!!,
     createDt = createDt!!,
     updateDt = updateDt!!,
-    password = password!!,
+    password = password,
 )

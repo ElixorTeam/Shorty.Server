@@ -10,11 +10,11 @@ import java.util.*
 data class LinkCreateDto(
 
     @field:NotNull
-    @field:Size(min = 1, max = 64, message = "Title must be between 1 and 64 characters")
+    @field:Size(min = 2, max = 64, message = "Title must be [2, 64] characters")
     val title: String,
 
     @field:NotNull
-    @field:Size(min = 4, max = 12, message = "Title must be between 4 and 12 characters")
+    @field:Size(min = 4, max = 12)
     val subdomain: String,
 
     @field:NotNull
@@ -24,9 +24,8 @@ data class LinkCreateDto(
     @field:ValidURL
     val url: String,
 
-    @field:NotNull
-    @field:Size(min = 4, max = 64, message = "Title must be between 4 and 100 characters")
-    val password: String,
+    @field:Size(min = 2, max = 16, message = "Password must be [2, 16] characters")
+    val password: String?,
 )
 
 fun LinkCreateDto.toEntity(): LinkEntity {

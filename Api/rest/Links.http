@@ -3,8 +3,24 @@ Authorization: Bearer {{$auth.token("access-token")}}
 
 ###
 
-GET http://localhost:2000/api/v1/links/ede725c6-aa14-44c5-823b-828fd881c79f
+GET http://localhost:2000/api/v1/links/8c4ebf4c-3e78-488c-aa62-e97fd4d293b9
 Authorization: Bearer {{$auth.token("access-token")}}
+
+###
+
+DELETE http://localhost:2000/api/v1/links/ede725c6-aa14-44c5-823b-828fd881c79f
+Authorization: Bearer {{$auth.token("access-token")}}
+
+###
+
+PUT http://localhost:2000/api/v1/links/8c4ebf4c-3e78-488c-aa62-e97fd4d293b9
+Authorization: Bearer {{$auth.token("access-token")}}
+Content-Type: application/json
+
+{
+  "title": "BaggerFast",
+  "password": null
+}
 
 ###
 POST http://localhost:2000/api/v1/links

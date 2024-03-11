@@ -19,5 +19,5 @@ class FolderEntity {
     val userUid: UUID? = null
 
     @Column(name = "TITLE", nullable = false, length = 16)
-    var title: String? = null
+    var title: String = ""
 }

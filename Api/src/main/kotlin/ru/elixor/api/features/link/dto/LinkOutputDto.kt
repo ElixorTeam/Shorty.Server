@@ -1,10 +1,9 @@
 package ru.elixor.api.features.link.dto
 
 import ru.elixor.api.entities.link.LinkEntity
-import java.time.LocalDateTime
 import java.util.*
 
-class LinkOutputDto (
+data class LinkOutputDto(
     val uid: UUID,
     val title: String,
     val url: String,

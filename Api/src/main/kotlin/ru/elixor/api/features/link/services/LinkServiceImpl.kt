@@ -7,11 +7,8 @@ import ru.elixor.api.entities.domain.DomainEntity
 import ru.elixor.api.entities.domain.DomainRepository
 import ru.elixor.api.entities.link.LinkEntity
 import ru.elixor.api.entities.link.LinkRepository
-import ru.elixor.api.features.link.dto.LinkCreateDto
-import ru.elixor.api.features.link.dto.LinkOutputDto
-import ru.elixor.api.features.link.dto.LinkUpdateDto
-import ru.elixor.api.features.link.dto.toDto
-import java.net.URL
+import ru.elixor.api.exceptions.errors.NotFoundByUidException
+import ru.elixor.api.features.link.dto.*
 import java.util.*
 
 @Service
@@ -37,12 +34,8 @@ class LinkServiceImpl(private val linkRepository: LinkRepository,
         val linkExists: Boolean = linkRepository.existsByDomainAndSubdomain(domain, linkCreateDto.subdomain)
         if (linkExists) throw NoSuchElementException("Link exists")
 
-        val link = LinkEntity()
+        val link = linkCreateDto.toEntity()
         link.domain = domain;
-        link.subdomain = linkCreateDto.subdomain;
-        link.url = URL(linkCreateDto.url)
-        link.password = linkCreateDto.password;
-        link.title = linkCreateDto.title;
         link.userUid = UUID.fromString(jwt.subject)
 
         linkRepository.save(link)

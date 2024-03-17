@@ -3,7 +3,7 @@ Authorization: Bearer {{$auth.token("access-token")}}
 
 ###
 
-GET http://localhost:2000/api/v1/links/8c4ebf4c-3e78-488c-aa62-e97fd4d293b9
+GET http://localhost:2000/api/v1/links/6f7a1af1-03b1-493f-9e70-854136241c70
 Authorization: Bearer {{$auth.token("access-token")}}
 
 ###
@@ -23,6 +23,7 @@ Content-Type: application/json
 }
 
 ###
+
 POST http://localhost:2000/api/v1/links
 Authorization: Bearer {{$auth.token("access-token")}}
 Content-Type: application/json
@@ -30,7 +31,7 @@ Content-Type: application/json
 {
   "title": "123123wda11",
   "subdomain": "gooddfaw",
-  "domainUid": "8c4ebf4c-3e78-488c-aa62-e97fd4d293b9",
+  "domainUid": "178015e5-05c8-4d22-b122-030aacfc8d69",
   "url": "wg.dobroe22.keenetic.pro",
   "password": "123123"
 }

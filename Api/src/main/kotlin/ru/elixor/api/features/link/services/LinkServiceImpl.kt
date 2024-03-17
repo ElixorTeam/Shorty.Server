@@ -17,16 +17,16 @@ class LinkServiceImpl(private val linkRepository: LinkRepository,
     // region Queries
 
     override fun getAll(userUid: UUID):
-            List<LinkOutputDto> = linkRepository.findAllByUserUid(userUid).map { it.toDto() }
+            LinkListOutputDtoWrapper = linkRepository.findAllByUserUid(userUid).toWrapperDto();
 
     override fun getLinkById(linkId: UUID, userUid: UUID):
-            LinkOutputDto = getLinkByIdAndUser(linkId, userUid).toDto()
+            SingleLinkOutputDtoWrapper = getLinkByIdAndUser(linkId, userUid).toWrapperDto()
 
     // endregion
 
     // region Commands
 
-    override fun create(linkCreateDto: LinkCreateDto, userUid: UUID): LinkOutputDto {
+    override fun create(linkCreateDto: LinkCreateDto, userUid: UUID): SingleLinkOutputDtoWrapper {
         val domain: DomainEntity = domainRepository.findById(linkCreateDto.domainUid).getOrNull() ?:
             throw NotFoundByUidException(linkCreateDto.domainUid, "domain")
 
@@ -36,14 +36,14 @@ class LinkServiceImpl(private val linkRepository: LinkRepository,
         val link = linkCreateDto.toEntity()
         link.domain = domain
         link.userUid = userUid
-        return linkRepository.save(link).toDto()
+        return linkRepository.save(link).toWrapperDto()
     }
 
-    override fun update(linkId: UUID, linkUpdateDto: LinkUpdateDto, userUid: UUID): LinkOutputDto {
+    override fun update(linkId: UUID, linkUpdateDto: LinkUpdateDto, userUid: UUID): SingleLinkOutputDtoWrapper {
         val link: LinkEntity = getLinkByIdAndUser(linkId, userUid)
         link.title = linkUpdateDto.title;
         link.password = linkUpdateDto.password;
-        return linkRepository.save(link).toDto()
+        return linkRepository.save(link).toWrapperDto()
     }
 
     @Transactional

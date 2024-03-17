@@ -3,9 +3,7 @@ package ru.elixor.api.features.link
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import ru.elixor.api.configurations.security.UserUid
-import ru.elixor.api.features.link.dto.LinkCreateDto
-import ru.elixor.api.features.link.dto.LinkOutputDto
-import ru.elixor.api.features.link.dto.LinkUpdateDto
+import ru.elixor.api.features.link.dto.*
 import ru.elixor.api.features.link.services.LinkService
 import java.util.*
 
@@ -15,7 +13,7 @@ class LinkController(private val linkService: LinkService) {
     // region Queries
 
     @GetMapping
-    fun getAll(@UserUid userUid: UUID): List<LinkOutputDto> = linkService.getAll(userUid)
+    fun getAll(@UserUid userUid: UUID): LinkListOutputDtoWrapper = linkService.getAll(userUid)
 
     // endregion
 
@@ -23,11 +21,11 @@ class LinkController(private val linkService: LinkService) {
 
     @PostMapping
     fun create(@RequestBody @Validated dto: LinkCreateDto, @UserUid userUid: UUID):
-            LinkOutputDto = linkService.create(dto, userUid)
+            SingleLinkOutputDtoWrapper = linkService.create(dto, userUid)
 
     @PutMapping("/{id}")
     fun update(@PathVariable id: UUID, @RequestBody @Validated dto: LinkUpdateDto, @UserUid userUid: UUID):
-            LinkOutputDto = linkService.update(id, dto, userUid)
+            SingleLinkOutputDtoWrapper = linkService.update(id, dto, userUid)
 
     @DeleteMapping("/{id}")
     fun delete(@PathVariable id: UUID, @UserUid userUid: UUID) = linkService.delete(id, userUid)

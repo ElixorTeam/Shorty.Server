@@ -4,7 +4,7 @@ import jakarta.persistence.*
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
 import ru.elixor.api.entities.domain.DomainEntity
-import ru.elixor.api.entities.folder.FolderEntity
+import ru.elixor.api.entities.tag.TagEntity
 import ru.elixor.api.utils.jpa.UrlConverter
 import java.net.URL
 import java.util.*
@@ -29,12 +29,17 @@ class LinkEntity {
     var title: String = ""
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "DOMAIN_UID", nullable = false)
+    @JoinColumn(name = "DOMAIN_UID", foreignKey = ForeignKey(name = "FK_LINKS_DOMAIN"), nullable = false)
     var domain: DomainEntity? = null
 
-    @ManyToOne(optional = true)
-    @JoinColumn(name = "FOLDER_UID")
-    val folder: FolderEntity? = null
+    @ManyToMany
+    @JoinTable(
+        name = "LINKS_TAGS",
+        joinColumns = [JoinColumn(name = "LINK_UID", foreignKey = ForeignKey(name = "FK_LINKS_TAGS_LINK"))],
+        inverseJoinColumns = [JoinColumn(name = "TAG_UID", foreignKey = ForeignKey(name = "FK_LINKS_TAGS_TAG"))],
+        uniqueConstraints = [UniqueConstraint(name = "UQ_LINKS_TAGS", columnNames = ["LINK_UID", "TAG_UID"])]
+    )
+    var tags: List<TagEntity> = ArrayList()
 
     @Column(name = "SUBDOMAIN", unique = true, nullable = false, length = 12)
     var subdomain: String = ""

@@ -1,23 +1,21 @@
 package ru.elixor.api.features.link.services
 
-import ru.elixor.api.features.link.dto.LinkCreateDto
-import ru.elixor.api.features.link.dto.LinkOutputDto
-import ru.elixor.api.features.link.dto.LinkUpdateDto
+import ru.elixor.api.features.link.dto.*
 import java.util.*
 
 interface LinkService {
     // region Queries
 
-    fun getAll(userUid: UUID): List<LinkOutputDto>
-    fun getLinkById(linkId: UUID, userUid: UUID): LinkOutputDto
+    fun getAll(userUid: UUID): LinkListOutputDtoWrapper
+    fun getLinkById(linkId: UUID, userUid: UUID): SingleLinkOutputDtoWrapper
 
     // endregion
 
     // region Commands
 
     fun delete(linkId: UUID, userUid: UUID)
-    fun create(linkCreateDto: LinkCreateDto, userUid: UUID): LinkOutputDto
-    fun update(linkId: UUID, linkUpdateDto: LinkUpdateDto, userUid: UUID): LinkOutputDto
+    fun create(linkCreateDto: LinkCreateDto, userUid: UUID): SingleLinkOutputDtoWrapper
+    fun update(linkId: UUID, linkUpdateDto: LinkUpdateDto, userUid: UUID): SingleLinkOutputDtoWrapper
 
     // endregion
 }

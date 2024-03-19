@@ -1,0 +1,29 @@
+!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: headerFragment">
+</head>
+<body>
+<div id="container">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Название</th>
+            <th>URL</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="link : ${links}">
+            <td th:text="${link.uid}"></td>
+            <td th:text="${link.title}"></td>
+            <td><a th:href="${link.url}" th:text="${link.url}"></a></td>
+        </tr>
+        </tbody>
+    </table>
+    <div id="pagefoot" th:include="layout :: footerFragment">Footer
+    </div>
+    <a href="/logout">Logout</a>
+</div>
+<!-- container -->
+</body>
+</html>

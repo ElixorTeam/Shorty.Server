@@ -1,5 +1,5 @@
-package ru.elixor.api.features.link
-
+import org.springframework.ui.Model;
+import org.springframework.stereotype.Controller
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import ru.elixor.api.configurations.security.UserUid
@@ -9,13 +9,16 @@ import ru.elixor.api.features.link.dto.LinkUpdateDto
 import ru.elixor.api.features.link.services.LinkService
 import java.util.*
 
-@RestController
-@RequestMapping("/api/v1/links")
+@Controller
+@RequestMapping("/links")
 class LinkController(private val linkService: LinkService) {
     // region Queries
 
     @GetMapping
-    fun getAll(@UserUid userUid: UUID): List<LinkOutputDto> = linkService.getAll(userUid)
+    fun getAll(@UserUid userUid: UUID, model: Model): String {
+        model.addAttribute("links", linkService.getAll(userUid));
+        return "links"
+    }
 
     // endregion
 

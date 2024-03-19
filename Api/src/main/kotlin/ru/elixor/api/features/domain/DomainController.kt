@@ -22,7 +22,7 @@ class DomainController(private val domainService: DomainService) {
     // region Commands
 
     @PostMapping
-    @PreAuthorize("hasRole('ROLE_admin')")
+    @PreAuthorize("hasAnyRole('admin')")
     fun create(@RequestBody @Validated dto: DomainCreateDto, @AuthenticationPrincipal jwt: Jwt):
             DomainOutputDto = domainService.create(dto, jwt)
 

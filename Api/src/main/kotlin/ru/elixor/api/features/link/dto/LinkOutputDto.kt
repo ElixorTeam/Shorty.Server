@@ -2,14 +2,14 @@ package ru.elixor.api.features.link.dto
 
 import ru.elixor.api.entities.link.LinkEntity
 import java.util.*
-import javax.swing.text.html.HTML.Tag
+import kotlin.collections.HashSet
 
 
 data class LinkOutputDto(
     val uid: UUID,
     val title: String,
     val url: String,
-    val tags: ArrayList<Tag>,
+    val tags: MutableSet<String>,
     val subdomain: String,
     val domainUid: UUID,
     val password: String?,
@@ -21,7 +21,7 @@ internal fun LinkEntity.toLinkDto() = LinkOutputDto(
     uid = uid!!,
     title = title,
     url = url.toString(),
-    tags = ArrayList(),
+    tags = tags.map { it.title }.toHashSet(),
     subdomain = subdomain,
     domainUid = domain!!.uid!!,
     createDt = createDt!!,

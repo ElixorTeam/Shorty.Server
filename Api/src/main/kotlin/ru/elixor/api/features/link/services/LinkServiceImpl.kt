@@ -1,19 +1,26 @@
 package ru.elixor.api.features.link.services
 
+import jakarta.persistence.EntityManager
+import jakarta.persistence.PersistenceContext
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.transaction.support.TransactionSynchronizationManager
 import ru.elixor.api.entities.domain.DomainEntity
 import ru.elixor.api.entities.domain.DomainRepository
 import ru.elixor.api.entities.link.LinkEntity
 import ru.elixor.api.entities.link.LinkRepository
+import ru.elixor.api.entities.tag.TagEntity
+import ru.elixor.api.entities.tag.TagRepository
 import ru.elixor.api.exceptions.errors.NotFoundByUidException
 import ru.elixor.api.features.link.dto.*
 import java.util.*
 import kotlin.jvm.optionals.getOrNull
 
 @Service
-class LinkServiceImpl(private val linkRepository: LinkRepository,
-                      private val domainRepository: DomainRepository) : LinkService {
+class LinkServiceImpl(private val linkRepository: LinkRepository, private val tagRepository: TagRepository,
+                      private val domainRepository: DomainRepository, @PersistenceContext
+                      private val entityManager: EntityManager
+) : LinkService {
     // region Queries
 
     override fun getAll(userUid: UUID):
@@ -26,24 +33,36 @@ class LinkServiceImpl(private val linkRepository: LinkRepository,
 
     // region Commands
 
+    @Transactional
     override fun create(linkCreateDto: LinkCreateDto, userUid: UUID): SingleLinkOutputDtoWrapper {
         val domain: DomainEntity = domainRepository.findById(linkCreateDto.domainUid).getOrNull() ?:
-            throw NotFoundByUidException(linkCreateDto.domainUid, "domain")
+        throw NotFoundByUidException(linkCreateDto.domainUid, "domain")
 
         val linkExists: Boolean = linkRepository.existsByDomainAndSubdomain(domain, linkCreateDto.subdomain)
         if (linkExists) throw NoSuchElementException("Link exists")
 
-        val link = linkCreateDto.toEntity()
+        var link = linkCreateDto.toEntity(userUid)
+        link.tags = saveTagsIfNotExist(linkCreateDto.tags, userUid)
         link.domain = domain
-        link.userUid = userUid
-        return linkRepository.save(link).toWrapperDto()
+
+        link = linkRepository.save(link);
+        entityManager.flush()
+
+        return link.toWrapperDto()
     }
 
+    @Transactional
     override fun update(linkId: UUID, linkUpdateDto: LinkUpdateDto, userUid: UUID): SingleLinkOutputDtoWrapper {
-        val link: LinkEntity = getLinkByIdAndUser(linkId, userUid)
+        var link: LinkEntity = getLinkByIdAndUser(linkId, userUid)
         link.title = linkUpdateDto.title;
         link.password = linkUpdateDto.password;
-        return linkRepository.save(link).toWrapperDto()
+        link.tags = saveTagsIfNotExist(linkUpdateDto.tags, userUid)
+
+
+        link = linkRepository.save(link);
+        entityManager.flush()
+
+        return link.toWrapperDto()
     }
 
     @Transactional
@@ -59,5 +78,28 @@ class LinkServiceImpl(private val linkRepository: LinkRepository,
     private fun getLinkByIdAndUser(linkId: UUID, userUid: UUID): LinkEntity =
         linkRepository.findLinkEntityByUidAndUserUid(linkId, userUid) ?: throw NotFoundByUidException(linkId, "link")
 
+    private fun saveTagsIfNotExist(tagNames: MutableSet<String>, userUid: UUID): MutableSet<TagEntity> {
+        val existingTags = tagRepository.findAllByUserUid(userUid)
+        val filledTags = mutableSetOf<TagEntity>()
+        val newTags = mutableSetOf<TagEntity>()
+
+        for (tagName in tagNames) {
+            val existingTag = existingTags.find { it.title == tagName }
+            if (existingTag == null) {
+                val newTag = TagEntity()
+                newTag.title = tagName
+                newTag.userUid = userUid
+                newTags.add(newTag)
+            } else {
+                filledTags.add(existingTag)
+            }
+        }
+
+        if (newTags.isNotEmpty()) {
+            tagRepository.saveAll(newTags)
+        }
+
+        return (newTags + filledTags).toMutableSet()
+    }
     // endregion
 }

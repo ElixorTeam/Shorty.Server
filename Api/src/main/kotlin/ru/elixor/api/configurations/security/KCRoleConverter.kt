@@ -20,7 +20,7 @@ class KCRoleConverter(@Value("\${keycloak.client.business}") private val clientI
             return returnValue
 
         for (roleName in roles)
-            returnValue.add(SimpleGrantedAuthority("ROLE_$roleName"))
+            returnValue.add(SimpleGrantedAuthority(roleName.toString()))
 
         return returnValue
     }

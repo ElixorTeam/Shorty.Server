@@ -16,8 +16,21 @@ class TagEntity {
     val uid: UUID? = null
 
     @Column(name = "USER_UID")
-    val userUid: UUID? = null
+    var userUid: UUID? = null
 
     @Column(name = "TITLE", length = 16)
     var title: String = ""
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is TagEntity) return false
+        return uid == other.uid && userUid == other.userUid && title == other.title
+    }
+
+    override fun hashCode(): Int {
+        var result = uid?.hashCode() ?: 0
+        result = 31 * result + (userUid?.hashCode() ?: 0)
+        result = 31 * result + title.hashCode()
+        return result
+    }
 }

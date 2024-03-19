@@ -13,13 +13,14 @@ Authorization: Bearer {{$auth.token("access-token")}}
 
 ###
 
-PUT http://localhost:2000/api/v1/links/8c4ebf4c-3e78-488c-aa62-e97fd4d293b9
+PUT http://localhost:2000/api/v1/links/a3df2cd8-aaf6-4209-add8-fd9a31fa94d7
 Authorization: Bearer {{$auth.token("access-token")}}
 Content-Type: application/json
 
 {
-  "title": "BaggerFast",
-  "password": null
+  "title": "gosha",
+  "password": "1231",
+  "tags": ["bober"]
 }
 
 ###
@@ -29,9 +30,10 @@ Authorization: Bearer {{$auth.token("access-token")}}
 Content-Type: application/json
 
 {
-  "title": "123123wda11",
-  "subdomain": "gooddfaw",
+  "title": "gosha",
+  "subdomain": "goasha",
   "domainUid": "178015e5-05c8-4d22-b122-030aacfc8d69",
   "url": "wg.dobroe22.keenetic.pro",
-  "password": "123123"
+  "password": "123123",
+  "tags": ["hello", "hi", "vk", "bober"]
 }

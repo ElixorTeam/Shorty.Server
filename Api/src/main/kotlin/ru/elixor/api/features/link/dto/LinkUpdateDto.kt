@@ -11,4 +11,8 @@ data class LinkUpdateDto(
 
     @field:Size(min = 2, max = 16, message = "Password must be [2, 16] characters")
     val password: String?,
+
+    @field:NotNull
+    @field:Size(max = 5, min = 0)
+    val tags: MutableSet<String>,
 )

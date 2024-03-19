@@ -8,6 +8,7 @@ import ru.elixor.api.entities.tag.TagEntity
 import ru.elixor.api.utils.jpa.UrlConverter
 import java.net.URL
 import java.util.*
+import kotlin.collections.HashSet
 
 
 @Entity
@@ -32,14 +33,14 @@ class LinkEntity {
     @JoinColumn(name = "DOMAIN_UID", foreignKey = ForeignKey(name = "FK_LINKS_DOMAIN"), nullable = false)
     var domain: DomainEntity? = null
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "LINKS_TAGS",
         joinColumns = [JoinColumn(name = "LINK_UID", foreignKey = ForeignKey(name = "FK_LINKS_TAGS_LINK"))],
         inverseJoinColumns = [JoinColumn(name = "TAG_UID", foreignKey = ForeignKey(name = "FK_LINKS_TAGS_TAG"))],
         uniqueConstraints = [UniqueConstraint(name = "UQ_LINKS_TAGS", columnNames = ["LINK_UID", "TAG_UID"])]
     )
-    var tags: List<TagEntity> = ArrayList()
+    var tags: MutableSet<TagEntity> = HashSet()
 
     @Column(name = "SUBDOMAIN", unique = true, nullable = false, length = 12)
     var subdomain: String = ""

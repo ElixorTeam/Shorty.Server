@@ -1,2 +1,2 @@
-GET http://localhost:2000/api/v1/folders
+GET http://localhost:2000/api/v1/tags
 Authorization: Bearer {{$auth.token("access-token")}}

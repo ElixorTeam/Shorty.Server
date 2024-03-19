@@ -12,3 +12,13 @@ fun DomainEntity.toDto() = DomainOutputDto(
     uid = uid!!,
     value = value!!,
 )
+
+
+class DomainOutputDtoWrapper(
+    val data: List<DomainOutputDto>
+)
+
+fun List<DomainEntity>.toWrapperDto(): DomainOutputDtoWrapper {
+    val data = this.map { it.toDto() }
+    return DomainOutputDtoWrapper(data);
+}

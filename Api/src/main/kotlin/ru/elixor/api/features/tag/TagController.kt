@@ -6,15 +6,16 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import ru.elixor.api.features.tag.dto.TagOutputDto
+import ru.elixor.api.features.tag.dto.TagOutputDtoWrapper
 import ru.elixor.api.features.tag.services.TagService
 
 @RestController
-@RequestMapping("/api/v1/folders")
+@RequestMapping("/api/v1/tags")
 class TagController(private val tagService: TagService)
 {
     // region Queries
     @GetMapping
-    fun getAll(@AuthenticationPrincipal jwt: Jwt): List<TagOutputDto> = tagService.getAll(jwt)
+    fun getAll(@AuthenticationPrincipal jwt: Jwt): TagOutputDtoWrapper = tagService.getAll(jwt)
 
     // endregion
 

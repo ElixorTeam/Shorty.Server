@@ -58,7 +58,6 @@ class LinkServiceImpl(private val linkRepository: LinkRepository, private val ta
         link.password = linkUpdateDto.password;
         link.tags = saveTagsIfNotExist(linkUpdateDto.tags, userUid)
 
-
         link = linkRepository.save(link);
         entityManager.flush()
 

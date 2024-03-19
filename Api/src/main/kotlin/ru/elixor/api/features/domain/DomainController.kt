@@ -7,6 +7,7 @@ import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import ru.elixor.api.features.domain.dto.DomainCreateDto
 import ru.elixor.api.features.domain.dto.DomainOutputDto
+import ru.elixor.api.features.domain.dto.DomainOutputDtoWrapper
 import ru.elixor.api.features.domain.services.DomainService
 
 @RestController
@@ -15,14 +16,14 @@ class DomainController(private val domainService: DomainService) {
 
     // region Queries
     @GetMapping
-    fun getAll(@AuthenticationPrincipal jwt: Jwt): List<DomainOutputDto> = domainService.getAll(jwt)
+    fun getAll(@AuthenticationPrincipal jwt: Jwt): DomainOutputDtoWrapper = domainService.getAll(jwt)
 
     // endregion
 
     // region Commands
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('admin')")
+    @PreAuthorize("hasAnyRole('ROLE_admin')")
     fun create(@RequestBody @Validated dto: DomainCreateDto, @AuthenticationPrincipal jwt: Jwt):
             DomainOutputDto = domainService.create(dto, jwt)
 

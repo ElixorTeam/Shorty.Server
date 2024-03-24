@@ -8,12 +8,12 @@ Authorization: Bearer {{$auth.token("access-token")}}
 
 ###
 
-DELETE http://localhost:2000/api/v1/links/ede725c6-aa14-44c5-823b-828fd881c79f
+DELETE http://localhost:2000/api/v1/links/1c704185-3022-4174-9101-b0561cf0a7ee
 Authorization: Bearer {{$auth.token("access-token")}}
 
 ###
 
-PUT http://localhost:2000/api/v1/links/a3df2cd8-aaf6-4209-add8-fd9a31fa94d7
+PUT http://localhost:2000/api/v1/links/1c704185-3022-4174-9101-b0561cf0a7ee
 Authorization: Bearer {{$auth.token("access-token")}}
 Content-Type: application/json
 
@@ -30,10 +30,10 @@ Authorization: Bearer {{$auth.token("access-token")}}
 Content-Type: application/json
 
 {
-  "title": "goshass",
-  "subdomain": "goashasss",
-  "domainUid": "178015e5-05c8-4d22-b122-030aacfc8d69",
+  "title": "gosha",
+  "subdomain": "1231233",
+  "domainUid": "de7723a5-cc70-4d9b-9d54-cbf19caa0312",
   "url": "wg.dobroe22.keenetic.pro",
   "password": "123123",
-  "tags": ["hello", "hi", "vk"]
+  "tags": ["tester"]
 }

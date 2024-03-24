@@ -11,6 +11,7 @@ import ru.elixor.api.entities.link.LinkRepository
 import ru.elixor.api.entities.tag.TagEntity
 import ru.elixor.api.entities.tag.TagRepository
 import ru.elixor.api.exceptions.errors.NotFoundByIdException
+import ru.elixor.api.exceptions.errors.UniqueConflictException
 import ru.elixor.api.features.link.dto.*
 import java.util.*
 import kotlin.jvm.optionals.getOrNull
@@ -40,7 +41,7 @@ class LinkServiceImpl(
             throw NotFoundByIdException(linkCreateDto.domainUid.toString(), "domain")
 
         val linkExists: Boolean = linkRepository.existsByDomainAndSubdomain(domain, linkCreateDto.subdomain)
-        if (linkExists) throw NoSuchElementException("Link exists")
+        if (linkExists) throw UniqueConflictException()
 
         var link = linkCreateDto.toEntity()
         link.tags = saveTagsIfNotExist(linkCreateDto.tags, userUid)
@@ -80,27 +81,15 @@ class LinkServiceImpl(
         linkRepository.findLinkEntityByUidAndUserUid(linkId, userUid) ?: throw NotFoundByIdException(linkId.toString(), "link")
 
     private fun saveTagsIfNotExist(tagNames: MutableSet<String>, userUid: UUID): MutableSet<TagEntity> {
-        val existingTags = tagRepository.findAllByUserUid(userUid)
-        val filledTags = mutableSetOf<TagEntity>()
-        val newTags = mutableSetOf<TagEntity>()
-
-        for (tagName in tagNames) {
-            val existingTag = existingTags.find { it.title == tagName }
-            if (existingTag == null) {
-                val newTag = TagEntity()
-                newTag.title = tagName
-                newTag.userUid = userUid
-                newTags.add(newTag)
-            } else {
-                filledTags.add(existingTag)
+        val existingTags: List<TagEntity> = tagRepository.findAllByUserUidAndTitleIn(userUid, tagNames)
+        val newTagsName = tagNames - existingTags.map { it.title }.toSet()
+        val tagsToSave = newTagsName.map {
+            TagEntity().apply {
+                title = it
+                this.userUid = userUid
             }
         }
-
-        if (newTags.isNotEmpty()) {
-            tagRepository.saveAll(newTags)
-        }
-
-        return (newTags + filledTags).toMutableSet()
+        return (tagRepository.saveAll(tagsToSave) + existingTags).toMutableSet()
     }
     // endregion
 }

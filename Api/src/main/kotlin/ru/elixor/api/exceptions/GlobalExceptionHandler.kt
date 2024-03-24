@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import ru.elixor.api.exceptions.errors.NotFoundByIdException
+import ru.elixor.api.exceptions.errors.UniqueConflictException
 
 @ControllerAdvice
 class GlobalExceptionHandler {
@@ -18,4 +19,8 @@ class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorAttributes)
     }
 
+    @ExceptionHandler(UniqueConflictException::class)
+    fun handleUniqueConflictException(ex: UniqueConflictException): ResponseEntity<Any> {
+        return ResponseEntity.status(HttpStatus.CONFLICT).build()
+    }
 }

@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional
 import ru.elixor.api.entities.tag.TagEntity
 import ru.elixor.api.entities.tag.TagRepository
 import ru.elixor.api.exceptions.errors.NotFoundByIdException
+import ru.elixor.api.exceptions.errors.UniqueConflictException
 import ru.elixor.api.features.tag.dto.*
 import java.util.*
 
@@ -16,8 +17,11 @@ class TagServiceImpl(private val tagRepository: TagRepository) : TagService {
 
     @Transactional
     override fun update(title: String, userUid: UUID, tagUpdateDto: TagUpdateDto): TagOutputDto {
+        val renameTagExists: TagEntity? = tagRepository.findFirstByUserUidAndTitle(userUid, tagUpdateDto.title)
+        if (renameTagExists != null) throw UniqueConflictException()
+
         val tag: TagEntity = getTagByTitleAndUser(title, userUid)
-        tag.title = title
+        tag.title = tagUpdateDto.title
         return tagRepository.save(tag).toDto()
     }
 
@@ -28,5 +32,5 @@ class TagServiceImpl(private val tagRepository: TagRepository) : TagService {
     }
 
     private fun getTagByTitleAndUser(title: String, userUid: UUID): TagEntity =
-        tagRepository.findAllByUserUidAndTitle(userUid, title) ?: throw NotFoundByIdException(title, "tag")
+        tagRepository.findFirstByUserUidAndTitle(userUid, title) ?: throw NotFoundByIdException(title, "tag")
 }

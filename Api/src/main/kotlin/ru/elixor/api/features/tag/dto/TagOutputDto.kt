@@ -1,9 +1,6 @@
 package ru.elixor.api.features.tag.dto
 
-import ru.elixor.api.entities.link.LinkEntity
 import ru.elixor.api.entities.tag.TagEntity
-import ru.elixor.api.features.link.dto.LinkOutputDto
-import ru.elixor.api.features.link.dto.toLinkDto
 import java.util.*
 
 class TagOutputDto (
@@ -12,7 +9,7 @@ class TagOutputDto (
 )
 
 fun TagEntity.toDto() = TagOutputDto(
-    uid = uid!!,
+    uid = uid,
     value = title
 )
 

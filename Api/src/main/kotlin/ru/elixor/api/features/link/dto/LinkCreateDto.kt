@@ -3,7 +3,6 @@ package ru.elixor.api.features.link.dto
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Size
 import ru.elixor.api.entities.link.LinkEntity
-import ru.elixor.api.entities.tag.TagEntity
 import ru.elixor.api.utils.UrlUtils
 import ru.elixor.api.utils.validators.ValidURL
 import java.util.*

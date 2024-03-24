@@ -2,6 +2,7 @@ package ru.elixor.api.entities.domain
 
 import jakarta.persistence.*
 import org.hibernate.annotations.CreationTimestamp
+import ru.elixor.api.utils.DefaultTypesUtil
 import java.util.*
 
 @Entity
@@ -14,12 +15,12 @@ class DomainEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "UID", unique = true)
-    val uid: UUID? = null
+    val uid: UUID = DefaultTypesUtil.guid
 
     @Column(name = "VALUE", nullable = false, length = 16)
-    var value: String? = null
+    var value: String = ""
 
     @CreationTimestamp
     @Column(name = "CREATE_DT", nullable = false)
-    var createDt: Date? = null
+    val createDt: Date = DefaultTypesUtil.date
 }

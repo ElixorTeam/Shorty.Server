@@ -5,10 +5,10 @@ import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
 import ru.elixor.api.entities.domain.DomainEntity
 import ru.elixor.api.entities.tag.TagEntity
+import ru.elixor.api.utils.DefaultTypesUtil
 import ru.elixor.api.utils.jpa.UrlConverter
 import java.net.URL
 import java.util.*
-import kotlin.collections.HashSet
 
 
 @Entity
@@ -21,17 +21,17 @@ class LinkEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "UID", unique = true)
-    val uid: UUID? = null
+    val uid: UUID = DefaultTypesUtil.guid
 
     @Column(name = "USER_UID", nullable = false)
-    var userUid: UUID? = null
+    var userUid: UUID = DefaultTypesUtil.guid
 
     @Column(name = "TITLE", nullable = false, length = 64)
     var title: String = ""
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "DOMAIN_UID", foreignKey = ForeignKey(name = "FK_LINKS_DOMAIN"), nullable = false)
-    var domain: DomainEntity? = null
+    var domain: DomainEntity = DomainEntity()
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -47,16 +47,16 @@ class LinkEntity {
 
     @Convert(converter = UrlConverter::class)
     @Column(name = "URL", nullable = false, length = 250)
-    var url: URL? = null
+    var url: URL = DefaultTypesUtil.url
 
     @Column(name = "PASSWORD", nullable = true, length = 24)
     var password: String? = null
 
     @CreationTimestamp
     @Column(name = "CREATE_DT", nullable = false)
-    val createDt: Date? = null;
+    val createDt: Date = DefaultTypesUtil.date
 
     @UpdateTimestamp
     @Column(name = "UPDATE_DT", nullable = false)
-    val updateDt: Date? = null;
+    val updateDt: Date = DefaultTypesUtil.date
 }

@@ -1,6 +1,7 @@
 package ru.elixor.api.entities.tag
 
 import jakarta.persistence.*
+import ru.elixor.api.utils.DefaultTypesUtil
 import java.util.*
 
 @Entity
@@ -13,10 +14,10 @@ class TagEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "UID", unique = true)
-    val uid: UUID? = null
+    val uid: UUID = DefaultTypesUtil.guid
 
     @Column(name = "USER_UID")
-    var userUid: UUID? = null
+    var userUid: UUID = DefaultTypesUtil.guid
 
     @Column(name = "TITLE", length = 16)
     var title: String = ""
@@ -28,8 +29,8 @@ class TagEntity {
     }
 
     override fun hashCode(): Int {
-        var result = uid?.hashCode() ?: 0
-        result = 31 * result + (userUid?.hashCode() ?: 0)
+        var result = uid.hashCode()
+        result = 31 * result + userUid.hashCode()
         result = 31 * result + title.hashCode()
         return result
     }

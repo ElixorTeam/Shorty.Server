@@ -62,14 +62,17 @@ class LinkServiceImpl(
         link.tags = saveTagsIfNotExist(linkUpdateDto.tags, userUid)
 
         link = linkRepository.save(link);
-        entityManager.flush()
+        tagRepository.deleteUnused(userUid)
 
+        entityManager.flush()
         return link.toDto()
     }
 
     @Transactional
     override fun delete(linkId: UUID, userUid: UUID) {
         val link: LinkEntity = getLinkByIdAndUser(linkId, userUid)
+        link.tags.clear()
+        tagRepository.deleteUnused(userUid)
         linkRepository.delete(link)
     }
 

@@ -8,19 +8,19 @@ Authorization: Bearer {{$auth.token("access-token")}}
 
 ###
 
-DELETE http://localhost:2000/api/v1/links/1c704185-3022-4174-9101-b0561cf0a7ee
+DELETE http://localhost:2000/api/v1/links/f7d5833d-30b1-4065-91d4-2f2b8f8db11b
 Authorization: Bearer {{$auth.token("access-token")}}
 
 ###
 
-PUT http://localhost:2000/api/v1/links/1c704185-3022-4174-9101-b0561cf0a7ee
+PUT http://localhost:2000/api/v1/links/390a6128-25fc-4e73-af43-eb29540e8c2a
 Authorization: Bearer {{$auth.token("access-token")}}
 Content-Type: application/json
 
 {
   "title": "gosha",
   "password": "1231",
-  "tags": ["bober"]
+  "tags": [ "daahs"]
 }
 
 ###

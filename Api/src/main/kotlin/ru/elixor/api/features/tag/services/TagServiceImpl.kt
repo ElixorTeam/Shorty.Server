@@ -1,5 +1,7 @@
 package ru.elixor.api.features.tag.services
 
+import jakarta.persistence.EntityManager
+import jakarta.persistence.PersistenceContext
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import ru.elixor.api.entities.tag.TagEntity
@@ -11,7 +13,10 @@ import java.util.*
 
 
 @Service
-class TagServiceImpl(private val tagRepository: TagRepository) : TagService {
+class TagServiceImpl(
+    private val tagRepository: TagRepository,
+    @PersistenceContext private val entityManager: EntityManager
+) : TagService {
     override fun getAll(userUid: UUID):
             TagsOutputDtoWrapper = tagRepository.findAllByUserUid(userUid).toWrapperDto()
 
@@ -28,6 +33,10 @@ class TagServiceImpl(private val tagRepository: TagRepository) : TagService {
     @Transactional
     override fun delete(title: String, userUid: UUID) {
         val tag: TagEntity = getTagByTitleAndUser(title, userUid)
+        val links = tag.links.toList()
+
+        for (link in links)
+            link.tags.remove(tag)
         tagRepository.delete(tag)
     }
 

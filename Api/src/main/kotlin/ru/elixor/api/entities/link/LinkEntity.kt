@@ -33,7 +33,7 @@ class LinkEntity {
     @JoinColumn(name = "DOMAIN_UID", foreignKey = ForeignKey(name = "FK_LINKS_DOMAIN"), nullable = false)
     var domain: DomainEntity = DomainEntity()
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = [CascadeType.REMOVE])
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "LINKS_TAGS",
         joinColumns = [JoinColumn(name = "LINK_UID", foreignKey = ForeignKey(name = "FK_LINKS_TAGS_LINK"))],

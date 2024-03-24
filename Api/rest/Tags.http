@@ -10,3 +10,8 @@ Content-Type: application/json
 {
   "title": "12"
 }
+
+###
+
+DELETE http://localhost:2000/api/v1/tags/daahs
+Authorization: Bearer {{$auth.token("access-token")}}

@@ -1,8 +1,10 @@
 package ru.elixor.api.entities.tag
 
 import jakarta.persistence.*
+import ru.elixor.api.entities.link.LinkEntity
 import ru.elixor.api.utils.DefaultTypesUtil
 import java.util.*
+
 
 @Entity
 @Table(
@@ -21,6 +23,9 @@ class TagEntity {
 
     @Column(name = "TITLE", length = 16)
     var title: String = ""
+
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "tags")
+    var links: MutableSet<LinkEntity> = HashSet()
 
     // region Equals
 

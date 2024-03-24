@@ -10,15 +10,17 @@ import ru.elixor.api.entities.link.LinkEntity
 import ru.elixor.api.entities.link.LinkRepository
 import ru.elixor.api.entities.tag.TagEntity
 import ru.elixor.api.entities.tag.TagRepository
-import ru.elixor.api.exceptions.errors.NotFoundByUidException
+import ru.elixor.api.exceptions.errors.NotFoundByIdException
 import ru.elixor.api.features.link.dto.*
 import java.util.*
 import kotlin.jvm.optionals.getOrNull
 
 @Service
-class LinkServiceImpl(private val linkRepository: LinkRepository, private val tagRepository: TagRepository,
-                      private val domainRepository: DomainRepository, @PersistenceContext
-                      private val entityManager: EntityManager
+class LinkServiceImpl(
+    private val linkRepository: LinkRepository,
+    private val tagRepository: TagRepository,
+    private val domainRepository: DomainRepository,
+    @PersistenceContext private val entityManager: EntityManager
 ) : LinkService {
     // region Queries
 
@@ -35,7 +37,7 @@ class LinkServiceImpl(private val linkRepository: LinkRepository, private val ta
     @Transactional
     override fun create(linkCreateDto: LinkCreateDto, userUid: UUID): LinkOutputDto {
         val domain: DomainEntity = domainRepository.findById(linkCreateDto.domainUid).getOrNull() ?:
-            throw NotFoundByUidException(linkCreateDto.domainUid, "domain")
+            throw NotFoundByIdException(linkCreateDto.domainUid.toString(), "domain")
 
         val linkExists: Boolean = linkRepository.existsByDomainAndSubdomain(domain, linkCreateDto.subdomain)
         if (linkExists) throw NoSuchElementException("Link exists")
@@ -75,7 +77,7 @@ class LinkServiceImpl(private val linkRepository: LinkRepository, private val ta
     // region Private
 
     private fun getLinkByIdAndUser(linkId: UUID, userUid: UUID): LinkEntity =
-        linkRepository.findLinkEntityByUidAndUserUid(linkId, userUid) ?: throw NotFoundByUidException(linkId, "link")
+        linkRepository.findLinkEntityByUidAndUserUid(linkId, userUid) ?: throw NotFoundByIdException(linkId.toString(), "link")
 
     private fun saveTagsIfNotExist(tagNames: MutableSet<String>, userUid: UUID): MutableSet<TagEntity> {
         val existingTags = tagRepository.findAllByUserUid(userUid)

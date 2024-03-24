@@ -30,10 +30,10 @@ Authorization: Bearer {{$auth.token("access-token")}}
 Content-Type: application/json
 
 {
-  "title": "gosha",
-  "subdomain": "goasha",
+  "title": "goshass",
+  "subdomain": "goashasss",
   "domainUid": "178015e5-05c8-4d22-b122-030aacfc8d69",
   "url": "wg.dobroe22.keenetic.pro",
   "password": "123123",
-  "tags": ["hello", "hi", "vk", "bober"]
+  "tags": ["hello", "hi", "vk"]
 }

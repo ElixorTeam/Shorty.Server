@@ -3,7 +3,10 @@ package ru.elixor.api.features.link
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import ru.elixor.api.configurations.security.UserUid
-import ru.elixor.api.features.link.dto.*
+import ru.elixor.api.features.link.dto.LinkCreateDto
+import ru.elixor.api.features.link.dto.LinkOutputDto
+import ru.elixor.api.features.link.dto.LinkUpdateDto
+import ru.elixor.api.features.link.dto.LinksOutputDtoWrapper
 import ru.elixor.api.features.link.services.LinkService
 import java.util.*
 
@@ -24,7 +27,7 @@ class LinkController(private val linkService: LinkService) {
             LinkOutputDto = linkService.create(dto, userUid)
 
     @PutMapping("/{id}")
-    fun update(@PathVariable id: UUID, @RequestBody @Validated dto: LinkUpdateDto, @UserUid userUid: UUID):
+    fun update(@PathVariable id: UUID, @UserUid userUid: UUID, @RequestBody @Validated dto: LinkUpdateDto):
             LinkOutputDto = linkService.update(id, dto, userUid)
 
     @DeleteMapping("/{id}")

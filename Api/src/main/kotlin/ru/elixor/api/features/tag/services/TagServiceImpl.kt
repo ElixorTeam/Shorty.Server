@@ -1,21 +1,32 @@
 package ru.elixor.api.features.tag.services
 
-import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import ru.elixor.api.entities.tag.TagEntity
 import ru.elixor.api.entities.tag.TagRepository
+import ru.elixor.api.exceptions.errors.NotFoundByIdException
 import ru.elixor.api.features.tag.dto.*
 import java.util.*
 
 
 @Service
-class TagServiceImpl(private val folderRepository: TagRepository) : TagService {
-    override fun getAll(jwt: Jwt): TagsOutputDtoWrapper {
-        return folderRepository.findAllByUserUid(UUID.fromString(jwt.subject)).toWrapperDto()
+class TagServiceImpl(private val tagRepository: TagRepository) : TagService {
+    override fun getAll(userUid: UUID):
+            TagsOutputDtoWrapper = tagRepository.findAllByUserUid(userUid).toWrapperDto()
+
+    @Transactional
+    override fun update(title: String, userUid: UUID, tagUpdateDto: TagUpdateDto): TagOutputDto {
+        val tag: TagEntity = getTagByTitleAndUser(title, userUid)
+        tag.title = title
+        return tagRepository.save(tag).toDto()
     }
 
     @Transactional
-    override fun update(linkId: UUID, tagUpdateDto: TagUpdateDto, jwt: Jwt): TagOutputDto {
-        TODO("Not yet implemented")
+    override fun delete(title: String, userUid: UUID) {
+        val tag: TagEntity = getTagByTitleAndUser(title, userUid)
+        tagRepository.delete(tag)
     }
+
+    private fun getTagByTitleAndUser(title: String, userUid: UUID): TagEntity =
+        tagRepository.findAllByUserUidAndTitle(userUid, title) ?: throw NotFoundByIdException(title, "tag")
 }

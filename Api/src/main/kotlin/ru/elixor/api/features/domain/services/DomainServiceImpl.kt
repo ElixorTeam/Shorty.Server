@@ -8,10 +8,7 @@ import ru.elixor.api.features.domain.dto.*
 
 @Service
 class DomainServiceImpl(private val domainRepository: DomainRepository) : DomainService {
-
-    override fun getAll(jwt: Jwt): DomainOutputDtoWrapper {
-        return domainRepository.findAll().toWrapperDto()
-    }
+    override fun getAll(jwt: Jwt): DomainsOutputDtoWrapper = domainRepository.findAll().toWrapperDto()
 
     @Transactional
     override fun create(domainCreateDto: DomainCreateDto, jwt: Jwt): DomainOutputDto {

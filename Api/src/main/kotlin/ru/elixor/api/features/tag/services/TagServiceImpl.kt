@@ -10,7 +10,7 @@ import java.util.*
 
 @Service
 class TagServiceImpl(private val folderRepository: TagRepository) : TagService {
-    override fun getAll(jwt: Jwt): TagOutputDtoWrapper {
+    override fun getAll(jwt: Jwt): TagsOutputDtoWrapper {
         return folderRepository.findAllByUserUid(UUID.fromString(jwt.subject)).toWrapperDto()
     }
 

@@ -3,22 +3,42 @@ package ru.elixor.api.features.domain.dto
 import ru.elixor.api.entities.domain.DomainEntity
 import java.util.*
 
-class DomainOutputDto (
+
+// region Misc
+
+data class DomainDto(
     val uid: UUID,
     val value: String,
 )
 
+private fun DomainEntity.toDomainDto() = DomainDto(
+    uid = uid,
+    value = value,
+)
+
+// endregion
+
+// region OutputDto
+
+data class DomainOutputDto(
+    val data: DomainDto,
+)
+
 fun DomainEntity.toDto() = DomainOutputDto(
-    uid = uid!!,
-    value = value!!,
+    data = toDomainDto()
 )
 
+// endregion
 
-class DomainOutputDtoWrapper(
-    val data: List<DomainOutputDto>
+// region OutputDto Wrapper
+
+data class DomainsOutputDtoWrapper(
+    val data: List<DomainDto>,
 )
 
-fun List<DomainEntity>.toWrapperDto(): DomainOutputDtoWrapper {
-    val data = this.map { it.toDto() }
-    return DomainOutputDtoWrapper(data);
+fun List<DomainEntity>.toWrapperDto(): DomainsOutputDtoWrapper {
+    val dataList = this.map { it.toDomainDto() }
+    return DomainsOutputDtoWrapper(data = dataList)
 }
+
+// endregion

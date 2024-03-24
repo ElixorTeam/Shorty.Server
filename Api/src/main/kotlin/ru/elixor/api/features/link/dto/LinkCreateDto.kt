@@ -32,10 +32,9 @@ data class LinkCreateDto(
     val password: String?,
 )
 
-fun LinkCreateDto.toEntity(userUid: UUID): LinkEntity {
+fun LinkCreateDto.toEntity(): LinkEntity {
     val link = LinkEntity()
     link.title = title
-    link.userUid = userUid
     link.subdomain = subdomain
     link.url = UrlUtils.convert(url)
     link.password = password

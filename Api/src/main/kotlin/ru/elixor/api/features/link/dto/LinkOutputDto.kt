@@ -4,7 +4,9 @@ import ru.elixor.api.entities.link.LinkEntity
 import java.util.*
 
 
-data class LinkOutputDto(
+// region Misc
+
+data class LinkDto(
     val uid: UUID,
     val title: String,
     val url: String,
@@ -16,7 +18,7 @@ data class LinkOutputDto(
     val createDt: Date
 )
 
-internal fun LinkEntity.toLinkDto() = LinkOutputDto(
+private fun LinkEntity.toLinkDto() = LinkDto(
     uid = uid,
     title = title,
     url = url.toString(),
@@ -28,23 +30,29 @@ internal fun LinkEntity.toLinkDto() = LinkOutputDto(
     password = password,
 )
 
-// region Wrappers
+// endregion
 
-data class LinkListOutputDtoWrapper(
-    val data: List<LinkOutputDto>,
+// region OutputDto
+
+data class LinkOutputDto(
+    val data: LinkDto,
 )
 
-data class SingleLinkOutputDtoWrapper(
-    val data: LinkOutputDto,
+fun LinkEntity.toDto() = LinkOutputDto(
+    data = toLinkDto()
 )
 
-fun List<LinkEntity>.toWrapperDto(): LinkListOutputDtoWrapper {
+// endregion
+
+// region OutputDto Wrapper
+
+data class LinksOutputDtoWrapper(
+    val data: List<LinkDto>,
+)
+
+fun List<LinkEntity>.toWrapperDto(): LinksOutputDtoWrapper {
     val dataList = this.map { it.toLinkDto() }
-    return LinkListOutputDtoWrapper(data = dataList)
+    return LinksOutputDtoWrapper(data = dataList)
 }
-
-fun LinkEntity.toWrapperDto() = SingleLinkOutputDtoWrapper(
-    data = this.toLinkDto()
-)
 
 // endregion

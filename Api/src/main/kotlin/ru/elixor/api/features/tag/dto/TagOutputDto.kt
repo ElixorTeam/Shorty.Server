@@ -3,22 +3,42 @@ package ru.elixor.api.features.tag.dto
 import ru.elixor.api.entities.tag.TagEntity
 import java.util.*
 
-class TagOutputDto (
+//region Misc
+
+data class TagDto (
     val uid: UUID,
-    val value: String,
+    val value: String
 )
 
-fun TagEntity.toDto() = TagOutputDto(
+private fun TagEntity.toTagDto() = TagDto(
     uid = uid,
     value = title
 )
 
-class TagOutputDtoWrapper(
-    val data: List<TagOutputDto>
+
+//endregion
+
+// region OutputDto
+
+data class TagOutputDto(
+    val data: TagDto
 )
 
+fun TagEntity.toDto() = TagOutputDto(
+    data = toTagDto()
+)
 
-fun List<TagEntity>.toWrapperDto(): TagOutputDtoWrapper {
-    val data = this.map { it.toDto() }
-    return TagOutputDtoWrapper(data);
+//endregion
+
+// region OutputDto Wrapper
+
+data class TagsOutputDtoWrapper(
+    val data: List<TagDto>
+)
+
+fun List<TagEntity>.toWrapperDto(): TagsOutputDtoWrapper {
+    val data = this.map { it.toTagDto() }
+    return TagsOutputDtoWrapper(data)
 }
+
+// endregion

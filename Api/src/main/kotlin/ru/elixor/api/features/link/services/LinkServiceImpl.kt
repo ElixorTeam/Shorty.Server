@@ -4,7 +4,6 @@ import jakarta.persistence.EntityManager
 import jakarta.persistence.PersistenceContext
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import org.springframework.transaction.support.TransactionSynchronizationManager
 import ru.elixor.api.entities.domain.DomainEntity
 import ru.elixor.api.entities.domain.DomainRepository
 import ru.elixor.api.entities.link.LinkEntity
@@ -24,35 +23,36 @@ class LinkServiceImpl(private val linkRepository: LinkRepository, private val ta
     // region Queries
 
     override fun getAll(userUid: UUID):
-            LinkListOutputDtoWrapper = linkRepository.findAllByUserUid(userUid).toWrapperDto();
+            LinksOutputDtoWrapper = linkRepository.findAllByUserUid(userUid).toWrapperDto();
 
     override fun getLinkById(linkId: UUID, userUid: UUID):
-            SingleLinkOutputDtoWrapper = getLinkByIdAndUser(linkId, userUid).toWrapperDto()
+            LinkOutputDto = getLinkByIdAndUser(linkId, userUid).toDto()
 
     // endregion
 
     // region Commands
 
     @Transactional
-    override fun create(linkCreateDto: LinkCreateDto, userUid: UUID): SingleLinkOutputDtoWrapper {
+    override fun create(linkCreateDto: LinkCreateDto, userUid: UUID): LinkOutputDto {
         val domain: DomainEntity = domainRepository.findById(linkCreateDto.domainUid).getOrNull() ?:
-        throw NotFoundByUidException(linkCreateDto.domainUid, "domain")
+            throw NotFoundByUidException(linkCreateDto.domainUid, "domain")
 
         val linkExists: Boolean = linkRepository.existsByDomainAndSubdomain(domain, linkCreateDto.subdomain)
         if (linkExists) throw NoSuchElementException("Link exists")
 
-        var link = linkCreateDto.toEntity(userUid)
+        var link = linkCreateDto.toEntity()
         link.tags = saveTagsIfNotExist(linkCreateDto.tags, userUid)
         link.domain = domain
+        link.userUid = userUid
 
         link = linkRepository.save(link);
         entityManager.flush()
 
-        return link.toWrapperDto()
+        return link.toDto()
     }
 
     @Transactional
-    override fun update(linkId: UUID, linkUpdateDto: LinkUpdateDto, userUid: UUID): SingleLinkOutputDtoWrapper {
+    override fun update(linkId: UUID, linkUpdateDto: LinkUpdateDto, userUid: UUID): LinkOutputDto {
         var link: LinkEntity = getLinkByIdAndUser(linkId, userUid)
         link.title = linkUpdateDto.title;
         link.password = linkUpdateDto.password;
@@ -61,7 +61,7 @@ class LinkServiceImpl(private val linkRepository: LinkRepository, private val ta
         link = linkRepository.save(link);
         entityManager.flush()
 
-        return link.toWrapperDto()
+        return link.toDto()
     }
 
     @Transactional

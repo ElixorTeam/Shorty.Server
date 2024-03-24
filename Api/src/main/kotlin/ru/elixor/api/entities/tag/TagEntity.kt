@@ -22,6 +22,8 @@ class TagEntity {
     @Column(name = "TITLE", length = 16)
     var title: String = ""
 
+    // region Equals
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is TagEntity) return false
@@ -34,4 +36,6 @@ class TagEntity {
         result = 31 * result + title.hashCode()
         return result
     }
+
+    // endregion
 }

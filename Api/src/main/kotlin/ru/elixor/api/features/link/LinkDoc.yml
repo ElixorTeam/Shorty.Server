@@ -1,0 +1,223 @@
+openapi: 3.0.3
+info:
+  title: Shorty API
+  description: Спецификация API сервиса
+  version: 1.0.0
+
+components:
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Авторизация через JWT токен
+
+  parameters:
+    uidParam:
+      name: uid
+      in: path
+      description: Идентификатор ссылки
+      required: true
+      schema:
+        type: string
+        format: Guid
+
+  schemas:
+
+    LinkDto:
+      type: object
+      properties:
+        uid:
+          type: string
+          format: Guid
+        title:
+          type: string
+        url:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+          minItems: 0
+          maxItems: 5
+        subdomain:
+          type: string
+        domainUid:
+          type: string
+          format: Guid
+        password:
+          type: string
+          nullable: true
+        updateDt:
+          type: string
+          format: DateTime
+        createDt:
+          type: string
+          format: DateTime
+      required:
+        - uid
+        - title
+        - url
+        - tags
+        - subdomain
+        - domainUid
+        - updateDt
+        - createDt
+        - password
+
+    LinkOutputDto:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/LinkDto'
+
+    LinksOutputDto:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/LinkDto'
+
+    LinkUpdateDto:
+      type: object
+      properties:
+        title:
+          type: string
+          maxLength: 32
+        tags:
+          type: array
+          items:
+            type: string
+          minItems: 0
+          maxItems: 5
+        password:
+          type: string
+          nullable: true
+      required:
+        - title
+        - tags
+        - password
+
+    LinkCreateDto:
+      type: object
+      properties:
+        title:
+          type: string
+          maxLength: 32
+        url:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+          minLength: 0
+          maxLength: 5
+        subdomain:
+          maxLength: 16
+          type: string
+        domainUid:
+          type: string
+          format: Guid
+        password:
+          type: string
+          maxLength: 16
+          nullable: true
+      required:
+        - title
+        - url
+        - tags
+        - subdomain
+        - domainUid
+        - password
+
+paths:
+  /api/v1/links:
+    get:
+      summary: Получение всех ссылок пользователя
+      responses:
+        '200':
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LinkOutputDto'
+        '403':
+          description: Ошибка авторизации
+      security:
+        - bearerAuth: []
+    post:
+      summary: Добавление ссылки к пользователю
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LinkCreateDto'
+      responses:
+        '200':
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LinkOutputDto'
+        '403':
+          description: Ошибка авторизации
+        '500':
+          description: Внутренняя ошибка сервера
+      security:
+        - bearerAuth: []
+
+  /api/v1/links/{uid}:
+    get:
+      summary: Получение ссылки пользователя
+      parameters:
+        - $ref: '#/components/parameters/uidParam'
+      responses:
+        '200':
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LinkOutputDto'
+        '403':
+          description: Ошибка авторизации
+        '409':
+          description: Домен занят
+      security:
+        - bearerAuth: []
+    delete:
+      summary: Удаление ссылки пользователя
+      parameters:
+        - $ref: '#/components/parameters/uidParam'
+      responses:
+        '200':
+          description: Успешный запрос
+        '403':
+          description: Ошибка авторизации
+      security:
+        - bearerAuth: []
+    put:
+      summary: Изменение ссылки пользователя
+      parameters:
+        - $ref: '#/components/parameters/uidParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LinkDto'
+      responses:
+        '200':
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LinkOutputDto'
+        '403':
+          description: Ошибка авторизации
+        '500':
+          description: Внутренняя ошибка сервера
+      security:
+        - bearerAuth: []

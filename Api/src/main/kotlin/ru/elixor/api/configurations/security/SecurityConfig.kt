@@ -50,6 +50,20 @@ class SecurityConfig {
     }
 
     @Bean
+    fun corsConfigurationSource(): CorsConfigurationSource {
+        val configuration = CorsConfiguration().apply {
+            allowedHeaders = listOf("*")
+            allowedOriginPatterns = listOf("*")
+            allowCredentials = true
+            allowedMethods = listOf("*")
+        }
+        val source = UrlBasedCorsConfigurationSource().apply {
+            registerCorsConfiguration("/**", configuration)
+        }
+        return source
+    }
+
+    @Bean
     fun userAuthoritiesMapperForKeycloak(): GrantedAuthoritiesMapper {
         return GrantedAuthoritiesMapper { authorities ->
             val mappedAuthorities = HashSet<GrantedAuthority>()
@@ -68,19 +82,5 @@ class SecurityConfig {
             }
             mappedAuthorities
         }
-    }
-
-    @Bean
-    fun corsConfigurationSource(): CorsConfigurationSource {
-        val configuration = CorsConfiguration().apply {
-            allowedHeaders = listOf("*")
-            allowedOriginPatterns = listOf("*")
-            allowCredentials = true
-            allowedMethods = listOf("*")
-        }
-        val source = UrlBasedCorsConfigurationSource().apply {
-            registerCorsConfiguration("/**", configuration)
-        }
-        return source
     }
 }

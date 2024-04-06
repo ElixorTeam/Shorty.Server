@@ -1,0 +1,2 @@
+GET {{url}}/api/v1/user/subdomains/?domainUid=6a8131a0-3848-43b7-a8d7-17e837bfb252
+Authorization: Bearer {{$auth.token("access-token")}}

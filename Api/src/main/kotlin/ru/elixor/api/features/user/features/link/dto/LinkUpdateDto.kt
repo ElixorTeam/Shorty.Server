@@ -1,4 +1,4 @@
-package ru.elixor.api.features.link.dto
+package ru.elixor.api.features.user.features.link.dto
 
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Size

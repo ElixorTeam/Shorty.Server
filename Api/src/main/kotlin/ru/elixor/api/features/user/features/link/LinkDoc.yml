@@ -169,7 +169,7 @@ paths:
       security:
         - bearerAuth: []
 
-  /api/v1/links/{uid}:
+  /api/v1/user/links/{uid}:
     get:
       summary: Получение ссылки пользователя
       parameters:
@@ -207,7 +207,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/LinkDto'
+              $ref: '#/components/schemas/LinkUpdateDto'
       responses:
         '200':
           description: Успешный запрос

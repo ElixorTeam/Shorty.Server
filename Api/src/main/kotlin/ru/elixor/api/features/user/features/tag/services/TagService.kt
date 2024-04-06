@@ -1,8 +1,8 @@
-package ru.elixor.api.features.tag.services
+package ru.elixor.api.features.user.features.tag.services
 
-import ru.elixor.api.features.tag.dto.TagOutputDto
-import ru.elixor.api.features.tag.dto.TagUpdateDto
-import ru.elixor.api.features.tag.dto.TagsOutputDtoWrapper
+import ru.elixor.api.features.user.features.tag.dto.TagOutputDto
+import ru.elixor.api.features.user.features.tag.dto.TagUpdateDto
+import ru.elixor.api.features.user.features.tag.dto.TagsOutputDtoWrapper
 import java.util.*
 
 interface TagService {

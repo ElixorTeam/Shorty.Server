@@ -1,7 +1,5 @@
-package ru.elixor.api.features.link.services
+package ru.elixor.api.features.user.features.link.services
 
-import jakarta.persistence.EntityManager
-import jakarta.persistence.PersistenceContext
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import ru.elixor.api.entities.domain.DomainEntity
@@ -12,7 +10,7 @@ import ru.elixor.api.entities.tag.TagEntity
 import ru.elixor.api.entities.tag.TagRepository
 import ru.elixor.api.exceptions.errors.NotFoundByIdException
 import ru.elixor.api.exceptions.errors.UniqueConflictException
-import ru.elixor.api.features.link.dto.*
+import ru.elixor.api.features.user.features.link.dto.*
 import java.util.*
 import kotlin.jvm.optionals.getOrNull
 
@@ -20,8 +18,7 @@ import kotlin.jvm.optionals.getOrNull
 class LinkServiceImpl(
     private val linkRepository: LinkRepository,
     private val tagRepository: TagRepository,
-    private val domainRepository: DomainRepository,
-    @PersistenceContext private val entityManager: EntityManager
+    private val domainRepository: DomainRepository
 ) : LinkService {
     // region Queries
 
@@ -48,9 +45,7 @@ class LinkServiceImpl(
         link.domain = domain
         link.userUid = userUid
 
-        link = linkRepository.save(link);
-        entityManager.flush()
-
+        link = linkRepository.saveAndFlush(link);
         return link.toDto()
     }
 
@@ -61,10 +56,8 @@ class LinkServiceImpl(
         link.password = linkUpdateDto.password;
         link.tags = saveTagsIfNotExist(linkUpdateDto.tags, userUid)
 
-        link = linkRepository.save(link);
+        link = linkRepository.saveAndFlush(link);
         tagRepository.deleteUnused(userUid)
-
-        entityManager.flush()
         return link.toDto()
     }
 

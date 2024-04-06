@@ -1,9 +1,9 @@
-GET http://localhost:2000/api/v1/tags
+GET {{url}}/api/v1/user/tags
 Authorization: Bearer {{$auth.token("access-token")}}
 
 ###
 
-PUT http://localhost:2000/api/v1/tags/bober
+PUT {{url}}/api/v1/user/tags/bober
 Authorization: Bearer {{$auth.token("access-token")}}
 Content-Type: application/json
 
@@ -13,5 +13,5 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:2000/api/v1/tags/daahs
+DELETE {{url}}/api/v1/user/tags/daahs
 Authorization: Bearer {{$auth.token("access-token")}}

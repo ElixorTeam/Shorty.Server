@@ -1,9 +1,9 @@
-package ru.elixor.api.features.tag.dto
+package ru.elixor.api.features.user.features.tag.dto
 
 import ru.elixor.api.entities.tag.TagEntity
 import java.util.*
 
-//region Misc
+//region TagDto
 
 data class TagDto (
     val uid: UUID,

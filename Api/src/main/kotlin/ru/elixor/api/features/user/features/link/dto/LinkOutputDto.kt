@@ -1,10 +1,10 @@
-package ru.elixor.api.features.link.dto
+package ru.elixor.api.features.user.features.link.dto
 
 import ru.elixor.api.entities.link.LinkEntity
 import java.util.*
 
 
-// region Misc
+// region LinkDto
 
 data class LinkDto(
     val uid: UUID,

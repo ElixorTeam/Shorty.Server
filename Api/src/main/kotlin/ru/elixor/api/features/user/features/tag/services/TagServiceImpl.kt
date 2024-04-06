@@ -1,4 +1,4 @@
-package ru.elixor.api.features.tag.services
+package ru.elixor.api.features.user.features.tag.services
 
 import jakarta.persistence.EntityManager
 import jakarta.persistence.PersistenceContext
@@ -8,7 +8,7 @@ import ru.elixor.api.entities.tag.TagEntity
 import ru.elixor.api.entities.tag.TagRepository
 import ru.elixor.api.exceptions.errors.NotFoundByIdException
 import ru.elixor.api.exceptions.errors.UniqueConflictException
-import ru.elixor.api.features.tag.dto.*
+import ru.elixor.api.features.user.features.tag.dto.*
 import java.util.*
 
 

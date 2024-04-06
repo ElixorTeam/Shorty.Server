@@ -1,6 +1,9 @@
-package ru.elixor.api.features.link.services
+package ru.elixor.api.features.user.features.link.services
 
-import ru.elixor.api.features.link.dto.*
+import ru.elixor.api.features.user.features.link.dto.LinkCreateDto
+import ru.elixor.api.features.user.features.link.dto.LinkOutputDto
+import ru.elixor.api.features.user.features.link.dto.LinkUpdateDto
+import ru.elixor.api.features.user.features.link.dto.LinksOutputDtoWrapper
 import java.util.*
 
 interface LinkService {

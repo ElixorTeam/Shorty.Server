@@ -1,2 +1,0 @@
-GET http://localhost:2000/api/v1/links
-Authorization: Bearer {{$auth.token("access-token")}}

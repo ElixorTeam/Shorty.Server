@@ -1,45 +1,98 @@
 package ru.elixor.api.features.link.services
 
-import org.springframework.security.oauth2.jwt.Jwt
+import jakarta.persistence.EntityManager
+import jakarta.persistence.PersistenceContext
 import org.springframework.stereotype.Service
-import ru.elixor.api.features.link.LinkService
-import ru.elixor.api.features.link.dto.LinkCreateDto
-import ru.elixor.api.features.link.dto.LinkOutputDto
-import ru.elixor.api.features.link.dto.LinkUpdateDto
-import java.time.LocalDateTime
+import org.springframework.transaction.annotation.Transactional
+import ru.elixor.api.entities.domain.DomainEntity
+import ru.elixor.api.entities.domain.DomainRepository
+import ru.elixor.api.entities.link.LinkEntity
+import ru.elixor.api.entities.link.LinkRepository
+import ru.elixor.api.entities.tag.TagEntity
+import ru.elixor.api.entities.tag.TagRepository
+import ru.elixor.api.exceptions.errors.NotFoundByIdException
+import ru.elixor.api.exceptions.errors.UniqueConflictException
+import ru.elixor.api.features.link.dto.*
 import java.util.*
+import kotlin.jvm.optionals.getOrNull
 
 @Service
-class LinkServiceImpl : LinkService {
-
+class LinkServiceImpl(
+    private val linkRepository: LinkRepository,
+    private val tagRepository: TagRepository,
+    private val domainRepository: DomainRepository,
+    @PersistenceContext private val entityManager: EntityManager
+) : LinkService {
     // region Queries
-    override fun getAll(jwt: Jwt): List<LinkOutputDto> {
-        return listOf(
-            LinkOutputDto(UUID.randomUUID(), "CreatedLink", "shorty", "admin", LocalDateTime.now(), LocalDateTime.now()),
-            LinkOutputDto(UUID.randomUUID(), "CreatedLink", "shorty", "vk", LocalDateTime.now(), LocalDateTime.now()),
-            LinkOutputDto(UUID.randomUUID(), "CreatedLink", "shorty", "youtube", LocalDateTime.now(), LocalDateTime.now()),
-            LinkOutputDto(UUID.randomUUID(), "CreatedLink", "shorty", "telegram", LocalDateTime.now(), LocalDateTime.now())
-        )
-    }
 
-    override fun getLinkById(id: UUID, jwt: Jwt): LinkOutputDto {
-       return LinkOutputDto(id, "CreatedLink", "shorty", "telegram", LocalDateTime.now(), LocalDateTime.now())
-    }
+    override fun getAll(userUid: UUID):
+            LinksOutputDtoWrapper = linkRepository.findAllByUserUid(userUid).toWrapperDto();
+
+    override fun getLinkById(linkId: UUID, userUid: UUID):
+            LinkOutputDto = getLinkByIdAndUser(linkId, userUid).toDto()
 
     // endregion
 
     // region Commands
 
-    override fun create(linkCreateDto: LinkCreateDto, jwt: Jwt): LinkOutputDto {
-        return LinkOutputDto(UUID.randomUUID(), "CreatedLink", "shorty", "admin", LocalDateTime.now(), LocalDateTime.now())
+    @Transactional
+    override fun create(linkCreateDto: LinkCreateDto, userUid: UUID): LinkOutputDto {
+        val domain: DomainEntity = domainRepository.findById(linkCreateDto.domainUid).getOrNull() ?:
+            throw NotFoundByIdException(linkCreateDto.domainUid.toString(), "domain")
+
+        val linkExists: Boolean = linkRepository.existsByDomainAndSubdomain(domain, linkCreateDto.subdomain)
+        if (linkExists) throw UniqueConflictException()
+
+        var link = linkCreateDto.toEntity()
+        link.tags = saveTagsIfNotExist(linkCreateDto.tags, userUid)
+        link.domain = domain
+        link.userUid = userUid
+
+        link = linkRepository.save(link);
+        entityManager.flush()
+
+        return link.toDto()
     }
 
-    override fun update(linkId: UUID, linkUpdateDto: LinkUpdateDto, jwt: Jwt): LinkOutputDto {
-        return LinkOutputDto(linkId, "UpdatedLink", "shorty", "telegram", LocalDateTime.now(), LocalDateTime.now())
+    @Transactional
+    override fun update(linkId: UUID, linkUpdateDto: LinkUpdateDto, userUid: UUID): LinkOutputDto {
+        var link: LinkEntity = getLinkByIdAndUser(linkId, userUid)
+        link.title = linkUpdateDto.title;
+        link.password = linkUpdateDto.password;
+        link.tags = saveTagsIfNotExist(linkUpdateDto.tags, userUid)
+
+        link = linkRepository.save(link);
+        tagRepository.deleteUnused(userUid)
+
+        entityManager.flush()
+        return link.toDto()
     }
 
-    override fun delete(linkId: UUID, jwt: Jwt) {
+    @Transactional
+    override fun delete(linkId: UUID, userUid: UUID) {
+        val link: LinkEntity = getLinkByIdAndUser(linkId, userUid)
+        link.tags.clear()
+        tagRepository.deleteUnused(userUid)
+        linkRepository.delete(link)
     }
 
+    // endregion
+
+    // region Private
+
+    private fun getLinkByIdAndUser(linkId: UUID, userUid: UUID): LinkEntity =
+        linkRepository.findLinkEntityByUidAndUserUid(linkId, userUid) ?: throw NotFoundByIdException(linkId.toString(), "link")
+
+    private fun saveTagsIfNotExist(tagNames: MutableSet<String>, userUid: UUID): MutableSet<TagEntity> {
+        val existingTags: List<TagEntity> = tagRepository.findAllByUserUidAndTitleIn(userUid, tagNames)
+        val newTagsName = tagNames - existingTags.map { it.title }.toSet()
+        val tagsToSave = newTagsName.map {
+            TagEntity().apply {
+                title = it
+                this.userUid = userUid
+            }
+        }
+        return (tagRepository.saveAll(tagsToSave) + existingTags).toMutableSet()
+    }
     // endregion
 }

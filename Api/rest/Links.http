@@ -1,0 +1,39 @@
+GET http://localhost:2000/api/v1/links
+Authorization: Bearer {{$auth.token("access-token")}}
+
+###
+
+GET http://localhost:2000/api/v1/links/6f7a1af1-03b1-493f-9e70-854136241c70
+Authorization: Bearer {{$auth.token("access-token")}}
+
+###
+
+DELETE http://localhost:2000/api/v1/links/f7d5833d-30b1-4065-91d4-2f2b8f8db11b
+Authorization: Bearer {{$auth.token("access-token")}}
+
+###
+
+PUT http://localhost:2000/api/v1/links/390a6128-25fc-4e73-af43-eb29540e8c2a
+Authorization: Bearer {{$auth.token("access-token")}}
+Content-Type: application/json
+
+{
+  "title": "gosha",
+  "password": "1231",
+  "tags": [ "daahs"]
+}
+
+###
+
+POST http://localhost:2000/api/v1/links
+Authorization: Bearer {{$auth.token("access-token")}}
+Content-Type: application/json
+
+{
+  "title": "gosha",
+  "subdomain": "1231233",
+  "domainUid": "de7723a5-cc70-4d9b-9d54-cbf19caa0312",
+  "url": "wg.dobroe22.keenetic.pro",
+  "password": "123123",
+  "tags": ["tester"]
+}

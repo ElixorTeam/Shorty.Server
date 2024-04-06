@@ -1,13 +1,58 @@
 package ru.elixor.api.features.link.dto
 
-import java.time.LocalDateTime
-import java.util.UUID
+import ru.elixor.api.entities.link.LinkEntity
+import java.util.*
 
-class LinkOutputDto (
-    val id: UUID,
+
+// region Misc
+
+data class LinkDto(
+    val uid: UUID,
     val title: String,
-    var shortSubDomain: String,
-    var prefix: String,
-    var createDt: LocalDateTime,
-    var changeDt: LocalDateTime
+    val url: String,
+    val tags: MutableSet<String>,
+    val subdomain: String,
+    val domainUid: UUID,
+    val password: String?,
+    val updateDt: Date,
+    val createDt: Date
 )
+
+private fun LinkEntity.toLinkDto() = LinkDto(
+    uid = uid,
+    title = title,
+    url = url.toString(),
+    tags = tags.map { it.title }.toHashSet(),
+    subdomain = subdomain,
+    domainUid = domain.uid,
+    createDt = createDt,
+    updateDt = updateDt,
+    password = password,
+)
+
+// endregion
+
+// region OutputDto
+
+data class LinkOutputDto(
+    val data: LinkDto,
+)
+
+fun LinkEntity.toDto() = LinkOutputDto(
+    data = toLinkDto()
+)
+
+// endregion
+
+// region OutputDto Wrapper
+
+data class LinksOutputDtoWrapper(
+    val data: List<LinkDto>,
+)
+
+fun List<LinkEntity>.toWrapperDto(): LinksOutputDtoWrapper {
+    val dataList = this.map { it.toLinkDto() }
+    return LinksOutputDtoWrapper(data = dataList)
+}
+
+// endregion

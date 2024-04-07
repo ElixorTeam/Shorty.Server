@@ -1,8 +1,6 @@
 package ru.elixor.api.features.domain
 
 import org.springframework.security.access.prepost.PreAuthorize
-import org.springframework.security.core.annotation.AuthenticationPrincipal
-import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import ru.elixor.api.features.domain.dto.DomainCreateDto
@@ -16,7 +14,7 @@ class DomainController(private val domainService: DomainService) {
 
     // region Queries
     @GetMapping
-    fun getAll(@AuthenticationPrincipal jwt: Jwt): DomainsOutputDtoWrapper = domainService.getAll(jwt)
+    fun getAll(): DomainsOutputDtoWrapper = domainService.getAll()
 
     // endregion
 
@@ -24,8 +22,7 @@ class DomainController(private val domainService: DomainService) {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('ROLE_admin')")
-    fun create(@RequestBody @Validated dto: DomainCreateDto, @AuthenticationPrincipal jwt: Jwt):
-            DomainOutputDto = domainService.create(dto, jwt)
+    fun create(@RequestBody @Validated dto: DomainCreateDto): DomainOutputDto = domainService.create(dto)
 
     // endregion
 }

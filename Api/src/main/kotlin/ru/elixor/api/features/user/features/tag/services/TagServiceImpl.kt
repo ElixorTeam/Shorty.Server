@@ -21,12 +21,12 @@ class TagServiceImpl(
             TagsOutputDtoWrapper = tagRepository.findAllByUserUid(userUid).toWrapperDto()
 
     @Transactional
-    override fun update(title: String, userUid: UUID, tagUpdateDto: TagUpdateDto): TagOutputDto {
-        val renameTagExists: TagEntity? = tagRepository.findFirstByUserUidAndTitle(userUid, tagUpdateDto.title)
+    override fun update(title: String, userUid: UUID, dto: TagUpdateDto): TagOutputDto {
+        val renameTagExists: TagEntity? = tagRepository.findFirstByUserUidAndTitle(userUid, dto.title)
         if (renameTagExists != null) throw UniqueConflictException()
 
         val tag: TagEntity = getTagByTitleAndUser(title, userUid)
-        tag.title = tagUpdateDto.title
+        tag.title = dto.title
         return tagRepository.save(tag).toDto()
     }
 

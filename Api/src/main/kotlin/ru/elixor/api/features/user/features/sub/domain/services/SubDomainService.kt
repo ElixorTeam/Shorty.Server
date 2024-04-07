@@ -1,5 +1,7 @@
 package ru.elixor.api.features.user.features.sub.domain.services
 
+import ru.elixor.api.features.user.features.sub.domain.dto.SubDomainCreateDto
+import ru.elixor.api.features.user.features.sub.domain.dto.SubDomainOutputDto
 import ru.elixor.api.features.user.features.sub.domain.dto.SubDomainOutputDtoWrapper
 import java.util.*
 
@@ -12,8 +14,7 @@ interface SubDomainService {
 
     // region Commands
 
-//    fun delete(linkId: UUID, userUid: UUID)
-//    fun create(linkCreateDto: LinkCreateDto, userUid: UUID): LinkOutputDto
+    fun create(dto: SubDomainCreateDto, userUid: UUID): SubDomainOutputDto
 
     // endregion
 }

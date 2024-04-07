@@ -17,6 +17,18 @@ private fun SubDomainEntity.toSubDomainDto() = SubDomainDto(
 
 //endregion
 
+// region OutputDto
+
+data class SubDomainOutputDto(
+    val data: SubDomainDto,
+)
+
+fun SubDomainEntity.toDto() = SubDomainOutputDto(
+    data = toSubDomainDto()
+)
+
+// endregion
+
 // region OutputDtoWrapper
 
 data class SubDomainOutputDtoWrapper(

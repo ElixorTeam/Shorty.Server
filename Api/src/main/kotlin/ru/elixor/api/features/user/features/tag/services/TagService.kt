@@ -13,7 +13,7 @@ interface TagService {
     // endregion
 
     // region Commands
-    fun update(title: String, userUid: UUID, tagUpdateDto: TagUpdateDto): TagOutputDto
+    fun update(title: String, userUid: UUID, dto: TagUpdateDto): TagOutputDto
     fun delete(title: String, userUid: UUID)
 
     // endregion

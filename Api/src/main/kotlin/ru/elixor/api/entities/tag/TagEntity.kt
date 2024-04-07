@@ -21,7 +21,7 @@ class TagEntity {
     @Column(name = "USER_UID")
     var userUid: UUID = DefaultTypesUtil.guid
 
-    @Column(name = "TITLE", length = 16)
+    @Column(name = "TITLE", nullable = false, columnDefinition = "NVARCHAR(16)")
     var title: String = ""
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "tags")

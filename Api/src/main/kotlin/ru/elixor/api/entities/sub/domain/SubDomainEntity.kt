@@ -8,7 +8,7 @@ import java.util.*
 
 @Entity
 @Table(
-    name = "SUB_DOMAINS",
+    name = "SUBDOMAINS",
     uniqueConstraints = [UniqueConstraint(name = "UQ_SUB_DOMAIN_USER_VALUE", columnNames = ["USER_UID", "VALUE"])]
 )
 class SubDomainEntity {
@@ -21,7 +21,7 @@ class SubDomainEntity {
     var userUid: UUID = DefaultTypesUtil.guid
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "DOMAIN_UID", foreignKey = ForeignKey(name = "FK_SUB_DOMAINS_DOMAIN"), nullable = false)
+    @JoinColumn(name = "DOMAIN_UID", foreignKey = ForeignKey(name = "FK_SUBDOMAINS_DOMAIN"), nullable = false)
     var domain: DomainEntity = DomainEntity()
 
     @Column(name = "VALUE", nullable = false, length = 16)

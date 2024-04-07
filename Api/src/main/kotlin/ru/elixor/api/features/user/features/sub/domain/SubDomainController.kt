@@ -1,10 +1,10 @@
 package ru.elixor.api.features.user.features.sub.domain
 
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.validation.annotation.Validated
+import org.springframework.web.bind.annotation.*
 import ru.elixor.api.configurations.security.UserUid
+import ru.elixor.api.features.user.features.sub.domain.dto.SubDomainCreateDto
+import ru.elixor.api.features.user.features.sub.domain.dto.SubDomainOutputDto
 import ru.elixor.api.features.user.features.sub.domain.dto.SubDomainOutputDtoWrapper
 import ru.elixor.api.features.user.features.sub.domain.services.SubDomainService
 import java.util.*
@@ -19,4 +19,12 @@ class SubDomainController(private val subDomainService: SubDomainService) {
             SubDomainOutputDtoWrapper = subDomainService.getAllByDomainUid(userUid, domainUid)
 
     // endregion
+
+    // region Commands
+
+    @PostMapping
+    fun create(@RequestBody @Validated dto: SubDomainCreateDto, @UserUid userUid: UUID):
+            SubDomainOutputDto = subDomainService.create(dto, userUid)
+
+    //endregion
 }

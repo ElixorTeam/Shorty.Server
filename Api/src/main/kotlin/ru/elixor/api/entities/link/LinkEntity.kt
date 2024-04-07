@@ -4,6 +4,7 @@ import jakarta.persistence.*
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
 import ru.elixor.api.entities.domain.DomainEntity
+import ru.elixor.api.entities.sub.domain.SubDomainEntity
 import ru.elixor.api.entities.tag.TagEntity
 import ru.elixor.api.utils.DefaultTypesUtil
 import ru.elixor.api.utils.jpa.UrlConverter
@@ -12,10 +13,7 @@ import java.util.*
 
 
 @Entity
-@Table(
-    name = "LINKS",
-    uniqueConstraints = [UniqueConstraint(name = "UQ_LINKS_USER_TITLE", columnNames = ["USER_UID", "TITLE"])]
-)
+@Table(name = "LINKS")
 class LinkEntity {
 
     @Id
@@ -26,12 +24,22 @@ class LinkEntity {
     @Column(name = "USER_UID", nullable = false)
     var userUid: UUID = DefaultTypesUtil.guid
 
-    @Column(name = "TITLE", nullable = false, length = 64)
+    @Column(name = "TITLE", nullable = false, columnDefinition = "NVARCHAR(64)")
     var title: String = ""
+
+    @Column(name = "PATH", nullable = false, length = 16)
+    var path: String = ""
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "DOMAIN_UID", foreignKey = ForeignKey(name = "FK_LINKS_DOMAIN"), nullable = false)
     var domain: DomainEntity = DomainEntity()
+
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "SUBDOMAIN_UID", foreignKey = ForeignKey(name = "FK_LINKS_SUBDOMAIN"), nullable = true)
+    var subdomain: SubDomainEntity? = null
+
+    @Column(name = "IS_ENABLE", nullable = true)
+    var isEnable: Boolean = true
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -41,9 +49,6 @@ class LinkEntity {
         uniqueConstraints = [UniqueConstraint(name = "UQ_LINKS_TAGS", columnNames = ["LINK_UID", "TAG_UID"])]
     )
     var tags: MutableSet<TagEntity> = HashSet()
-
-    @Column(name = "SUBDOMAIN", unique = true, nullable = false, length = 12)
-    var subdomain: String = ""
 
     @Convert(converter = UrlConverter::class)
     @Column(name = "URL", nullable = false, length = 250)

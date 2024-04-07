@@ -14,8 +14,7 @@ data class LinkCreateDto(
     val title: String,
 
     @field:NotNull
-    @field:Size(min = 2, max = 12)
-    val subdomain: String,
+    val subdomainUid: UUID?,
 
     @field:NotNull
     val domainUid: UUID,
@@ -23,6 +22,10 @@ data class LinkCreateDto(
     @field:NotNull
     @field:ValidURL
     val url: String,
+
+    @field:NotNull
+    @field:Size(min = 2, max = 16, message = "Path must be [2, 16] characters")
+    val path: String,
 
     @field:NotNull
     @field:Size(max = 5, min = 0)
@@ -35,8 +38,8 @@ data class LinkCreateDto(
 fun LinkCreateDto.toEntity(): LinkEntity {
     val link = LinkEntity()
     link.title = title
-    link.subdomain = subdomain
     link.url = UrlUtils.convert(url)
     link.password = password
+    link.path = path
     return link;
 }

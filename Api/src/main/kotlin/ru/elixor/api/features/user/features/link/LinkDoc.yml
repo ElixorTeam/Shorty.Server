@@ -7,6 +7,8 @@ info:
 components:
 
   securitySchemes:
+    OAuth2:
+      type: oauth2
     bearerAuth:
       type: http
       scheme: bearer
@@ -33,19 +35,25 @@ components:
           format: Guid
         title:
           type: string
+        path:
+          type: string
         url:
           type: string
+        isEnabled:
+          type: boolean
         tags:
           type: array
           items:
             type: string
           minItems: 0
           maxItems: 5
-        subdomain:
-          type: string
         domainUid:
           type: string
           format: Guid
+        subdomainUid:
+          type: string
+          format: Guid
+          nullable: true
         password:
           type: string
           nullable: true
@@ -58,6 +66,9 @@ components:
       required:
         - uid
         - title
+        - subdomainUid
+        - isEnabled
+        - path
         - url
         - tags
         - subdomain
@@ -120,6 +131,12 @@ components:
         domainUid:
           type: string
           format: Guid
+        subdomainUid:
+          type: string
+          format: Guid
+          nullable: true
+        path:
+          type: string
         password:
           type: string
           maxLength: 16
@@ -133,7 +150,7 @@ components:
         - password
 
 paths:
-  /api/v1/links:
+  /api/v1/user/links:
     get:
       summary: Получение всех ссылок пользователя
       responses:

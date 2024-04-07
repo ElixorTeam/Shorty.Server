@@ -17,8 +17,8 @@ interface LinkService {
     // region Commands
 
     fun delete(linkId: UUID, userUid: UUID)
-    fun create(linkCreateDto: LinkCreateDto, userUid: UUID): LinkOutputDto
-    fun update(linkId: UUID, linkUpdateDto: LinkUpdateDto, userUid: UUID): LinkOutputDto
+    fun create(dto: LinkCreateDto, userUid: UUID): LinkOutputDto
+    fun update(linkId: UUID, dto: LinkUpdateDto, userUid: UUID): LinkOutputDto
 
     // endregion
 }

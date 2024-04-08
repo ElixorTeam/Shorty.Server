@@ -63,10 +63,12 @@ class LinkServiceImpl(
         var link: LinkEntity = getLinkByIdAndUser(linkId, userUid)
         link.title = dto.title;
         link.password = dto.password;
+        link.isEnable = dto.isEnable
         link.tags = saveTagsIfNotExist(dto.tags, userUid)
-
         link = linkRepo.saveAndFlush(link);
+
         tagRepo.deleteUnused(userUid)
+
         return link.toDto()
     }
 

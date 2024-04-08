@@ -13,7 +13,6 @@ data class LinkCreateDto(
     @field:Size(min = 2, max = 64, message = "Title must be [2, 64] characters")
     val title: String,
 
-    @field:NotNull
     val subdomainUid: UUID?,
 
     @field:NotNull

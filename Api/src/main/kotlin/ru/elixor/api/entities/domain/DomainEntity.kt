@@ -14,7 +14,7 @@ class DomainEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "UID", unique = true)
+    @Column(name = "UID")
     val uid: UUID = DefaultTypesUtil.guid
 
     @Column(name = "VALUE", nullable = false, length = 16)

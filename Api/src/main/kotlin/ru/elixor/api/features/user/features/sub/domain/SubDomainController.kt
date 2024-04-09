@@ -14,7 +14,7 @@ import java.util.*
 class SubDomainController(private val subDomainService: SubDomainService) {
     // region Queries
 
-    @GetMapping("/", params = ["domainUid"])
+    @GetMapping(params = ["domainUid"])
     fun getAllDomainUid(@RequestParam("domainUid", required = true) domainUid: UUID, @UserUid userUid: UUID) :
             SubDomainOutputDtoWrapper = subDomainService.getAllByDomainUid(userUid, domainUid)
 

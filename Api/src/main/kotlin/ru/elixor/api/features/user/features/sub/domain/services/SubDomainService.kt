@@ -16,5 +16,7 @@ interface SubDomainService {
 
     fun create(dto: SubDomainCreateDto, userUid: UUID): SubDomainOutputDto
 
+    fun delete(subdomainId: UUID, userUid: UUID)
+
     // endregion
 }

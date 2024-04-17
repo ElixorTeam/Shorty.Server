@@ -4,39 +4,55 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import ru.elixor.api.entities.domain.DomainEntity
 import ru.elixor.api.entities.domain.DomainRepository
+import ru.elixor.api.entities.link.LinkRepository
 import ru.elixor.api.entities.sub.domain.SubDomainEntity
 import ru.elixor.api.entities.sub.domain.SubDomainRepository
+import ru.elixor.api.exceptions.errors.DbConflictException
 import ru.elixor.api.exceptions.errors.NotFoundByIdException
-import ru.elixor.api.exceptions.errors.UniqueConflictException
 import ru.elixor.api.features.user.features.sub.domain.dto.*
 import java.util.*
-import kotlin.jvm.optionals.getOrNull
 
 @Service
 class SubDomainServiceImpl(
     private val subDomainRepo: SubDomainRepository,
-    private val domainRepo: DomainRepository
+    private val domainRepo: DomainRepository,
+    private val linkRepo: LinkRepository
 ) : SubDomainService {
 
     override fun getAllByDomainUid(userUid: UUID, domainUid: UUID) : SubDomainOutputDtoWrapper =
-        subDomainRepo.findAllByUserUidAndDomain_Uid(userUid, domainUid).toWrapperDto();
+        subDomainRepo.findAllByUserUidAndDomainUid(userUid, domainUid).toWrapperDto();
 
     @Transactional
     override fun create(dto: SubDomainCreateDto, userUid: UUID): SubDomainOutputDto {
-        val domain: DomainEntity = domainRepo.findById(dto.domainUid).getOrNull() ?: throw NotFoundByIdException(
-            dto.domainUid.toString(),
-            "domain"
-        )
+        val domain: DomainEntity = domainRepo.findById(dto.domainUid).orElseThrow {
+            NotFoundByIdException(dto.domainUid.toString(), "domain")
+        }
 
-        val subdomainExists: Boolean = subDomainRepo.existsByUserUidAndValue(userUid, dto.value)
-        if (subdomainExists) throw UniqueConflictException()
+        if (subDomainRepo.existsByUserUidAndValue(userUid, dto.value)) {
+            throw DbConflictException()
+        }
 
-        val subdomain = SubDomainEntity()
-        subdomain.userUid = userUid
-        subdomain.domain = domain
-        subdomain.value = dto.value
+        val subdomain = SubDomainEntity().apply {
+            this.userUid = userUid
+            this.domain = domain
+            this.value = dto.value
+        }
 
         subDomainRepo.save(subdomain);
         return subdomain.toDto()
     }
+
+    override fun delete(subdomainId: UUID, userUid: UUID) {
+        val subDomain: SubDomainEntity = getSubDomainByIdAndUser(subdomainId, userUid)
+
+        if (linkRepo.existsBySubdomain(subDomain))
+            throw DbConflictException()
+
+        subDomainRepo.delete(subDomain)
+    }
+
+    private fun getSubDomainByIdAndUser(subdomainId: UUID, userUid: UUID): SubDomainEntity =
+        subDomainRepo.findByUidAndUserUid(subdomainId, userUid).orElseThrow {
+            NotFoundByIdException(subdomainId.toString(), "subdomain")
+        }
 }

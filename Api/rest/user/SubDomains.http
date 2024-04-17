@@ -2,5 +2,18 @@ GET {{url}}/api/v1/user/subdomains?domainUid=e481ae10-a860-45f3-be75-f537c108162
 Authorization: Bearer {{$auth.token("access-token")}}
 
 
-##
-GET {{url}}/api/v1/user/subdomains?domainUid=e481ae10-a860-45f3-be75-f537c108162b
+###
+
+DELETE {{url}}/api/v1/user/subdomains/2e0225b9-80bd-4a80-932a-7d2b3ef2d7f4
+Authorization: Bearer {{$auth.token("access-token")}}
+
+###
+
+POST {{url}}/api/v1/user/subdomains
+Authorization: Bearer {{$auth.token("access-token")}}
+Content-Type: application/json
+
+{
+  "value": "vlasov",
+  "domainUid": "e481ae10-a860-45f3-be75-f537c108162b"
+}

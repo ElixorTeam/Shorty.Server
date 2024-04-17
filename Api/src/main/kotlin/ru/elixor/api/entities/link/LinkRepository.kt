@@ -6,7 +6,8 @@ import ru.elixor.api.entities.sub.domain.SubDomainEntity
 import java.util.*
 
 interface LinkRepository : JpaRepository<LinkEntity, UUID> {
-    fun findLinkEntityByUidAndUserUid(uid: UUID, userUid: UUID): LinkEntity?
+    fun findLinkEntityByUidAndUserUid(uid: UUID, userUid: UUID): Optional<LinkEntity>
     fun findAllByUserUid(userUid: UUID): List<LinkEntity>
     fun existsByDomainAndSubdomainAndPath(domain: DomainEntity, subdomain: SubDomainEntity?, path: String): Boolean
+    fun existsBySubdomain(subDomain: SubDomainEntity): Boolean
 }

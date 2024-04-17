@@ -1,4 +1,4 @@
-GET {{url}}/api/v1/links
+GET {{url}}/api/v1/user/links
 Authorization: Bearer {{$auth.token("access-token")}}
 
 ###
@@ -13,14 +13,16 @@ Authorization: Bearer {{$auth.token("access-token")}}
 
 ###
 
-PUT {{url}}/api/v1/user/links/390a6128-25fc-4e73-af43-eb29540e8c2a
+PUT {{url}}/api/v1/user/links/11b0f957-72c9-4c2e-ab55-87c45b30c098
 Authorization: Bearer {{$auth.token("access-token")}}
 Content-Type: application/json
 
 {
-  "title": "gosha",
-  "password": "1231",
-  "tags": [ "daahs"]
+  "title": "Untitled",
+  "tags": [
+    "it",
+    "vk"
+  ]
 }
 
 ###
@@ -30,10 +32,10 @@ Authorization: Bearer {{$auth.token("access-token")}}
 Content-Type: application/json
 
 {
-  "title": "gosha",
-  "subdomain": "1231233",
-  "domainUid": "6a8131a0-3848-43b7-a8d7-17e837bfb252",
-  "url": "wg.dobroe22.keenetic.pro",
-  "password": "123123",
-  "tags": ["tester"]
+  "title": "Untitled",
+  "path": "94czwi",
+  "subdomainUid": "2e0225b9-80bd-4a80-932a-7d2b3ef2d7f4",
+  "domainUid": "e481ae10-a860-45f3-be75-f537c108162b",
+  "url": "https://www.youtube.com/watch?v=GVTf9lLNnBU",
+  "tags": []
 }

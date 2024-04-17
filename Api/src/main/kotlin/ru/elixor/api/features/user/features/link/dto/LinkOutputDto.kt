@@ -13,8 +13,8 @@ data class LinkDto(
     val url: String,
     val isEnable: Boolean,
     val tags: MutableSet<String>,
-    val subdomainUid: UUID?,
     val domainUid: UUID,
+    val subdomainUid: UUID?,
     val password: String?,
     val updateDt: Date,
     val createDt: Date

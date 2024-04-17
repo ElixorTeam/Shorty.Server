@@ -26,5 +26,8 @@ class SubDomainController(private val subDomainService: SubDomainService) {
     fun create(@RequestBody @Validated dto: SubDomainCreateDto, @UserUid userUid: UUID):
             SubDomainOutputDto = subDomainService.create(dto, userUid)
 
+    @DeleteMapping("/{id}")
+    fun delete(@PathVariable id: UUID, @UserUid userUid: UUID) = subDomainService.delete(id, userUid)
+
     //endregion
 }

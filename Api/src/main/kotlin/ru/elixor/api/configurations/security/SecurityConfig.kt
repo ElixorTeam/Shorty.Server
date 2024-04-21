@@ -28,10 +28,11 @@ class SecurityConfig(private val kcRoleConverter: KCRoleConverter) {
             .cors { }
             .authorizeHttpRequests { authorize ->
                 authorize
-//                    .requestMatchers("/").authenticated()
-                    .anyRequest().authenticated()
-//                    .anyRequest().permitAll()
-                //.requestMatchers("/dishes").hasAnyRole("admin", "manager")
+                    .requestMatchers("/api/v1/user/links/**").authenticated()
+                    .requestMatchers("/api/v1/user/tags/**").authenticated()
+                    .requestMatchers("/api/v1/user/subdomains/**").authenticated()
+                    .requestMatchers("/api/v1/domains/**").authenticated()
+                    .anyRequest().permitAll()
             }
             .oauth2ResourceServer { oauth2 ->
                 oauth2.jwt { jwt ->

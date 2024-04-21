@@ -8,7 +8,7 @@ import ru.elixor.api.entities.link.LinkRepository
 import ru.elixor.api.entities.sub.domain.SubDomainEntity
 import ru.elixor.api.entities.sub.domain.SubDomainRepository
 import ru.elixor.api.exceptions.errors.DbConflictException
-import ru.elixor.api.exceptions.errors.NotFoundByIdException
+import ru.elixor.api.exceptions.errors.NotFoundException
 import ru.elixor.api.features.user.features.sub.domain.dto.*
 import java.util.*
 
@@ -25,7 +25,7 @@ class SubDomainServiceImpl(
     @Transactional
     override fun create(dto: SubDomainCreateDto, userUid: UUID): SubDomainOutputDto {
         val domain: DomainEntity = domainRepo.findById(dto.domainUid).orElseThrow {
-            NotFoundByIdException(dto.domainUid.toString(), "domain")
+            NotFoundException()
         }
 
         if (subDomainRepo.existsByUserUidAndValue(userUid, dto.value)) {
@@ -53,6 +53,6 @@ class SubDomainServiceImpl(
 
     private fun getSubDomainByIdAndUser(subdomainId: UUID, userUid: UUID): SubDomainEntity =
         subDomainRepo.findByUidAndUserUid(subdomainId, userUid).orElseThrow {
-            NotFoundByIdException(subdomainId.toString(), "subdomain")
+            NotFoundException()
         }
 }

@@ -11,7 +11,7 @@ import ru.elixor.api.entities.sub.domain.SubDomainRepository
 import ru.elixor.api.entities.tag.TagEntity
 import ru.elixor.api.entities.tag.TagRepository
 import ru.elixor.api.exceptions.errors.DbConflictException
-import ru.elixor.api.exceptions.errors.NotFoundByIdException
+import ru.elixor.api.exceptions.errors.NotFoundException
 import ru.elixor.api.features.user.features.link.dto.*
 import java.util.*
 
@@ -38,13 +38,13 @@ class LinkServiceImpl(
     @Transactional
     override fun create(dto: LinkCreateDto, userUid: UUID): LinkOutputDto {
         val domain: DomainEntity = domainRepo.findById(dto.domainUid)
-            .orElseThrow { NotFoundByIdException(dto.domainUid.toString(), "domain") }
+            .orElseThrow { DbConflictException() }
 
         val subDomain: SubDomainEntity? = dto.subdomainUid?.let { subdomainUid ->
             subDomainRepo.findById(subdomainUid)
                 .filter { it.domain.uid == domain.uid }
                 .orElseThrow {
-                    NotFoundByIdException(subdomainUid.toString(), "subDomain")
+                    DbConflictException()
                 }
         }
 
@@ -87,8 +87,8 @@ class LinkServiceImpl(
     // region Private
 
     private fun getLinkByIdAndUser(linkId: UUID, userUid: UUID): LinkEntity =
-        linkRepo.findLinkEntityByUidAndUserUid(linkId, userUid).orElseThrow {
-            NotFoundByIdException(linkId.toString(), "link")
+        linkRepo.findByUidAndUserUid(linkId, userUid).orElseThrow {
+            NotFoundException()
         }
 
     private fun saveTagsIfNotExist(tagNames: MutableSet<String>, userUid: UUID): MutableSet<TagEntity> {

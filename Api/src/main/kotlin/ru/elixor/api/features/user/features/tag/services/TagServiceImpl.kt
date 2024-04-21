@@ -5,7 +5,7 @@ import org.springframework.transaction.annotation.Transactional
 import ru.elixor.api.entities.tag.TagEntity
 import ru.elixor.api.entities.tag.TagRepository
 import ru.elixor.api.exceptions.errors.DbConflictException
-import ru.elixor.api.exceptions.errors.NotFoundByIdException
+import ru.elixor.api.exceptions.errors.NotFoundException
 import ru.elixor.api.features.user.features.tag.dto.*
 import java.util.*
 
@@ -37,5 +37,5 @@ class TagServiceImpl(private val tagRepo: TagRepository) : TagService {
     }
 
     private fun getTagByTitleAndUser(userUid: UUID, title: String): TagEntity =
-        tagRepo.findFirstByUserUidAndTitle(userUid, title).orElseThrow { NotFoundByIdException(title, "tag") }
+        tagRepo.findFirstByUserUidAndTitle(userUid, title).orElseThrow { NotFoundException() }
 }

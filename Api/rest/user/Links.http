@@ -22,7 +22,8 @@ Content-Type: application/json
   "tags": [
     "it",
     "vk"
-  ]
+  ],
+  "password": ""
 }
 
 ###
@@ -37,5 +38,6 @@ Content-Type: application/json
   "subdomainUid": "2e0225b9-80bd-4a80-932a-7d2b3ef2d7f4",
   "domainUid": "e481ae10-a860-45f3-be75-f537c108162b",
   "url": "https://www.youtube.com/watch?v=GVTf9lLNnBU",
-  "tags": []
+  "tags": [],
+  "password": ""
 }

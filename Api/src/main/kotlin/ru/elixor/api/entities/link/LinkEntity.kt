@@ -4,7 +4,7 @@ import jakarta.persistence.*
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
 import ru.elixor.api.entities.domain.DomainEntity
-import ru.elixor.api.entities.sub.domain.SubDomainEntity
+import ru.elixor.api.entities.subdomain.SubDomainEntity
 import ru.elixor.api.entities.tag.TagEntity
 import ru.elixor.api.utils.DefaultTypesUtil
 import ru.elixor.api.utils.jpa.UrlConverter

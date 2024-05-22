@@ -4,5 +4,5 @@ import org.springframework.data.jpa.repository.JpaRepository
 import java.util.*
 
 interface DomainRepository : JpaRepository<DomainEntity, UUID> {
-    fun existsByValue(value: String) : Boolean
+    fun existsByValue(value: String): Boolean
 }

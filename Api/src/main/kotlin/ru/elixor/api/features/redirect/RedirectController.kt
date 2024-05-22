@@ -1,9 +1,12 @@
 package ru.elixor.api.features.redirect
 
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.ModelAttribute
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
+import ru.elixor.api.features.redirect.common.RedirectService
 import ru.elixor.api.features.redirect.dto.LinkRedirectOutputDto
 import ru.elixor.api.features.redirect.request.params.UrlPathParam
-import ru.elixor.api.features.redirect.services.RedirectService
 
 @RestController
 @RequestMapping("/api/v1/redirects")

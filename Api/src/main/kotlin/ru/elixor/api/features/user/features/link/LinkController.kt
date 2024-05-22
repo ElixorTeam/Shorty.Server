@@ -2,12 +2,12 @@ package ru.elixor.api.features.user.features.link
 
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
-import ru.elixor.api.configurations.security.UserUid
+import ru.elixor.api.configurations.security.annotations.UserUid
+import ru.elixor.api.features.user.features.link.common.LinkService
 import ru.elixor.api.features.user.features.link.dto.LinkCreateDto
 import ru.elixor.api.features.user.features.link.dto.LinkOutputDto
 import ru.elixor.api.features.user.features.link.dto.LinkUpdateDto
 import ru.elixor.api.features.user.features.link.dto.LinksOutputDtoWrapper
-import ru.elixor.api.features.user.features.link.services.LinkService
 import java.util.*
 
 @RestController
@@ -20,7 +20,7 @@ class LinkController(private val linkService: LinkService) {
 
     // endregion
 
-    // region Commands
+    // region CRUD
 
     @PostMapping
     fun create(@RequestBody @Validated dto: LinkCreateDto, @UserUid userUid: UUID):

@@ -1,4 +1,4 @@
-package ru.elixor.api.configurations.security
+package ru.elixor.api.configurations.security.annotations
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 

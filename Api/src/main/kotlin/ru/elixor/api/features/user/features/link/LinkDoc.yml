@@ -161,7 +161,7 @@ paths:
         '403':
           description: Ошибка авторизации
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
     post:
       summary: Добавление ссылки к пользователю
       requestBody:
@@ -182,7 +182,7 @@ paths:
         '500':
           description: Внутренняя ошибка сервера
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
 
   /api/v1/user/links/{uid}:
     get:
@@ -201,7 +201,7 @@ paths:
         '409':
           description: Домен занят
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
     delete:
       summary: Удаление ссылки пользователя
       parameters:
@@ -212,7 +212,7 @@ paths:
         '403':
           description: Ошибка авторизации
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
     put:
       summary: Изменение ссылки пользователя
       parameters:
@@ -235,4 +235,4 @@ paths:
         '500':
           description: Внутренняя ошибка сервера
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]

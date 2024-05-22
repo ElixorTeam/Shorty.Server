@@ -1,15 +1,16 @@
-package ru.elixor.api.features.user.features.sub.domain.services
+package ru.elixor.api.features.user.features.subdomain.service
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import ru.elixor.api.entities.domain.DomainEntity
 import ru.elixor.api.entities.domain.DomainRepository
 import ru.elixor.api.entities.link.LinkRepository
-import ru.elixor.api.entities.sub.domain.SubDomainEntity
-import ru.elixor.api.entities.sub.domain.SubDomainRepository
+import ru.elixor.api.entities.subdomain.SubDomainEntity
+import ru.elixor.api.entities.subdomain.SubDomainRepository
 import ru.elixor.api.exceptions.errors.DbConflictException
 import ru.elixor.api.exceptions.errors.NotFoundException
-import ru.elixor.api.features.user.features.sub.domain.dto.*
+import ru.elixor.api.features.user.features.subdomain.common.SubDomainService
+import ru.elixor.api.features.user.features.subdomain.dto.*
 import java.util.*
 
 @Service
@@ -18,9 +19,14 @@ class SubDomainServiceImpl(
     private val domainRepo: DomainRepository,
     private val linkRepo: LinkRepository
 ) : SubDomainService {
+    // region Queries
 
-    override fun getAllByDomainUid(userUid: UUID, domainUid: UUID) : SubDomainOutputDtoWrapper =
+    override fun getAllByDomainUid(userUid: UUID, domainUid: UUID): SubDomainOutputDtoWrapper =
         subDomainRepo.findAllByUserUidAndDomainUid(userUid, domainUid).toWrapperDto();
+
+    // endregion
+
+    // region CRUD
 
     @Transactional
     override fun create(dto: SubDomainCreateDto, userUid: UUID): SubDomainOutputDto {
@@ -51,8 +57,14 @@ class SubDomainServiceImpl(
         subDomainRepo.delete(subDomain)
     }
 
+    // endregion
+
+    // region Private
+
     private fun getSubDomainByIdAndUser(subdomainId: UUID, userUid: UUID): SubDomainEntity =
         subDomainRepo.findByUidAndUserUid(subdomainId, userUid).orElseThrow {
             NotFoundException()
         }
+
+    // endregion
 }

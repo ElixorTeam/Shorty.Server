@@ -1,4 +1,4 @@
-package ru.elixor.api.configurations.security
+package ru.elixor.api.configurations.security.auth.keycloack
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.convert.converter.Converter
@@ -9,7 +9,8 @@ import org.springframework.stereotype.Component
 
 // convert JWT role to spring security
 @Component
-class KCRoleConverter(@Value("\${keycloak.client.business}") private val clientId: String) : Converter<Jwt, Collection<GrantedAuthority>> {
+class KCRoleConverter(@Value("\${keycloak.client.business}") private val clientId: String) :
+    Converter<Jwt, Collection<GrantedAuthority>> {
     override fun convert(jwt: Jwt): Collection<GrantedAuthority> {
         val clientAccess = (jwt.claims["resource_access"] as Map<*, *>?)?.get(clientId) as Map<*, *>?
 

@@ -1,4 +1,4 @@
-package ru.elixor.api.entities.sub.domain
+package ru.elixor.api.entities.subdomain
 
 import jakarta.persistence.*
 import ru.elixor.api.entities.domain.DomainEntity

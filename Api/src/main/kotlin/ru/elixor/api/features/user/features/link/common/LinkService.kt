@@ -1,4 +1,4 @@
-package ru.elixor.api.features.user.features.link.services
+package ru.elixor.api.features.user.features.link.common
 
 import ru.elixor.api.features.user.features.link.dto.LinkCreateDto
 import ru.elixor.api.features.user.features.link.dto.LinkOutputDto
@@ -14,7 +14,7 @@ interface LinkService {
 
     // endregion
 
-    // region Commands
+    // region CRUD
 
     fun delete(linkId: UUID, userUid: UUID)
     fun create(dto: LinkCreateDto, userUid: UUID): LinkOutputDto

@@ -5,7 +5,7 @@ import java.util.*
 
 //region TagDto
 
-data class TagDto (
+data class TagDto(
     val uid: UUID,
     val value: String
 )

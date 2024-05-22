@@ -1,4 +1,4 @@
-package ru.elixor.api.features.user.features.link.services
+package ru.elixor.api.features.user.features.link.service
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -6,12 +6,13 @@ import ru.elixor.api.entities.domain.DomainEntity
 import ru.elixor.api.entities.domain.DomainRepository
 import ru.elixor.api.entities.link.LinkEntity
 import ru.elixor.api.entities.link.LinkRepository
-import ru.elixor.api.entities.sub.domain.SubDomainEntity
-import ru.elixor.api.entities.sub.domain.SubDomainRepository
+import ru.elixor.api.entities.subdomain.SubDomainEntity
+import ru.elixor.api.entities.subdomain.SubDomainRepository
 import ru.elixor.api.entities.tag.TagEntity
 import ru.elixor.api.entities.tag.TagRepository
 import ru.elixor.api.exceptions.errors.DbConflictException
 import ru.elixor.api.exceptions.errors.NotFoundException
+import ru.elixor.api.features.user.features.link.common.LinkService
 import ru.elixor.api.features.user.features.link.dto.*
 import java.util.*
 
@@ -22,7 +23,6 @@ class LinkServiceImpl(
     private val domainRepo: DomainRepository,
     private val subDomainRepo: SubDomainRepository
 ) : LinkService {
-
     // region Queries
 
     override fun getAll(userUid: UUID):
@@ -33,7 +33,7 @@ class LinkServiceImpl(
 
     // endregion
 
-    // region Commands
+    // region CRUD
 
     @Transactional
     override fun create(dto: LinkCreateDto, userUid: UUID): LinkOutputDto {

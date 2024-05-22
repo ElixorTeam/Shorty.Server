@@ -1,4 +1,4 @@
-package ru.elixor.api.features.user.features.sub.domain.dto
+package ru.elixor.api.features.user.features.subdomain.dto
 
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Pattern

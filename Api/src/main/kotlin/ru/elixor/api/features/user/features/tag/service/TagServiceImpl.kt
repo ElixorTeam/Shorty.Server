@@ -1,4 +1,4 @@
-package ru.elixor.api.features.user.features.tag.services
+package ru.elixor.api.features.user.features.tag.service
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -6,14 +6,21 @@ import ru.elixor.api.entities.tag.TagEntity
 import ru.elixor.api.entities.tag.TagRepository
 import ru.elixor.api.exceptions.errors.DbConflictException
 import ru.elixor.api.exceptions.errors.NotFoundException
+import ru.elixor.api.features.user.features.tag.common.TagService
 import ru.elixor.api.features.user.features.tag.dto.*
 import java.util.*
 
 
 @Service
 class TagServiceImpl(private val tagRepo: TagRepository) : TagService {
+    // region Queries
+
     override fun getAll(userUid: UUID): TagsOutputDtoWrapper =
         tagRepo.findAllByUserUid(userUid).toWrapperDto()
+
+    // endregion
+
+    // region CRUD
 
     @Transactional
     override fun update(title: String, userUid: UUID, dto: TagUpdateDto): TagOutputDto {
@@ -36,6 +43,12 @@ class TagServiceImpl(private val tagRepo: TagRepository) : TagService {
         tagRepo.delete(tag)
     }
 
+    // endregion
+
+    // region Private
+
     private fun getTagByTitleAndUser(userUid: UUID, title: String): TagEntity =
         tagRepo.findFirstByUserUidAndTitle(userUid, title).orElseThrow { NotFoundException() }
+
+    // endregion
 }

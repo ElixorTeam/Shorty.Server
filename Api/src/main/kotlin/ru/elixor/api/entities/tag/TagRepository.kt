@@ -6,13 +6,15 @@ import org.springframework.data.jpa.repository.Query
 import java.util.*
 
 interface TagRepository : JpaRepository<TagEntity, UUID> {
-    fun findAllByUserUid(userUid: UUID) : List<TagEntity>
+    fun findAllByUserUid(userUid: UUID): List<TagEntity>
     fun existsByUserUidAndTitle(userUid: UUID, title: String): Boolean
     fun findFirstByUserUidAndTitle(userUid: UUID, title: String): Optional<TagEntity>
-    fun findAllByUserUidAndTitleIn(userUid: UUID, title: MutableCollection<String>) : List<TagEntity>
+    fun findAllByUserUidAndTitleIn(userUid: UUID, title: MutableCollection<String>): List<TagEntity>
 
     @Modifying
-    @Query("DELETE FROM TagEntity t WHERE t NOT IN " +
-            "(SELECT DISTINCT tag FROM LinkEntity link JOIN link.tags tag WHERE link.userUid = :userUid)")
+    @Query(
+        "DELETE FROM TagEntity t WHERE t NOT IN " +
+                "(SELECT DISTINCT tag FROM LinkEntity link JOIN link.tags tag WHERE link.userUid = :userUid)"
+    )
     fun deleteUnused(userUid: UUID)
 }

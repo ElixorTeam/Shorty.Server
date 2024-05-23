@@ -33,6 +33,7 @@ class SecurityConfig(private val kcRoleConverter: KCRoleConverter) {
                     .requestMatchers("/api/v1/user/tags/**").authenticated()
                     .requestMatchers("/api/v1/user/subdomains/**").authenticated()
                     .requestMatchers("/api/v1/domains/**").authenticated()
+                    .requestMatchers("/api/v1/redirects/**").permitAll()
                     .anyRequest().permitAll()
             }
             .oauth2ResourceServer { oauth2 ->

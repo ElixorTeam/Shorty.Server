@@ -15,6 +15,9 @@ import java.util.*
 class LinkController(private val linkService: LinkService) {
     // region Queries
 
+    @GetMapping("/{id}")
+    fun get(@PathVariable id: UUID, @UserUid userUid: UUID) = linkService.getLinkById(id, userUid)
+
     @GetMapping
     fun getAll(@UserUid userUid: UUID): LinksOutputDtoWrapper = linkService.getAll(userUid)
 
@@ -32,9 +35,6 @@ class LinkController(private val linkService: LinkService) {
 
     @DeleteMapping("/{id}")
     fun delete(@PathVariable id: UUID, @UserUid userUid: UUID) = linkService.delete(id, userUid)
-
-    @GetMapping("/{id}")
-    fun get(@PathVariable id: UUID, @UserUid userUid: UUID) = linkService.getLinkById(id, userUid)
 
     // endregion
 }

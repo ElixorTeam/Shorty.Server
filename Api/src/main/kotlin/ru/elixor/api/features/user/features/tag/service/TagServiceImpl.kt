@@ -5,14 +5,16 @@ import org.springframework.transaction.annotation.Transactional
 import ru.elixor.api.entities.tag.TagEntity
 import ru.elixor.api.entities.tag.TagRepository
 import ru.elixor.api.exceptions.errors.DbConflictException
-import ru.elixor.api.exceptions.errors.NotFoundException
 import ru.elixor.api.features.user.features.tag.common.TagService
 import ru.elixor.api.features.user.features.tag.dto.*
 import java.util.*
 
 
 @Service
-class TagServiceImpl(private val tagRepo: TagRepository) : TagService {
+class TagServiceImpl(
+    private val tagRepo: TagRepository,
+    private val tagHelper: TagServiceHelper
+) : TagService {
     // region Queries
 
     override fun getAll(userUid: UUID): TagsOutputDtoWrapper =
@@ -27,7 +29,7 @@ class TagServiceImpl(private val tagRepo: TagRepository) : TagService {
         if (tagRepo.existsByUserUidAndTitle(userUid, title))
             throw DbConflictException()
 
-        val tag: TagEntity = getTagByTitleAndUser(userUid, title).apply {
+        val tag: TagEntity = tagHelper.getByTitleAndUser(userUid, title).apply {
             this.title = dto.title;
         }
         return tagRepo.save(tag).toDto()
@@ -35,20 +37,13 @@ class TagServiceImpl(private val tagRepo: TagRepository) : TagService {
 
     @Transactional
     override fun delete(title: String, userUid: UUID) {
-        val tag: TagEntity = getTagByTitleAndUser(userUid, title)
+        val tag: TagEntity = tagHelper.getByTitleAndUser(userUid, title)
         val links = tag.links.toList()
 
         for (link in links)
             link.tags.remove(tag)
         tagRepo.delete(tag)
     }
-
-    // endregion
-
-    // region Private
-
-    private fun getTagByTitleAndUser(userUid: UUID, title: String): TagEntity =
-        tagRepo.findFirstByUserUidAndTitle(userUid, title).orElseThrow { NotFoundException() }
 
     // endregion
 }

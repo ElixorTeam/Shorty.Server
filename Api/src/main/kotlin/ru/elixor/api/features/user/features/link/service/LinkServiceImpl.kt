@@ -11,7 +11,6 @@ import ru.elixor.api.entities.subdomain.SubDomainRepository
 import ru.elixor.api.entities.tag.TagEntity
 import ru.elixor.api.entities.tag.TagRepository
 import ru.elixor.api.exceptions.errors.DbConflictException
-import ru.elixor.api.exceptions.errors.NotFoundException
 import ru.elixor.api.features.user.features.link.common.LinkService
 import ru.elixor.api.features.user.features.link.dto.*
 import java.util.*
@@ -21,15 +20,18 @@ class LinkServiceImpl(
     private val linkRepo: LinkRepository,
     private val tagRepo: TagRepository,
     private val domainRepo: DomainRepository,
-    private val subDomainRepo: SubDomainRepository
+    private val subDomainRepo: SubDomainRepository,
+    private val linkHelper: LinkServiceHelper
 ) : LinkService {
     // region Queries
 
+    @Transactional(readOnly = true)
     override fun getAll(userUid: UUID):
             LinksOutputDtoWrapper = linkRepo.findAllByUserUid(userUid).toWrapperDto();
 
+    @Transactional(readOnly = true)
     override fun getLinkById(linkId: UUID, userUid: UUID):
-            LinkOutputDto = getLinkByIdAndUser(linkId, userUid).toDto()
+            LinkOutputDto = linkHelper.getByIdAndUser(linkId, userUid).toDto()
 
     // endregion
 
@@ -63,7 +65,7 @@ class LinkServiceImpl(
 
     @Transactional
     override fun update(linkId: UUID, dto: LinkUpdateDto, userUid: UUID): LinkOutputDto {
-        var link: LinkEntity = getLinkByIdAndUser(linkId, userUid).apply {
+        var link: LinkEntity = linkHelper.getByIdAndUser(linkId, userUid).apply {
             title = dto.title
             password = dto.password
             isEnable = dto.isEnable
@@ -76,7 +78,7 @@ class LinkServiceImpl(
 
     @Transactional
     override fun delete(linkId: UUID, userUid: UUID) {
-        val link: LinkEntity = getLinkByIdAndUser(linkId, userUid)
+        val link: LinkEntity = linkHelper.getByIdAndUser(linkId, userUid)
         link.tags.clear()
         tagRepo.deleteUnused(userUid)
         linkRepo.delete(link)
@@ -85,11 +87,6 @@ class LinkServiceImpl(
     // endregion
 
     // region Private
-
-    private fun getLinkByIdAndUser(linkId: UUID, userUid: UUID): LinkEntity =
-        linkRepo.findByUidAndUserUid(linkId, userUid).orElseThrow {
-            NotFoundException()
-        }
 
     private fun saveTagsIfNotExist(tagNames: MutableSet<String>, userUid: UUID): MutableSet<TagEntity> {
         val existingTags: List<TagEntity> = tagRepo.findAllByUserUidAndTitleIn(userUid, tagNames)
@@ -102,5 +99,6 @@ class LinkServiceImpl(
         }
         return (tagRepo.saveAll(tagsToSave) + existingTags).toMutableSet()
     }
+
     // endregion
 }

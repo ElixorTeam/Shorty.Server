@@ -15,6 +15,7 @@ import java.util.*
 
 @Service
 class SubDomainServiceImpl(
+    private val subDomainHelper: SubDomainServiceHelper,
     private val subDomainRepo: SubDomainRepository,
     private val domainRepo: DomainRepository,
     private val linkRepo: LinkRepository
@@ -49,22 +50,13 @@ class SubDomainServiceImpl(
     }
 
     override fun delete(subdomainId: UUID, userUid: UUID) {
-        val subDomain: SubDomainEntity = getSubDomainByIdAndUser(subdomainId, userUid)
+        val subDomain: SubDomainEntity = subDomainHelper.getByIdAndUser(subdomainId, userUid)
 
         if (linkRepo.existsBySubdomain(subDomain))
             throw DbConflictException()
 
         subDomainRepo.delete(subDomain)
     }
-
-    // endregion
-
-    // region Private
-
-    private fun getSubDomainByIdAndUser(subdomainId: UUID, userUid: UUID): SubDomainEntity =
-        subDomainRepo.findByUidAndUserUid(subdomainId, userUid).orElseThrow {
-            NotFoundException()
-        }
 
     // endregion
 }

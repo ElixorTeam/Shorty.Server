@@ -18,6 +18,7 @@ annotation class ValidURL(
 
 
 class URLValidator : ConstraintValidator<ValidURL, String> {
+
     override fun isValid(value: String?, context: ConstraintValidatorContext?): Boolean {
         if (value == null) {
             return false
@@ -34,4 +35,5 @@ class URLValidator : ConstraintValidator<ValidURL, String> {
             false
         }
     }
+
 }

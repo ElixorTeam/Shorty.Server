@@ -6,6 +6,8 @@ import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.stereotype.Component
+import java.util.*
+import kotlin.collections.ArrayList
 
 // convert JWT role to spring security
 @Component
@@ -21,7 +23,7 @@ class KCRoleConverter(@Value("\${keycloak.client.business}") private val clientI
             return returnValue
 
         for (roleName in roles)
-            returnValue.add(SimpleGrantedAuthority("ROLE_$roleName"))
+            returnValue.add(SimpleGrantedAuthority("ROLE_${roleName.toString().uppercase(Locale.getDefault())}"))
 
         return returnValue
     }

@@ -1,39 +1,41 @@
 package ru.elixor.api.entities.redirect
 
 import jakarta.persistence.*
+import org.hibernate.annotations.CreationTimestamp
 import ru.elixor.api.entities.domain.DomainEntity
+import ru.elixor.api.entities.link.LinkEntity
 import ru.elixor.api.entities.subdomain.SubDomainEntity
+import ru.elixor.api.enums.DeviceTypes
 import ru.elixor.api.utils.DefaultTypesUtil
+import java.net.InetAddress
 import java.util.*
 
-//@Entity
-//@Table(name = "REDIRECTS")
+@Entity
+@Table(name = "REDIRECTS")
 class RedirectEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "UID", unique = true)
     val uid: UUID = DefaultTypesUtil.guid
 
-    @Column(name = "CLIENT_KEY", nullable = false, length = 16)
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "LINK_UID", foreignKey = ForeignKey(name = "FK_REDIRECTS_LINK"), nullable = false)
+    var link: LinkEntity = LinkEntity()
+
+    @Column(name = "CLIENT_KEY", nullable = false)
     var clientKey: UUID = DefaultTypesUtil.guid
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "DEVICE", nullable = false, length = 16)
-    var device: String = ""
+    var device: DeviceTypes = DeviceTypes.Desktop
 
     @Column(name = "OS", nullable = false, length = 16)
     var os: String = ""
 
-    @Column(name = "PATH", nullable = false, length = 16)
-    var path: String = ""
+    @Column(name = "IP_V4", nullable = false, length = 15)
+    var ip: InetAddress = InetAddress.getByName("0.0.0.0")
 
-//    @Column(name = "IP_V4", nullable = false, length = 16)
-//    var ip: InetAddress = ""
-
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "DOMAIN_UID", foreignKey = ForeignKey(name = "FK_REDIRECTS_DOMAIN"), nullable = false)
-    var domain: DomainEntity = DomainEntity()
-
-    @ManyToOne(optional = true)
-    @JoinColumn(name = "SUBDOMAIN_UID", foreignKey = ForeignKey(name = "FK_REDIRECTS_SUBDOMAIN"), nullable = true)
-    var subdomain: SubDomainEntity? = null
+    @CreationTimestamp
+    @Column(name = "CREATE_DT", nullable = false)
+    val createDt: Date = DefaultTypesUtil.date
 }

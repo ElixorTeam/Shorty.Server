@@ -1,14 +1,11 @@
 package ru.elixor.api.features.user.features.subdomain.dto
 
 import jakarta.validation.constraints.NotNull
-import jakarta.validation.constraints.Pattern
-import jakarta.validation.constraints.Size
+import ru.elixor.api.utils.validators.subdomain.ValidSubDomain
 import java.util.*
 
 class SubDomainCreateDto(
-    @field:NotNull
-    @field:Size(min = 2, max = 16, message = "value must be [2, 16] characters")
-    @field:Pattern(regexp = "^[a-zA-Z]{2,16}\$", message = "value must contain only Latin characters")
+    @field:ValidSubDomain
     val value: String,
 
     @field:NotNull

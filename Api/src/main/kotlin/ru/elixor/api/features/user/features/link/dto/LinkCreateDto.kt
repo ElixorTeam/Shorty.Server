@@ -18,7 +18,6 @@ data class LinkCreateDto(
     @field:NotNull
     val domainUid: UUID,
 
-    @field:NotNull
     @field:ValidURL
     val url: String,
 

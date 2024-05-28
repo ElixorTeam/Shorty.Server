@@ -3,6 +3,7 @@ package ru.elixor.api.features.domain.common
 import ru.elixor.api.features.domain.dto.DomainCreateDto
 import ru.elixor.api.features.domain.dto.DomainOutputDto
 import ru.elixor.api.features.domain.dto.DomainsOutputDtoWrapper
+import java.util.*
 
 interface DomainService {
     // region Queries
@@ -14,6 +15,7 @@ interface DomainService {
     // region CRUD
 
     fun create(dto: DomainCreateDto): DomainOutputDto
+    fun delete(domainId: UUID)
 
     // endregion
 }

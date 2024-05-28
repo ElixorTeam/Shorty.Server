@@ -16,6 +16,7 @@ interface LinkRepository : JpaRepository<LinkEntity, UUID> {
 
     // region ExistsBy
 
+    fun existsByDomain(domain: DomainEntity): Boolean
     fun existsBySubdomain(subDomain: SubDomainEntity): Boolean
     fun existsByDomainAndSubdomainAndPath(domain: DomainEntity, subdomain: SubDomainEntity?, path: String): Boolean
 

@@ -28,7 +28,8 @@ class DomainServiceImpl(
 
     @Transactional
     override fun create(dto: DomainCreateDto): DomainOutputDto {
-        if (domainRepo.existsByValue(dto.value))
+
+        if (domainRepo.existsByValue(dto.value) || domainRepo.count() >= 5)
             throw DbConflictException()
 
         val domain = dto.toEntity()

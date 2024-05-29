@@ -5,9 +5,8 @@ import org.springframework.web.bind.annotation.*
 import ru.elixor.api.configurations.security.annotations.UserUid
 import ru.elixor.api.features.user.features.subdomain.common.SubDomainService
 import ru.elixor.api.features.user.features.subdomain.dto.SubDomainCreateDto
-import ru.elixor.api.features.user.features.subdomain.dto.SubDomainOutputDto
-import ru.elixor.api.features.user.features.subdomain.dto.SubDomainOutputDtoV2Wrapper
-import ru.elixor.api.features.user.features.subdomain.dto.SubDomainOutputDtoWrapper
+import ru.elixor.api.features.user.features.subdomain.dto.output.SubDomainGroupOutputDto
+import ru.elixor.api.features.user.features.subdomain.dto.output.SubDomainOutputDto
 import java.util.*
 
 @RestController
@@ -16,12 +15,7 @@ class SubDomainController(private val subDomainService: SubDomainService) {
     // region Queries
 
     @GetMapping
-    fun getAll(@UserUid userUid: UUID):
-            SubDomainOutputDtoV2Wrapper = subDomainService.getAll(userUid)
-
-    @GetMapping(params = ["domainUid"])
-    fun getAllDomainUid(@RequestParam("domainUid", required = true) domainUid: UUID, @UserUid userUid: UUID):
-            SubDomainOutputDtoWrapper = subDomainService.getAllByDomainUid(userUid, domainUid)
+    fun getAll(@UserUid userUid: UUID): SubDomainGroupOutputDto = subDomainService.getAll(userUid)
 
     // endregion
 

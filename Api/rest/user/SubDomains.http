@@ -1,4 +1,4 @@
-GET {{url}}/api/v1/user/subdomains?domainUid=e481ae10-a860-45f3-be75-f537c108162b
+GET {{url}}/api/v1/user/subdomains
 Authorization: Bearer {{$auth.token("access-token")}}
 
 
@@ -14,6 +14,6 @@ Authorization: Bearer {{$auth.token("access-token")}}
 Content-Type: application/json
 
 {
-  "value": "vlasov",
+  "value": "vla",
   "domainUid": "e481ae10-a860-45f3-be75-f537c108162b"
 }

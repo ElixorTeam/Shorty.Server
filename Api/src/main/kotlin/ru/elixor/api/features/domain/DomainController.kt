@@ -16,6 +16,7 @@ class DomainController(private val domainService: DomainService) {
     // region Queries
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('${RoleConstants.ADMIN}')")
     fun getAll(): DomainsOutputDtoWrapper = domainService.getAll()
 
     // endregion

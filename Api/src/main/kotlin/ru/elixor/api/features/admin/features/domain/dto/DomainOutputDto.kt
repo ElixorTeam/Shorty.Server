@@ -1,4 +1,4 @@
-package ru.elixor.api.features.domain.dto
+package ru.elixor.api.features.admin.features.domain.dto
 
 import ru.elixor.api.entities.domain.DomainEntity
 import java.util.*

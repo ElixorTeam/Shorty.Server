@@ -1,13 +1,13 @@
-package ru.elixor.api.features.domain
+package ru.elixor.api.features.admin.features.domain
 
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import ru.elixor.api.configurations.security.auth.RoleConstants
-import ru.elixor.api.features.domain.common.DomainService
-import ru.elixor.api.features.domain.dto.DomainCreateDto
-import ru.elixor.api.features.domain.dto.DomainOutputDto
-import ru.elixor.api.features.domain.dto.DomainsOutputDtoWrapper
+import ru.elixor.api.features.admin.features.domain.common.DomainService
+import ru.elixor.api.features.admin.features.domain.dto.DomainCreateDto
+import ru.elixor.api.features.admin.features.domain.dto.DomainOutputDto
+import ru.elixor.api.features.admin.features.domain.dto.DomainsOutputDtoWrapper
 import java.util.*
 
 @RestController

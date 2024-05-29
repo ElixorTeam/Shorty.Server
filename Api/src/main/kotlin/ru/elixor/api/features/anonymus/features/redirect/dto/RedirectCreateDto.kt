@@ -1,4 +1,4 @@
-package ru.elixor.api.features.redirect.dto
+package ru.elixor.api.features.anonymus.features.redirect.dto
 
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Size

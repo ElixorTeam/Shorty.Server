@@ -1,4 +1,4 @@
-package ru.elixor.api.features.domain.service
+package ru.elixor.api.features.admin.features.domain.service
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -8,8 +8,8 @@ import ru.elixor.api.entities.link.LinkRepository
 import ru.elixor.api.entities.subdomain.SubDomainRepository
 import ru.elixor.api.exceptions.errors.RecordInUseException
 import ru.elixor.api.exceptions.errors.TooManyRecordsException
-import ru.elixor.api.features.domain.common.DomainService
-import ru.elixor.api.features.domain.dto.*
+import ru.elixor.api.features.admin.features.domain.common.DomainService
+import ru.elixor.api.features.admin.features.domain.dto.*
 import java.util.*
 
 @Service

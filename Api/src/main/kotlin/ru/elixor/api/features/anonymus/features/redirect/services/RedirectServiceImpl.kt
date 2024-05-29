@@ -1,4 +1,4 @@
-package ru.elixor.api.features.redirect.services
+package ru.elixor.api.features.anonymus.features.redirect.services
 
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
@@ -7,12 +7,12 @@ import ru.elixor.api.entities.link.LinkEntity
 import ru.elixor.api.entities.link.LinkRepository
 import ru.elixor.api.entities.redirect.RedirectRepository
 import ru.elixor.api.exceptions.errors.NotFoundException
-import ru.elixor.api.features.redirect.common.RedirectService
-import ru.elixor.api.features.redirect.dto.LinkRedirectOutputDto
-import ru.elixor.api.features.redirect.dto.RedirectCreateDto
-import ru.elixor.api.features.redirect.dto.toDto
-import ru.elixor.api.features.redirect.dto.toEntity
-import ru.elixor.api.features.redirect.request.params.UrlPathParam
+import ru.elixor.api.features.anonymus.features.redirect.common.RedirectService
+import ru.elixor.api.features.anonymus.features.redirect.dto.LinkRedirectOutputDto
+import ru.elixor.api.features.anonymus.features.redirect.dto.RedirectCreateDto
+import ru.elixor.api.features.anonymus.features.redirect.dto.toDto
+import ru.elixor.api.features.anonymus.features.redirect.dto.toEntity
+import ru.elixor.api.features.anonymus.features.redirect.request.params.UrlPathParam
 
 @Service
 @Transactional

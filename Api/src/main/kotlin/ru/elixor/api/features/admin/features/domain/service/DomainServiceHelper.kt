@@ -1,4 +1,4 @@
-package ru.elixor.api.features.domain.service
+package ru.elixor.api.features.admin.features.domain.service
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Propagation

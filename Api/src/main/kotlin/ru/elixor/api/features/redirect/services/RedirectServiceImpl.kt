@@ -18,13 +18,13 @@ import ru.elixor.api.features.redirect.request.params.UrlPathParam
 @Transactional
 class RedirectServiceImpl(
     private val linkRepo: LinkRepository,
-    private val redirectRepo : RedirectRepository
+    private val redirectRepo: RedirectRepository
 ) : RedirectService {
     // region Queries
 
     @Transactional(readOnly = true)
     override fun findLinkByUrl(urlDto: UrlPathParam): LinkRedirectOutputDto {
-        val link : LinkEntity =
+        val link: LinkEntity =
             linkRepo.findByDomainValueAndSubdomainValueAndPath(urlDto.domain, urlDto.subdomain, urlDto.path)
                 .orElseThrow { NotFoundException() }
 
@@ -40,9 +40,10 @@ class RedirectServiceImpl(
     // region CRUD
 
     override fun create(dto: RedirectCreateDto): ResponseEntity<Void> {
-        val link : LinkEntity = linkRepo.findByDomainValueAndSubdomainValueAndPath(dto.domain, dto.subdomain, dto.path).orElseThrow {
-            NotFoundException()
-        };
+        val link: LinkEntity =
+            linkRepo.findByDomainValueAndSubdomainValueAndPath(dto.domain, dto.subdomain, dto.path).orElseThrow {
+                NotFoundException()
+            };
 
         val redirect = dto.toEntity()
         redirect.link = link

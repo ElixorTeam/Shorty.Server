@@ -2,9 +2,7 @@ package ru.elixor.api.entities.redirect
 
 import jakarta.persistence.*
 import org.hibernate.annotations.CreationTimestamp
-import ru.elixor.api.entities.domain.DomainEntity
 import ru.elixor.api.entities.link.LinkEntity
-import ru.elixor.api.entities.subdomain.SubDomainEntity
 import ru.elixor.api.enums.DeviceTypes
 import ru.elixor.api.utils.DefaultTypesUtil
 import java.net.InetAddress

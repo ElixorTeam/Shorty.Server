@@ -7,7 +7,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.stereotype.Component
 import java.util.*
-import kotlin.collections.ArrayList
 
 // convert JWT role to spring security
 @Component

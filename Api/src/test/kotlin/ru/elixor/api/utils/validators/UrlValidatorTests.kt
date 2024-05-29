@@ -12,7 +12,7 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig
 class UrlValidatorTests {
 
     private var urlValidator: URLValidator = URLValidator()
-    
+
     @ParameterizedTest
     @CsvSource(
         "https://example.com, true",

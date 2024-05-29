@@ -2,9 +2,6 @@ package ru.elixor.api.features.user.features.link.service
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import org.springframework.validation.BeanPropertyBindingResult
-import org.springframework.validation.FieldError
-import org.springframework.web.bind.MethodArgumentNotValidException
 import ru.elixor.api.entities.domain.DomainEntity
 import ru.elixor.api.entities.domain.DomainRepository
 import ru.elixor.api.entities.link.LinkEntity

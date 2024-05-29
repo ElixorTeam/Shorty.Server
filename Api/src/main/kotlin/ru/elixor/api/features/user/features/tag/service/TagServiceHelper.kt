@@ -9,7 +9,7 @@ import ru.elixor.api.exceptions.errors.NotFoundException
 import java.util.*
 
 @Service
-class TagServiceHelper(private val tagRepo : TagRepository) {
+class TagServiceHelper(private val tagRepo: TagRepository) {
 
     @Transactional(readOnly = true, propagation = Propagation.REQUIRES_NEW)
     fun getByTitleAndUser(userUid: UUID, title: String): TagEntity =

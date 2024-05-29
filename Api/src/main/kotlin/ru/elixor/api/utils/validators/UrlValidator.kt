@@ -36,7 +36,8 @@ class URLValidator : ConstraintValidator<ValidURL, String> {
             if (!host.matches(hostRegex) || host.matches(ipRegex))
                 return false
 
-            (protocol == "https" || protocol.isEmpty()) && !host.endsWith(".local") && host != "localhost" && port == -1
+            return (protocol == "https" || protocol.isEmpty()) &&
+                    !host.endsWith(".local") && host != "localhost" && port == -1
         } catch (e: Exception) {
             false
         }

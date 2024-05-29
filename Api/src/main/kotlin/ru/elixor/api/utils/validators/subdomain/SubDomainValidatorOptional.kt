@@ -18,7 +18,7 @@ annotation class ValidOptionalSubDomain(
 
 class OptionalSubdomainValidator : ConstraintValidator<ValidOptionalSubDomain, String> {
     override fun isValid(value: String?, context: ConstraintValidatorContext?): Boolean {
-        if (value == null) return  true
+        if (value == null) return true
         return SubDomainUtils.isValid(value)
     }
 }

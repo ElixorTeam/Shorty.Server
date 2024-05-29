@@ -11,7 +11,7 @@ import java.util.*
 
 class RedirectCreateDto(
     @field:Size(min = 2, max = 16, message = "os must be [2, 16] characters")
-    val os : String,
+    val os: String,
 
     @field:NotNull
     val device: DeviceTypes,

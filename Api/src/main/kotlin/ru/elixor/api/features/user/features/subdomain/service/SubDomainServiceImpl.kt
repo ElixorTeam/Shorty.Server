@@ -11,7 +11,7 @@ import ru.elixor.api.exceptions.errors.FkNotFoundException
 import ru.elixor.api.exceptions.errors.TooManyRecordsException
 import ru.elixor.api.exceptions.errors.UniqueConflictException
 import ru.elixor.api.features.user.features.subdomain.common.SubDomainService
-import ru.elixor.api.features.user.features.subdomain.dto.*
+import ru.elixor.api.features.user.features.subdomain.dto.SubDomainCreateDto
 import ru.elixor.api.features.user.features.subdomain.dto.output.*
 import java.util.*
 
@@ -61,7 +61,6 @@ class SubDomainServiceImpl(
         if (subDomainRepo.existsByUserUidAndValue(userUid, dto.value)) {
             throw UniqueConflictException()
         }
-
 
 
         val subdomain = SubDomainEntity().apply {

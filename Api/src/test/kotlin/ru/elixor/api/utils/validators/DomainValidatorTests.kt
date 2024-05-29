@@ -15,7 +15,9 @@ class DomainValidatorTests {
     @ParameterizedTest
     @CsvSource(
         "example.com, true",
-        "example.co.uk, true",
+        "sh0.su, true",
+        "vlsu.com, true",
+        "example.co.uk, false",
         "example., false",
         "example., false",
         "'', false"

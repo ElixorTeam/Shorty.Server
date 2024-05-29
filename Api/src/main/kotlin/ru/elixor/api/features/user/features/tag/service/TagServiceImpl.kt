@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import ru.elixor.api.entities.tag.TagEntity
 import ru.elixor.api.entities.tag.TagRepository
-import ru.elixor.api.exceptions.errors.DbConflictException
+import ru.elixor.api.exceptions.errors.UniqueConflictException
 import ru.elixor.api.features.user.features.tag.common.TagService
 import ru.elixor.api.features.user.features.tag.dto.*
 import java.util.*
@@ -27,7 +27,7 @@ class TagServiceImpl(
     @Transactional
     override fun update(title: String, userUid: UUID, dto: TagUpdateDto): TagOutputDto {
         if (tagRepo.existsByUserUidAndTitle(userUid, title))
-            throw DbConflictException()
+            throw UniqueConflictException()
 
         val tag: TagEntity = tagHelper.getByTitleAndUser(userUid, title).apply {
             this.title = dto.title;

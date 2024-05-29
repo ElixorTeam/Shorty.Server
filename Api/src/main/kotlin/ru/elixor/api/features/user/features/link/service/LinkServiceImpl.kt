@@ -2,6 +2,9 @@ package ru.elixor.api.features.user.features.link.service
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.validation.BeanPropertyBindingResult
+import org.springframework.validation.FieldError
+import org.springframework.web.bind.MethodArgumentNotValidException
 import ru.elixor.api.entities.domain.DomainEntity
 import ru.elixor.api.entities.domain.DomainRepository
 import ru.elixor.api.entities.link.LinkEntity
@@ -10,7 +13,9 @@ import ru.elixor.api.entities.subdomain.SubDomainEntity
 import ru.elixor.api.entities.subdomain.SubDomainRepository
 import ru.elixor.api.entities.tag.TagEntity
 import ru.elixor.api.entities.tag.TagRepository
-import ru.elixor.api.exceptions.errors.DbConflictException
+import ru.elixor.api.exceptions.errors.DataNotSyncException
+import ru.elixor.api.exceptions.errors.FkNotFoundException
+import ru.elixor.api.exceptions.errors.UniqueConflictException
 import ru.elixor.api.features.user.features.link.common.LinkService
 import ru.elixor.api.features.user.features.link.dto.*
 import java.util.*
@@ -40,18 +45,18 @@ class LinkServiceImpl(
     @Transactional
     override fun create(dto: LinkCreateDto, userUid: UUID): LinkOutputDto {
         val domain: DomainEntity = domainRepo.findById(dto.domainUid)
-            .orElseThrow { DbConflictException() }
+            .orElseThrow { FkNotFoundException() }
 
         val subDomain: SubDomainEntity? = dto.subdomainUid?.let { subdomainUid ->
             subDomainRepo.findById(subdomainUid)
                 .filter { it.domain.uid == domain.uid }
                 .orElseThrow {
-                    DbConflictException()
+                    throw DataNotSyncException()
                 }
         }
 
         if (linkRepo.existsByDomainAndSubdomainAndPath(domain, subDomain, dto.path)) {
-            throw DbConflictException()
+            throw UniqueConflictException()
         }
 
         val link = dto.toEntity().apply {

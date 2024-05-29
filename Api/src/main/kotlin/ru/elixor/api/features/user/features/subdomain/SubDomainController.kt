@@ -6,6 +6,7 @@ import ru.elixor.api.configurations.security.annotations.UserUid
 import ru.elixor.api.features.user.features.subdomain.common.SubDomainService
 import ru.elixor.api.features.user.features.subdomain.dto.SubDomainCreateDto
 import ru.elixor.api.features.user.features.subdomain.dto.SubDomainOutputDto
+import ru.elixor.api.features.user.features.subdomain.dto.SubDomainOutputDtoV2Wrapper
 import ru.elixor.api.features.user.features.subdomain.dto.SubDomainOutputDtoWrapper
 import java.util.*
 
@@ -13,6 +14,10 @@ import java.util.*
 @RequestMapping("/api/v1/user/subdomains")
 class SubDomainController(private val subDomainService: SubDomainService) {
     // region Queries
+
+    @GetMapping
+    fun getAll(@UserUid userUid: UUID):
+            SubDomainOutputDtoV2Wrapper = subDomainService.getAll(userUid)
 
     @GetMapping(params = ["domainUid"])
     fun getAllDomainUid(@RequestParam("domainUid", required = true) domainUid: UUID, @UserUid userUid: UUID):

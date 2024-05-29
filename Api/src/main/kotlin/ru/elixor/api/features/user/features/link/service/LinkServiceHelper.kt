@@ -16,5 +16,4 @@ class LinkServiceHelper(private val linkRepo: LinkRepository) {
         linkRepo.findByUidAndUserUid(linkId, userUid).orElseThrow {
             NotFoundException()
         }
-
 }

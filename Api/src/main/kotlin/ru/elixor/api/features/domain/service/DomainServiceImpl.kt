@@ -6,7 +6,8 @@ import ru.elixor.api.entities.domain.DomainEntity
 import ru.elixor.api.entities.domain.DomainRepository
 import ru.elixor.api.entities.link.LinkRepository
 import ru.elixor.api.entities.subdomain.SubDomainRepository
-import ru.elixor.api.exceptions.errors.DbConflictException
+import ru.elixor.api.exceptions.errors.RecordInUseException
+import ru.elixor.api.exceptions.errors.TooManyRecordsException
 import ru.elixor.api.features.domain.common.DomainService
 import ru.elixor.api.features.domain.dto.*
 import java.util.*
@@ -28,20 +29,17 @@ class DomainServiceImpl(
 
     @Transactional
     override fun create(dto: DomainCreateDto): DomainOutputDto {
-
-        if (domainRepo.existsByValue(dto.value) || domainRepo.count() >= 5)
-            throw DbConflictException()
-
-        val domain = dto.toEntity()
-        domainRepo.save(domain)
-        return domain.toDto()
+        val maxRecords = 5
+        if (domainRepo.existsByValue(dto.value) || domainRepo.count() >= maxRecords)
+            throw TooManyRecordsException(maxRecords)
+        return domainRepo.save(dto.toEntity()).toDto()
     }
 
     @Transactional
     override fun delete(domainId: UUID) {
         val domain: DomainEntity = domainHelper.getByUid(domainId)
         if (subDomainRepo.existsByDomain(domain) || linkRepo.existsByDomain(domain))
-            throw DbConflictException()
+            throw RecordInUseException()
         domainRepo.delete(domain)
     }
 

@@ -12,10 +12,7 @@ import ru.elixor.api.exceptions.errors.TooManyRecordsException
 import ru.elixor.api.exceptions.errors.UniqueConflictException
 import ru.elixor.api.features.user.features.subdomain.common.SubDomainService
 import ru.elixor.api.features.user.features.subdomain.dto.*
-import ru.elixor.api.features.user.features.subdomain.dto.output.SubDomainGroupOutputDto
-import ru.elixor.api.features.user.features.subdomain.dto.output.SubDomainOutputDto
-import ru.elixor.api.features.user.features.subdomain.dto.output.toDto
-import ru.elixor.api.features.user.features.subdomain.dto.output.toGroupDto
+import ru.elixor.api.features.user.features.subdomain.dto.output.*
 import java.util.*
 
 @Service
@@ -28,8 +25,23 @@ class SubDomainServiceImpl(
 
     // region Queries
 
-    override fun getAll(userUid: UUID): SubDomainGroupOutputDto =
-        subDomainRepo.findAllByUserUid(userUid).toGroupDto()
+    override fun getAll(userUid: UUID): SubDomainGroupOutputDto {
+        val domains = domainRepo.findAll()
+        val subdomainsMap = subDomainRepo.findAllByUserUid(userUid).groupBy { it.domain.uid }
+
+        val subDomainGroups = domains.map { domain ->
+            val subDomainEntities = subdomainsMap[domain.uid] ?: emptyList()
+            val subDomainItems = subDomainEntities.map { subDomainEntity ->
+                SubDomainGroupItem(
+                    uid = subDomainEntity.uid,
+                    value = subDomainEntity.value
+                )
+            }
+            SubDomainGroup(domain.uid, domain.value, subDomainItems)
+        }
+
+        return SubDomainGroupOutputDto(subDomainGroups)
+    }
 
     // endregion
 

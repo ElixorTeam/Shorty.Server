@@ -1,2 +1,2 @@
-GET {{url}}/api/v1/user/links/88CF5DB2-14D9-4E06-B636-994C8C786433/analytics
+GET {{url}}/api/v1/user/links/88CF5DB2-14D9-4E06-B636-994C8C786433/analytics?period=Year
 Authorization: Bearer {{$auth.token("access-token")}}

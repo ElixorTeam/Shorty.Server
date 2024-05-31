@@ -6,4 +6,5 @@ import java.util.*
 
 interface RedirectRepository : JpaRepository<RedirectEntity, UUID> {
     fun deleteAllByLink(link: LinkEntity)
+    fun findAllByLink(link: LinkEntity): List<RedirectEntity>
 }

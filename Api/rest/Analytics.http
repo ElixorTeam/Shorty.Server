@@ -1,0 +1,2 @@
+GET {{url}}/api/v1/user/links/analytics/75C99923-109E-4FC5-B62D-D5160D4DC168
+Authorization: Bearer {{$auth.token("access-token")}}

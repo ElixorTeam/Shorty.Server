@@ -11,19 +11,19 @@ import ru.elixor.api.features.user.features.analytic.dto.AnalyticOutputDto
 import java.util.*
 
 @RestController
-@RequestMapping("/api/v1/user/links/analytics")
+@RequestMapping("/api/v1/user/links/")
 class AnalyticController(private val analyticService: AnalyticService) {
 
     // region Queries
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}/analytics")
     fun getAll(@PathVariable id: UUID, @UserUid userUid: UUID): AnalyticOutputDto = analyticService.get(id, userUid)
 
     // endregion
 
     // region CRUD
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}/analytics")
     fun delete(@PathVariable id: UUID, @UserUid userUid: UUID) = analyticService.delete(id, userUid)
 
     // endregion

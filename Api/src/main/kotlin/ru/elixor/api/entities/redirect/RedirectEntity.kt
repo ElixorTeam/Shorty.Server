@@ -3,7 +3,7 @@ package ru.elixor.api.entities.redirect
 import jakarta.persistence.*
 import org.hibernate.annotations.CreationTimestamp
 import ru.elixor.api.entities.link.LinkEntity
-import ru.elixor.api.enums.DeviceTypes
+import ru.elixor.api.enums.DeviceType
 import ru.elixor.api.utils.DefaultTypesUtil
 import java.net.InetAddress
 import java.util.*
@@ -25,7 +25,7 @@ class RedirectEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "DEVICE", nullable = false, length = 16)
-    var device: DeviceTypes = DeviceTypes.Desktop
+    var device: DeviceType = DeviceType.Desktop
 
     @Column(name = "OS", nullable = false, length = 16)
     var os: String = ""

@@ -2,9 +2,8 @@ package ru.elixor.api.features.user.features.analytic.service
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import ru.elixor.api.entities.link.LinkRepository
 import ru.elixor.api.entities.redirect.RedirectRepository
-import ru.elixor.api.enums.PeriodType
+import ru.elixor.api.enums.TimePeriod
 import ru.elixor.api.features.user.features.analytic.common.AnalyticService
 import ru.elixor.api.features.user.features.analytic.dto.*
 import java.time.LocalDate
@@ -19,22 +18,20 @@ class AnalyticServiceImpl(
     private val analyticHelper: AnalyticServiceHelper,
 ) : AnalyticService {
 
-    override fun get(linkId: UUID, userUid: UUID, type: PeriodType): AnalyticOutputDto {
+    override fun get(linkId: UUID, userUid: UUID, type: TimePeriod): AnalyticOutputDto {
         val link = analyticHelper.getLinkByIdAndUser(linkId, userUid)
 
         val now = LocalDate.now()
         val startDate: LocalDateTime = when (type) {
-            PeriodType.Day -> now.atStartOfDay()
-            PeriodType.Week -> now.minusWeeks(1).atStartOfDay()
-            PeriodType.Month -> now.minusMonths(1).atStartOfDay()
-            PeriodType.Year -> now.minusYears(1).atStartOfDay()
+            TimePeriod.Week -> now.minusWeeks(1).atStartOfDay()
+            TimePeriod.Month -> now.minusMonths(1).atStartOfDay()
+            TimePeriod.Year -> now.minusYears(1).atStartOfDay()
         }
 
         val redirects = redirectRepo.findAllByLinkAndCreateDtAfter(link, startDate)
 
         val redirectsGroupedByOs = redirects.groupBy { it.os }
         val redirectsGroupedByDevice = redirects.groupBy { it.device }
-
         val redirectsGroupedByDay = redirects.groupBy { redirect ->
             redirect.createDt.toInstant()
                 .atZone(ZoneId.systemDefault())

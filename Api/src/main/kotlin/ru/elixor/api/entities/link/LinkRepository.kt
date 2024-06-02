@@ -9,7 +9,12 @@ interface LinkRepository : JpaRepository<LinkEntity, UUID> {
     // region FindBy
 
     fun findByUidAndUserUid(uid: UUID, userUid: UUID): Optional<LinkEntity>
-    fun findByDomainValueAndSubdomainValueAndPath(domain: String, subdomain: String?, path: String): Optional<LinkEntity>
+    fun findByDomainValueAndSubdomainValueAndPath(
+        domain: String,
+        subdomain: String?,
+        path: String
+    ): Optional<LinkEntity>
+
     fun findAllByUserUid(userUid: UUID): List<LinkEntity>
 
     // endregion

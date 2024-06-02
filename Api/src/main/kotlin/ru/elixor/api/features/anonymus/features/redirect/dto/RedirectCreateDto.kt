@@ -3,7 +3,7 @@ package ru.elixor.api.features.anonymus.features.redirect.dto
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Size
 import ru.elixor.api.entities.redirect.RedirectEntity
-import ru.elixor.api.enums.DeviceTypes
+import ru.elixor.api.enums.DeviceType
 import ru.elixor.api.utils.validators.ValidDomain
 import ru.elixor.api.utils.validators.subdomain.ValidOptionalSubDomain
 import java.net.InetAddress
@@ -14,7 +14,7 @@ class RedirectCreateDto(
     val os: String,
 
     @field:NotNull
-    val device: DeviceTypes,
+    val device: DeviceType,
 
     @field:NotNull
     val ip: InetAddress,

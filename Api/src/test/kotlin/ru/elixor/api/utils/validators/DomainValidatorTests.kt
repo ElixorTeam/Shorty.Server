@@ -20,7 +20,7 @@ class DomainValidatorTests {
         "example.co.uk, false",
         "example., false",
         "example., false",
-        "'', false"
+        "'', false",
     )
     fun test_domain_valid(input: String, expected: Boolean) {
         val result = domainValidator.isValid(input, null)

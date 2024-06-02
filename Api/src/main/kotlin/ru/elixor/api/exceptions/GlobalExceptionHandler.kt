@@ -54,7 +54,7 @@ class GlobalExceptionHandler {
     @ExceptionHandler(DataNotSyncException::class)
     fun handleDataNotSyncException(ex: DataNotSyncException): ResponseEntity<Any> {
         val errorResponse = mapOf(
-            ExceptionFieldsConstants.ERROR to (ExceptionErrorsConstants.IS_USED),
+            ExceptionFieldsConstants.ERROR to (ExceptionErrorsConstants.DATA_NOT_SYNC),
         )
         return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse)
     }

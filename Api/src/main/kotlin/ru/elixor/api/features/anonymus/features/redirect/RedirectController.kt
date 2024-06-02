@@ -1,6 +1,5 @@
 package ru.elixor.api.features.anonymus.features.redirect
 
-import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import ru.elixor.api.features.anonymus.features.redirect.common.RedirectService
@@ -22,7 +21,7 @@ class RedirectController(private val redirectService: RedirectService) {
     // region CRUD
 
     @PostMapping
-    fun create(@RequestBody @Validated dto: RedirectCreateDto): ResponseEntity<Void> = redirectService.create(dto)
+    fun create(@RequestBody @Validated dto: RedirectCreateDto) = redirectService.create(dto)
 
     // endregion
 }

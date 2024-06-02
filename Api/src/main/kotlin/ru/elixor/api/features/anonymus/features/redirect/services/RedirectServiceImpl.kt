@@ -1,6 +1,5 @@
 package ru.elixor.api.features.anonymus.features.redirect.services
 
-import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import ru.elixor.api.entities.link.LinkEntity
@@ -39,7 +38,8 @@ class RedirectServiceImpl(
 
     // region CRUD
 
-    override fun create(dto: RedirectCreateDto): ResponseEntity<Void> {
+    @Transactional
+    override fun create(dto: RedirectCreateDto) {
         val link: LinkEntity =
             linkRepo.findByDomainValueAndSubdomainValueAndPath(dto.domain, dto.subdomain, dto.path).orElseThrow {
                 NotFoundException()
@@ -49,7 +49,6 @@ class RedirectServiceImpl(
         redirect.link = link
 
         redirectRepo.save(redirect)
-        return ResponseEntity.ok().build()
     }
 
     // endregion

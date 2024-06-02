@@ -7,7 +7,7 @@ Content-Type: application/json
 
 {
   "os": "windows",
-  "device": "mobile",
+  "device": "Mobile",
   "ip": "127.0.0.1",
   "userKey": "41c6e485-b373-4723-a31e-3ee767367fbd",
   "domain": "localhost:3001",

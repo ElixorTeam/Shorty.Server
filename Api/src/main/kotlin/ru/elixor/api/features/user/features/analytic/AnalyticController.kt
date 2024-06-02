@@ -2,7 +2,7 @@ package ru.elixor.api.features.user.features.analytic
 
 import org.springframework.web.bind.annotation.*
 import ru.elixor.api.configurations.security.annotations.UserUid
-import ru.elixor.api.enums.PeriodType
+import ru.elixor.api.enums.TimePeriod
 import ru.elixor.api.features.user.features.analytic.common.AnalyticService
 import ru.elixor.api.features.user.features.analytic.dto.AnalyticOutputDto
 import java.util.*
@@ -14,7 +14,7 @@ class AnalyticController(private val analyticService: AnalyticService) {
     // region Queries
 
     @GetMapping("/{id}/analytics")
-    fun getAll(@PathVariable id: UUID, @UserUid userUid: UUID, @RequestParam("period") period: PeriodType):
+    fun getAll(@PathVariable id: UUID, @UserUid userUid: UUID, @RequestParam("period") period: TimePeriod):
             AnalyticOutputDto = analyticService.get(id, userUid, period)
 
     // endregion

@@ -8,6 +8,7 @@ import ru.elixor.api.entities.link.LinkRepository
 import ru.elixor.api.entities.subdomain.SubDomainRepository
 import ru.elixor.api.exceptions.errors.RecordInUseException
 import ru.elixor.api.exceptions.errors.TooManyRecordsException
+import ru.elixor.api.exceptions.errors.UniqueConflictException
 import ru.elixor.api.features.admin.features.domain.common.DomainService
 import ru.elixor.api.features.admin.features.domain.dto.*
 import java.util.*
@@ -30,7 +31,9 @@ class DomainServiceImpl(
     @Transactional
     override fun create(dto: DomainCreateDto): DomainOutputDto {
         val maxRecords = 5
-        if (domainRepo.existsByValue(dto.value) || domainRepo.count() >= maxRecords)
+        if (domainRepo.existsByValue(dto.value))
+            throw UniqueConflictException()
+        if (domainRepo.count() >= maxRecords)
             throw TooManyRecordsException(maxRecords)
         return domainRepo.save(dto.toEntity()).toDto()
     }

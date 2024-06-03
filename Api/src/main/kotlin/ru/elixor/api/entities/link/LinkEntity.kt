@@ -60,6 +60,6 @@ class LinkEntity {
     @Column(name = "UPDATE_DT", nullable = false)
     val updateDt: Date = DefaultTypesUtil.date
 
-    @OneToMany(mappedBy = "link", cascade = [CascadeType.ALL], orphanRemoval = true)
+    @OneToMany(mappedBy = "link", cascade = [CascadeType.ALL], orphanRemoval = true, fetch = FetchType.EAGER)
     var urls: MutableSet<UrlEntity> =  HashSet()
 }

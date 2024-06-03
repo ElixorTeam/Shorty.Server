@@ -8,7 +8,7 @@ Authorization: Bearer {{$auth.token("access-token")}}
 
 ###
 
-DELETE {{url}}/api/v1/user/links/f7d5833d-30b1-4065-91d4-2f2b8f8db11b
+DELETE {{url}}/api/v1/user/links/e2dc74cd-e020-4c72-8736-38ca60942d61
 Authorization: Bearer {{$auth.token("access-token")}}
 
 ###
@@ -35,9 +35,7 @@ Content-Type: application/json
 {
   "title": "Untitled",
   "path": "94czwi",
-  "subdomainUid": "2e0225b9-80bd-4a80-932a-7d2b3ef2d7f4",
-  "domainUid": "e481ae10-a860-45f3-be75-f537c108162b",
-  "url": "https://www.youtube.com/watch?v=GVTf9lLNnBU",
-  "tags": [],
-  "password": ""
+  "domainUid": "9e2b3b57-5205-479f-9cfe-b2eeb135eff6",
+  "urls": ["https://www.youtube.com/watch?v=GVTf9lLNnBU", "https://vms.dobroe22.keenetic.pro/#v1:0:=qemu%2F103:4:::::::"],
+  "tags": []
 }

@@ -6,9 +6,8 @@ import org.hibernate.annotations.UpdateTimestamp
 import ru.elixor.api.entities.domain.DomainEntity
 import ru.elixor.api.entities.subdomain.SubDomainEntity
 import ru.elixor.api.entities.tag.TagEntity
+import ru.elixor.api.entities.url.UrlEntity
 import ru.elixor.api.utils.DefaultTypesUtil
-import ru.elixor.api.utils.jpa.UrlConverter
-import java.net.URL
 import java.util.*
 
 
@@ -50,10 +49,6 @@ class LinkEntity {
     )
     var tags: MutableSet<TagEntity> = HashSet()
 
-    @Convert(converter = UrlConverter::class)
-    @Column(name = "URL", nullable = false, length = 250)
-    var url: URL = DefaultTypesUtil.url
-
     @Column(name = "PASSWORD", nullable = true, length = 24)
     var password: String? = null
 
@@ -64,4 +59,7 @@ class LinkEntity {
     @UpdateTimestamp
     @Column(name = "UPDATE_DT", nullable = false)
     val updateDt: Date = DefaultTypesUtil.date
+
+    @OneToMany(mappedBy = "link", cascade = [CascadeType.ALL], orphanRemoval = true)
+    var urls: MutableSet<UrlEntity> =  HashSet()
 }

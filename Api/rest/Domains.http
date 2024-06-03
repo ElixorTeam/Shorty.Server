@@ -8,5 +8,5 @@ Authorization: Bearer {{$auth.token("access-token")}}
 Content-Type: application/json
 
 {
-  "value": "sh0.su"
+  "value": "localhost:3001"
 }

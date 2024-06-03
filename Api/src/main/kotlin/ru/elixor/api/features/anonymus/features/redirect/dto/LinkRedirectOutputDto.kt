@@ -5,12 +5,12 @@ import java.util.*
 
 data class LinkRedirectOutputDto(
     val uid: UUID,
-    val url: String,
+    val urls: MutableSet<String>,
     val password: String?
 )
 
 fun LinkEntity.toDto() = LinkRedirectOutputDto(
     uid = uid,
-    url = this.url.toString(),
+    urls = urls.map { it.url.toString() }.toHashSet(),
     password = this.password
 )

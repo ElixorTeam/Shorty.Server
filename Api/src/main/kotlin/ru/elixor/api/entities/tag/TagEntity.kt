@@ -1,7 +1,6 @@
 package ru.elixor.api.entities.tag
 
 import jakarta.persistence.*
-import ru.elixor.api.entities.link.LinkEntity
 import ru.elixor.api.utils.DefaultTypesUtil
 import java.util.*
 
@@ -21,24 +20,21 @@ class TagEntity {
     @Column(name = "USER_UID")
     var userUid: UUID = DefaultTypesUtil.guid
 
-    @Column(name = "TITLE", nullable = false, columnDefinition = "NVARCHAR(16)")
-    var title: String = ""
-
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "tags")
-    var links: MutableSet<LinkEntity> = HashSet()
+    @Column(name = "VALUE", nullable = false, columnDefinition = "NVARCHAR(16)")
+    var value: String = ""
 
     // region Equals
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is TagEntity) return false
-        return uid == other.uid && userUid == other.userUid && title == other.title
+        return uid == other.uid && userUid == other.userUid && value == other.value
     }
 
     override fun hashCode(): Int {
         var result = uid.hashCode()
         result = 31 * result + userUid.hashCode()
-        result = 31 * result + title.hashCode()
+        result = 31 * result + value.hashCode()
         return result
     }
 

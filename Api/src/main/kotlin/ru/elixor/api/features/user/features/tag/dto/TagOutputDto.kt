@@ -12,7 +12,7 @@ data class TagDto(
 
 private fun TagEntity.toTagDto() = TagDto(
     uid = uid,
-    value = title
+    value = value
 )
 
 

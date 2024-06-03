@@ -8,13 +8,14 @@ import ru.elixor.api.entities.link.LinkEntity
 import ru.elixor.api.entities.link.LinkRepository
 import ru.elixor.api.entities.subdomain.SubDomainEntity
 import ru.elixor.api.entities.subdomain.SubDomainRepository
-import ru.elixor.api.entities.tag.TagEntity
 import ru.elixor.api.entities.tag.TagRepository
+import ru.elixor.api.entities.url.UrlEntity
 import ru.elixor.api.exceptions.errors.DataNotSyncException
 import ru.elixor.api.exceptions.errors.FkNotFoundException
 import ru.elixor.api.exceptions.errors.UniqueConflictException
 import ru.elixor.api.features.user.features.link.common.LinkService
 import ru.elixor.api.features.user.features.link.dto.*
+import java.net.URL
 import java.util.*
 
 @Service
@@ -57,11 +58,17 @@ class LinkServiceImpl(
         }
 
         val link = dto.toEntity().apply {
-            tags = saveTagsIfNotExist(dto.tags, userUid)
+            tags = linkHelper.saveTagsIfNotExist(dto.tags, userUid)
             this.domain = domain
             this.subdomain = subDomain
             this.userUid = userUid
         }
+        link.urls = dto.urls.map { urlString ->
+            UrlEntity().apply {
+                url = URL(urlString)
+                this.link = link
+            }
+        }.toMutableSet()
         return linkRepo.saveAndFlush(link).toDto()
     }
 
@@ -71,7 +78,7 @@ class LinkServiceImpl(
             title = dto.title
             password = dto.password
             isEnable = dto.isEnable
-            tags = saveTagsIfNotExist(dto.tags, userUid)
+            tags = linkHelper.saveTagsIfNotExist(dto.tags, userUid)
         }
         link = linkRepo.saveAndFlush(link);
         tagRepo.deleteUnused(userUid)
@@ -84,22 +91,6 @@ class LinkServiceImpl(
         link.tags.clear()
         tagRepo.deleteUnused(userUid)
         linkRepo.delete(link)
-    }
-
-    // endregion
-
-    // region Private
-
-    private fun saveTagsIfNotExist(tagNames: MutableSet<String>, userUid: UUID): MutableSet<TagEntity> {
-        val existingTags: List<TagEntity> = tagRepo.findAllByUserUidAndTitleIn(userUid, tagNames)
-        val newTagsName = tagNames - existingTags.map { it.title }.toSet()
-        val tagsToSave = newTagsName.map {
-            TagEntity().apply {
-                title = it
-                this.userUid = userUid
-            }
-        }
-        return (tagRepo.saveAll(tagsToSave) + existingTags).toMutableSet()
     }
 
     // endregion

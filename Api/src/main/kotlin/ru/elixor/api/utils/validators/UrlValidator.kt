@@ -7,7 +7,7 @@ import jakarta.validation.Payload
 import java.net.URL
 import kotlin.reflect.KClass
 
-@Target(AnnotationTarget.FIELD)
+@Target(AnnotationTarget.FIELD, AnnotationTarget.TYPE)
 @Retention(AnnotationRetention.RUNTIME)
 @Constraint(validatedBy = [URLValidator::class])
 annotation class ValidURL(

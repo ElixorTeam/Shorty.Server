@@ -13,4 +13,4 @@ FROM openjdk:17-slim AS production
 COPY --from=builder /home/gradle/src/build/libs/*.jar /app/app.jar
 
 EXPOSE 2000
-ENTRYPOINT ["java", "-jar", "/app/app.jar", "--spring.profiles.active=dev"]
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]

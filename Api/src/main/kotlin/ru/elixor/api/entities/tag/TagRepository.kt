@@ -7,9 +7,7 @@ import java.util.*
 
 interface TagRepository : JpaRepository<TagEntity, UUID> {
     fun findAllByUserUid(userUid: UUID): List<TagEntity>
-    fun existsByUserUidAndTitle(userUid: UUID, title: String): Boolean
-    fun findFirstByUserUidAndTitle(userUid: UUID, title: String): Optional<TagEntity>
-    fun findAllByUserUidAndTitleIn(userUid: UUID, title: MutableCollection<String>): List<TagEntity>
+    fun findAllByUserUidAndValueIn(userUid: UUID, title: MutableCollection<String>): List<TagEntity>
 
     @Modifying
     @Query(

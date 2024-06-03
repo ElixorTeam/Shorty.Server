@@ -45,6 +45,14 @@ class LinkServiceImpl(
         val domain: DomainEntity = domainRepo.findById(dto.domainUid)
             .orElseThrow { FkNotFoundException() }
 
+        val urlDomains = domainRepo.findAll().map { it.value.lowercase(Locale.getDefault()) }
+
+        dto.urls.forEach { url ->
+            if (urlDomains.any { domain -> url.lowercase(Locale.getDefault()).contains(domain) }) {
+                throw DataNotSyncException()
+            }
+        }
+
         val subDomain: SubDomainEntity? = dto.subdomainUid?.let { subdomainUid ->
             subDomainRepo.findById(subdomainUid)
                 .filter { it.domain.uid == domain.uid }

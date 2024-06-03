@@ -25,7 +25,7 @@ class UrlEntity {
     var url: URL = DefaultTypesUtil.url
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "LINK_UID", nullable = false)
+    @JoinColumn(name = "LINK_UID", nullable = false, foreignKey = ForeignKey(name = "FK_URLS_LINK"))
     var link: LinkEntity = LinkEntity()
 
     // region Equals

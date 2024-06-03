@@ -26,7 +26,7 @@ data class LinkCreateDto(
 
     @field:NotNull
     @field:Size(max = 5, min = 0)
-    val tags: MutableSet<String>,
+    val tags: MutableSet<@Size(max=16, min=1) String>,
 
     @field:Size(min = 2, max = 16, message = "Password must be [2, 16] characters")
     val password: String?,

@@ -12,7 +12,11 @@ import java.util.*
 
 
 @Entity
-@Table(name = "LINKS")
+@Table(
+    name = "LINKS",
+    indexes = [Index(name = "IX_LINKS___USER", columnList = "USER_UID", unique = false)],
+    uniqueConstraints = [UniqueConstraint(name = "UQ_LINKS___PATH__DOMAIN__SUBDOMAIN", columnNames = ["PATH", "DOMAIN_UID", "SUBDOMAIN_UID"])]
+)
 class LinkEntity {
 
     @Id
@@ -30,11 +34,11 @@ class LinkEntity {
     var path: String = ""
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "DOMAIN_UID", foreignKey = ForeignKey(name = "FK_LINKS_DOMAIN"), nullable = false)
+    @JoinColumn(name = "DOMAIN_UID", foreignKey = ForeignKey(name = "FK_LINKS___DOMAIN"), nullable = false)
     var domain: DomainEntity = DomainEntity()
 
     @ManyToOne(optional = true)
-    @JoinColumn(name = "SUBDOMAIN_UID", foreignKey = ForeignKey(name = "FK_LINKS_SUBDOMAIN"), nullable = true)
+    @JoinColumn(name = "SUBDOMAIN_UID", foreignKey = ForeignKey(name = "FK_LINKS___SUBDOMAIN"), nullable = true)
     var subdomain: SubDomainEntity? = null
 
     @Column(name = "IS_ENABLE", nullable = true)
@@ -43,13 +47,13 @@ class LinkEntity {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "LINKS_TAGS",
-        joinColumns = [JoinColumn(name = "LINK_UID", foreignKey = ForeignKey(name = "FK_LINKS_TAGS_LINK"))],
-        inverseJoinColumns = [JoinColumn(name = "TAG_UID", foreignKey = ForeignKey(name = "FK_LINKS_TAGS_TAG"))],
-        uniqueConstraints = [UniqueConstraint(name = "UQ_LINKS_TAGS", columnNames = ["LINK_UID", "TAG_UID"])]
+        joinColumns = [JoinColumn(name = "LINK_UID", foreignKey = ForeignKey(name = "FK_LINKS_TAGS___LINK"))],
+        inverseJoinColumns = [JoinColumn(name = "TAG_UID", foreignKey = ForeignKey(name = "FK_LINKS_TAGS___TAG"))],
+        uniqueConstraints = [UniqueConstraint(name = "UQ_LINKS_TAGS___TAG__LINK", columnNames = ["LINK_UID", "TAG_UID"])]
     )
     var tags: MutableSet<TagEntity> = HashSet()
 
-    @Column(name = "PASSWORD", nullable = true, length = 24)
+    @Column(name = "PASSWORD", nullable = true, length = 16)
     var password: String? = null
 
     @CreationTimestamp

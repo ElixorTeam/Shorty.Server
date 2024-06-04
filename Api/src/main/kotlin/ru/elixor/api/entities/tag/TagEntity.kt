@@ -8,7 +8,8 @@ import java.util.*
 @Entity
 @Table(
     name = "TAGS",
-    uniqueConstraints = [UniqueConstraint(name = "UQ_TAGS_USER_NAME", columnNames = ["USER_UID", "TITLE"])]
+    indexes = [Index(name = "IX_TAGS___USER", columnList = "USER_UID", unique = false)],
+    uniqueConstraints = [UniqueConstraint(name = "UQ_TAGS___USER__NAME", columnNames = ["USER_UID", "TITLE"])]
 )
 class TagEntity {
 

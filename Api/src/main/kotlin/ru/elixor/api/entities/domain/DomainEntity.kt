@@ -8,7 +8,7 @@ import java.util.*
 @Entity
 @Table(
     name = "DOMAINS",
-    uniqueConstraints = [UniqueConstraint(name = "UQ_DOMAINS_VALUE", columnNames = ["VALUE"])]
+    uniqueConstraints = [UniqueConstraint(name = "UQ_DOMAINS___VALUE", columnNames = ["VALUE"])]
 )
 class DomainEntity {
 

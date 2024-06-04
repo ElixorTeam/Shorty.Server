@@ -11,7 +11,7 @@ import java.util.*
 @Entity
 @Table(
     name = "URLS",
-    uniqueConstraints = [UniqueConstraint(name = "UQ_URLS_URL_LINK_UID", columnNames = ["URL", "LINK_UID"])]
+    uniqueConstraints = [UniqueConstraint(name = "UQ_URLS___URL__LINK", columnNames = ["URL", "LINK_UID"])]
 )
 class UrlEntity {
 
@@ -25,7 +25,7 @@ class UrlEntity {
     var url: URL = DefaultTypesUtil.url
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "LINK_UID", nullable = false, foreignKey = ForeignKey(name = "FK_URLS_LINK"))
+    @JoinColumn(name = "LINK_UID", nullable = false, foreignKey = ForeignKey(name = "FK_URLS___LINK"))
     var link: LinkEntity = LinkEntity()
 
     // region Equals

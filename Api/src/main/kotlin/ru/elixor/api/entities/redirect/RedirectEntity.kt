@@ -17,7 +17,7 @@ class RedirectEntity {
     val uid: UUID = DefaultTypesUtil.guid
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "LINK_UID", foreignKey = ForeignKey(name = "FK_REDIRECTS_LINK"), nullable = false)
+    @JoinColumn(name = "LINK_UID", foreignKey = ForeignKey(name = "FK_REDIRECTS___LINK"), nullable = false)
     var link: LinkEntity = LinkEntity()
 
     @Column(name = "CLIENT_KEY", nullable = false)
